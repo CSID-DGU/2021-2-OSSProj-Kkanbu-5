@@ -1019,7 +1019,7 @@ while not done:
                         effect_volume -= 1
                 if mute_button.isOver(pos):
                     ui_variables.click_sound.play()
-                    effect_volume = 0
+                    effect_volume = 0 
                     music_volume = 0
 
                 set_volume()
