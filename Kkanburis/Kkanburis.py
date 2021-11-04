@@ -1689,7 +1689,7 @@ while not done:
                     while not is_bottom(dx, dy, mino, rotation):
                         dy += 1
                     hard_drop = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, framerate*10)
                     draw_mino(dx, dy, mino, rotation)
                     screen.fill(ui_variables.real_white)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
@@ -2046,7 +2046,7 @@ while not done:
                     while not is_bottom(dx, dy, mino, rotation):
                         dy += 1
                     hard_drop = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, framerate*10)
                     draw_mino(dx, dy, mino, rotation)
                     # draw_mino_2P(dx_2P,dy_2P,mino_2P,rotation_2P)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
@@ -2056,7 +2056,7 @@ while not done:
                     while not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         dy_2P += 1
                     hard_drop_2P = True
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.time.set_timer(pygame.USEREVENT, framerate*10)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     # draw_mino(dx, dy, mino, rotation)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
