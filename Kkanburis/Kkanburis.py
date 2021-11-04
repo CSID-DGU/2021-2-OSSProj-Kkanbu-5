@@ -635,6 +635,7 @@ def erase_mino(x, y, mino, r):
         for j in range(mino_matrix_x):
             if grid[i][j] != 0:   # 테트리스 블록에서 해당 행렬 위치에 블록이 존재하면, 
                 matrix[x + j][y + i] = 0   # 해당 위치에 블록을 없애 빈 곳으로 만들기
+                
 
 
 def erase_mino_2P(x, y, mino, r):
@@ -1559,9 +1560,7 @@ while not done:
                 draw_mino(dx, dy, mino, rotation)
                 screen.fill(ui_variables.real_white)
                 draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
-                pygame.display.update()
-
-                current_time = pygame.time.get_ticks()
+                
                 # Erase a mino
                 if not game_over:
                     erase_mino(dx, dy, mino, rotation)
@@ -1609,6 +1608,7 @@ while not done:
                         erase_count += 1
                         k = j
                         combo_value += 1
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
@@ -1933,6 +1933,7 @@ while not done:
                         # attack_stack += 1
                         k = j
                         combo_value += 1
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
@@ -1948,6 +1949,7 @@ while not done:
                         attack_stack_2P += 1
                         k = j
                         combo_value += 1
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
                                 matrix_2P[i][k] = matrix_2P[i][k - 1]
