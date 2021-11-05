@@ -2258,6 +2258,20 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)                
 
+                elif event.key == K_DOWN:
+                    if not is_bottom(dx, dy, mino, rotation):
+                        dy += 1
+                    draw_mino(dx, dy, mino, rotation)
+                    draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+
+                elif event.key == K_s:
+                    if not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
+                        dy_2P += 1
+                    draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
+                    draw_mino(dx, dy, mino, rotation)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    
             elif event.type == VIDEORESIZE:
                 board_width = event.w
                 board_height = event.h
