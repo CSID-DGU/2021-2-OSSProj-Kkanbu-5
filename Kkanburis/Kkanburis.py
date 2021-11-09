@@ -2042,7 +2042,7 @@ while not done:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
-                elif event.key == K_k:
+                elif event.key == K_g:
                     ui_variables.fall_sound.play()
                     ui_variables.drop_sound.play()
                     while not is_bottom(dx, dy, mino, rotation):
@@ -2052,7 +2052,7 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     # draw_mino_2P(dx_2P,dy_2P,mino_2P,rotation_2P)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
-                elif event.key == K_g:
+                elif event.key == K_k:
                     ui_variables.fall_sound.play()
                     ui_variables.drop_sound.play()
                     while not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
@@ -2063,7 +2063,7 @@ while not done:
                     # draw_mino(dx, dy, mino, rotation)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
                 # Hold
-                elif event.key == K_j:
+                elif event.key == K_f:
                     if hold == False:
                         ui_variables.move_sound.play()
                         if hold_mino == -1:
@@ -2079,7 +2079,7 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_f:
+                elif event.key == K_j:
                     if hold_2P == False:
                         ui_variables.move_sound.play()
                         if hold_mino_2P == -1:
@@ -2096,7 +2096,7 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
                 # Turn right
-                elif event.key == K_UP:
+                elif event.key == K_h or event.key == K_w:
                     if is_turnable_r(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         rotation += 1
@@ -2133,7 +2133,7 @@ while not done:
                                     level, goal)
 
 
-                elif event.key == K_h or event.key == K_w:
+                elif event.key == K_UP:
 
                     if is_turnable_r(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
@@ -2204,7 +2204,7 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
 
                 # Move left
-                elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
+                elif event.key == K_a:  # key = pygame.key.get_pressed()
                     if not is_leftedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2215,7 +2215,7 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
 
                 # Move right
-                elif event.key == K_RIGHT:
+                elif event.key == K_d:
                     if not is_rightedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2224,7 +2224,7 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_a:  # key = pygame.key.get_pressed()
+                elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
                     if not is_leftedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2235,7 +2235,7 @@ while not done:
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
 
                 # Move right
-                elif event.key == K_d:
+                elif event.key == K_RIGHT:
                     if not is_rightedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2244,14 +2244,14 @@ while not done:
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_DOWN:
+                elif event.key == K_s:
                     if not is_bottom(dx, dy, mino, rotation):
                         dy += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
 
-                elif event.key == K_s:
+                elif event.key == K_DOWN:
                     if not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         dy_2P += 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
