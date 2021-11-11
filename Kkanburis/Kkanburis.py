@@ -247,6 +247,8 @@ leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, le
 
 resume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
 restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
+restart_button_pvp1 = button(board_width, board_height, 0.25, 0.43, 0.37, 0.17, 1, restart_button_image)
+restart_button_pvp2 = button(board_width, board_height, 0.75, 0.43, 0.37, 0.17, 1, restart_button_image)
 setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
 pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
 
@@ -254,8 +256,12 @@ back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_bu
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
 ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
+ok_button_pvp1 = button(board_width, board_height, 0.25, 0.83, 0.37, 0.17, 1, ok_button_image)
+ok_button_pvp2 = button(board_width, board_height, 0.75, 0.83, 0.37, 0.17, 1, ok_button_image)
 
 menu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
+menu_button_pvp1 = button(board_width, board_height, 0.25, 0.23, 0.37, 0.17, 1, menu_button_image)
+menu_button_pvp2 = button(board_width, board_height, 0.75, 0.23, 0.37, 0.17, 1, menu_button_image)
 gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
 
 volume = 1.0
@@ -276,11 +282,9 @@ tetris4 = pygame.transform.smoothscale(tetris3, (200, 150))
 
 # 게임 중 버튼을 생성하기 위한 버튼 객체 리스트(버튼 전체)
 button_list = [mute_button, single_button, pvp_button, help_button, quit_button, setting_icon, leaderboard_icon, 
-        resume_button, restart_button, setting_button, pause_quit_button, back_button, volume_icon, screen_icon, 
-        ok_button, menu_button, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, 
-        sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button
-]
-
+        resume_button, restart_button, restart_button_pvp1, restart_button_pvp2, setting_button, pause_quit_button, back_button, volume_icon, screen_icon, 
+        ok_button, ok_button_pvp1, ok_button_pvp2, menu_button, menu_button_pvp1, menu_button_pvp2, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, 
+        sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button]
 def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 만들어서 인터페이스 부분 정의?
     single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
     pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
@@ -856,6 +860,7 @@ start = False
 pause = False
 done = False
 game_over = False
+game_over_pvp = False
 leader_board = False
 setting = False
 pvp = False
@@ -901,7 +906,7 @@ rotation_2P = 0
 dx_2P, dy_2P = 3, 0
 
 name_location = 0
-name = [65, 65, 65]
+name = [65, 65, 65, 65, 65, 65]
 # 시간 부분
 previous_time = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
@@ -1323,7 +1328,7 @@ while not done:
                     bottom_count = 0
                     hard_drop = False
                     name_location = 0
-                    name = [65, 65, 65]
+                    name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
                     pause = False
@@ -1838,7 +1843,7 @@ while not done:
                 done = True
             elif event.type == USEREVENT:
                 # Set speed
-                if not game_over:
+                if not game_over_pvp:
                     keys_pressed = pygame.key.get_pressed()
                     if keys_pressed[K_DOWN] or keys_pressed[K_s]:
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 1)
@@ -1853,7 +1858,7 @@ while not done:
                 draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
 
                 # Erase a mino
-                if not game_over:
+                if not game_over_pvp:
                     erase_mino(dx, dy, mino, rotation)
                     erase_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
@@ -1880,7 +1885,7 @@ while not done:
                             ui_variables.GameOver_sound.play()
                             pvp = False
                             game_status = 'pvp'
-                            game_over = True
+                            game_over_pvp = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count += 1
@@ -1908,7 +1913,7 @@ while not done:
                             ui_variables.GameOver_sound.play()
                             pvp = False
                             gagame_status = 'pvp'
-                            game_over = True
+                            game_over_pvp = True
                             pygame.time.set_timer(pygame.USEREVENT, 1)
                     else:
                         bottom_count_2P += 1
@@ -2341,6 +2346,7 @@ while not done:
                     outfile.close()
 
                     game_over = False
+                    game_over_pvp = False
                     hold = False  #
                     dx, dy = 3, 0  #
                     rotation = 0  #
@@ -2355,7 +2361,7 @@ while not done:
                     bottom_count = 0  #
                     hard_drop = False  #
                     name_location = 0
-                    name = [65, 65, 65]
+                    name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
                     hold_mino_2P = -1  #
@@ -2431,6 +2437,7 @@ while not done:
                     outfile.close()
 
                     game_over = False
+                    game_over_pvp = False
                     hold = False  #
                     dx, dy = 3, 0  #
                     rotation = 0  #
@@ -2445,7 +2452,7 @@ while not done:
                     bottom_count = 0  #
                     hard_drop = False  #
                     name_location = 0
-                    name = [65, 65, 65]
+                    name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
                     hold_mino_2P = -1  #
@@ -2476,6 +2483,7 @@ while not done:
                     start = False
                     pvp = False
                     game_over = False
+                    game_over_pvp = False
                     hold = False
                     dx, dy = 3, 0
                     rotation = 0
@@ -2490,7 +2498,7 @@ while not done:
                     bottom_count = 0
                     hard_drop = False
                     name_location = 0
-                    name = [65, 65, 65]
+                    name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
@@ -2512,6 +2520,7 @@ while not done:
                         pygame.mixer.music.play(-1)
                     ui_variables.click_sound.play()
                     game_over = False
+                    game_over_pvp = False
                     hold = False
                     dx, dy = 3, 0
                     rotation = 0
@@ -2526,7 +2535,7 @@ while not done:
                     bottom_count = 0
                     hard_drop = False
                     name_location = 0
-                    name = [65, 65, 65]
+                    name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
@@ -2571,6 +2580,306 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+
+    elif game_over_pvp:
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+
+            if event.type == QUIT:
+                done = True
+            elif event.type == USEREVENT:
+                pygame.mixer.music.stop()
+                pygame.time.set_timer(pygame.USEREVENT, 300)
+
+                #user1 leader board
+                draw_image(screen, gameover_board_image, board_width * 0.25, board_height * 0.5,
+                           int(board_height * 0.7428), board_height)
+
+                menu_button_pvp1.draw(screen, (0, 0, 0))
+                restart_button_pvp1.draw(screen, (0, 0, 0))
+                ok_button_pvp1.draw(screen, (0, 0, 0))
+
+                name_1 = ui_variables.h1_b.render(chr(name[0]), 1, ui_variables.white)
+                name_2 = ui_variables.h1_b.render(chr(name[1]), 1, ui_variables.white)
+                name_3 = ui_variables.h1_b.render(chr(name[2]), 1, ui_variables.white)
+
+                underbar_1 = ui_variables.h1_b.render("_", 1, ui_variables.white)
+                underbar_2 = ui_variables.h1_b.render("_", 1, ui_variables.white)
+                underbar_3 = ui_variables.h1_b.render("_", 1, ui_variables.white)
+
+                screen.blit(name_1, (int(board_width * 0.170), int(board_height * 0.55))) 
+                screen.blit(name_2, (int(board_width * 0.230), int(board_height * 0.55)))
+                screen.blit(name_3, (int(board_width * 0.290), int(board_height * 0.55)))
+
+                #user2 leader board
+                draw_image(screen, gameover_board_image, board_width * 0.75, board_height * 0.5,
+                           int(board_height * 0.7428), board_height)
+
+                menu_button_pvp2.draw(screen, (0, 0, 0))
+                restart_button_pvp2.draw(screen, (0, 0, 0))
+                ok_button_pvp2.draw(screen, (0, 0, 0))
+
+                name_4 = ui_variables.h1_b.render(chr(name[3]), 1, ui_variables.white)
+                name_5 = ui_variables.h1_b.render(chr(name[4]), 1, ui_variables.white)
+                name_6 = ui_variables.h1_b.render(chr(name[5]), 1, ui_variables.white)
+
+                underbar_4 = ui_variables.h1_b.render("_", 1, ui_variables.white)
+                underbar_5 = ui_variables.h1_b.render("_", 1, ui_variables.white)
+                underbar_6= ui_variables.h1_b.render("_", 1, ui_variables.white)
+
+                screen.blit(name_4, (int(board_width * 0.670), int(board_height * 0.55))) 
+                screen.blit(name_5, (int(board_width * 0.730), int(board_height * 0.55)))
+                screen.blit(name_6, (int(board_width * 0.790), int(board_height * 0.55)))
+
+                if blink:
+                    blink = False
+                else:
+                    if name_location == 0:
+                        screen.blit(underbar_1, ((int(board_width * 0.175), int(board_height * 0.56))))
+                    elif name_location == 1:
+                        screen.blit(underbar_2, ((int(board_width * 0.235), int(board_height * 0.56))))
+                    elif name_location == 2:
+                        screen.blit(underbar_3, ((int(board_width * 0.295), int(board_height * 0.56))))
+                    elif name_location == 3:
+                        screen.blit(underbar_4, ((int(board_width * 0.675), int(board_height * 0.56))))
+                    elif name_location == 4:
+                        screen.blit(underbar_5, ((int(board_width * 0.735), int(board_height * 0.56))))
+                    elif name_location == 5:
+                        screen.blit(underbar_6, ((int(board_width * 0.795), int(board_height * 0.56))))
+                    
+                    blink = True
+
+                pygame.display.update()
+
+            #user1 keyboard
+            elif event.type == KEYDOWN:
+                if event.key == K_RETURN:
+                    ui_variables.click_sound.play()
+
+                    outfile = open('leaderboard.txt', 'a')
+                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score) + '\n')
+                    outfile.close()
+
+
+                    game_over_pvp = False
+                    hold = False  #
+                    dx, dy = 3, 0  #
+                    rotation = 0  #
+                    mino = randint(1, 7)  #
+                    next_mino1 = randint(1, 7)  #
+                    hold_mino = -1  #
+                    framerate = 30
+                    score = 0
+                    combo_count = 0
+                    level = 1
+                    goal = level * 5
+                    bottom_count = 0  #
+                    hard_drop = False  #
+                    name_location = 0
+                    name = [65, 65, 65, 65, 65, 65]
+                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+                    hold_mino_2P = -1  #
+                    bottom_count_2P = 0  #
+                    hard_drop_2P = False  #
+                    hold_2P = False  #
+                    next_mino1_2P = randint(1, 7)  #
+                    mino_2P = randint(1, 7)  #
+                    rotation_2P = 0  #
+                    dx_2P, dy_2P = 3, 0  #
+                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+
+                    with open('leaderboard.txt') as f:
+                        lines = f.readlines()
+                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
+
+                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
+                    for i in lines:
+                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
+                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                
+
+                elif event.key == K_RIGHT:
+                    if name_location != 5:
+                        name_location += 1
+                    else:
+                        name_location = 0
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                elif event.key == K_LEFT:
+                    if name_location != 0:
+                        name_location -= 1
+                    else:
+                        name_location = 5
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                elif event.key == K_UP:
+                    ui_variables.click_sound.play()
+                    if name[name_location] != 90:
+                        name[name_location] += 1
+                    else:
+                        name[name_location] = 65
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                elif event.key == K_DOWN:
+                    ui_variables.click_sound.play()
+                    if name[name_location] != 65:
+                        name[name_location] -= 1
+                    else:
+                        name[name_location] = 90
+
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+
+
+            elif event.type == pygame.MOUSEMOTION:
+                if resume_button.isOver(pos):
+                    menu_button_pvp1.image = clicked_menu_button_image
+                    menu_button_pvp2.image = clicked_menu_button_image
+                else:
+                    menu_button_pvp1.image = menu_button_image
+                    menu_button_pvp2.image = menu_button_image
+
+                if restart_button_pvp1.isOver(pos) or restart_button_pvp2.isOver(pos):
+                    restart_button_pvp1.image = clicked_restart_button_image
+                    restart_button_pvp2.image = clicked_restart_button_image
+                else:
+                    restart_button_pvp1.image = restart_button_image
+                    restart_button_pvp2.image = restart_button_image
+
+                if ok_button_pvp1.isOver(pos) or ok_button_pvp2.isOver(pos):
+                    ok_button_pvp1.image = clicked_ok_button_image
+                    ok_button_pvp2.image = clicked_ok_button_image
+                else:
+                    ok_button_pvp1.image = ok_button_image
+                    ok_button_pvp2.image = ok_button_image
+
+                pygame.display.update()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if ok_button_pvp1.isOver(pos) or ok_button_pvp2.isOver(pos):
+                    ui_variables.click_sound.play()
+                    ui_variables.click_sound.play()
+
+                    outfile = open('leaderboard.txt', 'a')
+                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score) + '\n')
+                    outfile.close()
+
+                    game_over_pvp = False
+                    hold = False  #
+                    dx, dy = 3, 0  #
+                    rotation = 0  #
+                    mino = randint(1, 7)  #
+                    next_mino1 = randint(1, 7)  #
+                    hold_mino = -1  #
+                    framerate = 30
+                    score = 0
+                    combo_count = 0
+                    level = 1
+                    goal = level * 5
+                    bottom_count = 0  #
+                    hard_drop = False  #
+                    name_location = 0
+                    name = [65, 65, 65, 65, 65, 65]
+                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+                    hold_mino_2P = -1  #
+                    bottom_count_2P = 0  #
+                    hard_drop_2P = False  #
+                    hold_2P = False  #
+                    next_mino1_2P = randint(1, 7)  #
+                    mino_2P = randint(1, 7)  #
+                    rotation_2P = 0  #
+                    dx_2P, dy_2P = 3, 0  #
+                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    attack_point = 0
+                    ttack_point_2P = 0
+
+                    with open('leaderboard.txt') as f:
+                        lines = f.readlines()
+                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
+
+                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
+                    for i in lines:
+                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
+                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+
+                if menu_button_pvp1.isOver(pos) or menu_button_pvp2.isOver(pos):
+                    ui_variables.click_sound.play()
+                    start = False
+                    pvp = False
+                    game_over_pvp = False
+                    hold = False
+                    dx, dy = 3, 0
+                    rotation = 0
+                    mino = randint(1, 7)
+                    next_mino1 = randint(1, 7)
+                    hold_mino = -1
+                    framerate = 30
+                    score = 0
+                    combo_count = 0
+                    level = 1
+                    goal = level * 5
+                    bottom_count = 0
+                    hard_drop = False
+                    name_location = 0
+                    name = [65, 65, 65, 65, 65, 65]
+                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
+                    hold_mino_2P = -1  #
+                    bottom_count_2P = 0  #
+                    hard_drop_2P = False  #
+                    hold_2P = False  #
+                    next_mino1_2P = randint(1, 7)  #
+                    mino_2P = randint(1, 7)  #
+                    rotation_2P = 0  #
+                    dx_2P, dy_2P = 3, 0  #
+                    attack_point = 0
+                    ttack_point_2P = 0
+                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                if restart_button_pvp1.isOver(pos) or restart_button_pvp2.isOver(pos):
+                    if game_status == 'start':
+                        start = True
+                        pygame.mixer.music.play(-1)
+                    if game_status == 'pvp':
+                        pvp = True
+                        pygame.mixer.music.play(-1)
+                    ui_variables.click_sound.play()
+                    game_over_pvp = False
+                    hold = False
+                    dx, dy = 3, 0
+                    rotation = 0
+                    mino = randint(1, 7)
+                    next_mino1 = randint(1, 7)
+                    hold_mino = -1
+                    framerate = 30
+                    score = 0
+                    combo_count = 0
+                    level = 1
+                    goal = level * 5
+                    bottom_count = 0
+                    hard_drop = False
+                    name_location = 0
+                    name = [65, 65, 65, 65, 65, 65]
+                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
+                    hold_mino_2P = -1  #
+                    bottom_count_2P = 0  #
+                    hard_drop_2P = False  #
+                    hold_2P = False  #
+                    next_mino1_2P = randint(1, 7)  #
+                    mino_2P = randint(1, 7)  #
+                    rotation_2P = 0  #
+                    dx_2P, dy_2P = 3, 0  #
+                    attack_point = 0
+                    ttack_point_2P = 0
+                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    pause = False
+
+                if resume_button.isOver(pos):
+                    pause = False
+                    ui_variables.click_sound.play()
+                    pygame.time.set_timer(pygame.USEREVENT, 1)
+
 
     # Start screen
     else:
