@@ -2140,31 +2140,31 @@ while not done:
 
                 elif event.key == K_UP:
 
-                    if is_turnable_r_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
+                    if is_turnable_r(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         rotation_2P += 1
                     # Kick
-                    elif is_turnable_r_2P(dx_2P, dy_2P - 1, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P, dy_2P - 1, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dy_2P -= 1
                         rotation_2P += 1
-                    elif is_turnable_r_2P(dx_2P + 1, dy_2P, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P + 1, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dx_2P += 1
                         rotation_2P += 1
-                    elif is_turnable_r_2P(dx_2P - 1, dy_2P, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P - 1, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dx_2P -= 1
                         rotation_2P += 1
-                    elif is_turnable_r_2P(dx_2P, dy_2P - 2, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P, dy_2P - 2, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dy_2P -= 2
                         rotation_2P += 1
-                    elif is_turnable_r_2P(dx_2P + 2, dy_2P, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P + 2, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dx_2P += 2
                         rotation_2P += 1
-                    elif is_turnable_r_2P(dx_2P - 2, dy_2P, mino_2P, rotation_2P):
+                    elif is_turnable_r(dx_2P - 2, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         dx_2P -= 2
                         rotation_2P += 1
