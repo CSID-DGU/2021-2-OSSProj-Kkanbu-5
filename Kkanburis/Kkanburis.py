@@ -133,8 +133,8 @@ class button():   # 버튼 객체
         self.y = board_height * y_rate   # 버튼 y 좌표
         self.width = int(board_width * width_rate)   # 버튼의 너비
         self.height = int(board_height * height_rate)   # 버튼의 높이
-        self.x_rate = x_rate   # x 좌표의 비율
-        self.y_rate = y_rate   # y 좌표의 비율
+        self.x_rate = x_rate   
+        self.y_rate = y_rate
         self.width_rate = width_rate
         self.height_rate = height_rate
         # self.id = id
@@ -149,7 +149,7 @@ class button():   # 버튼 객체
 
     def draw(self, win, outline=None):   # 버튼 보이게 만들기 
         if outline:
-            draw_image(screen, self.image, self.x, self.y, self.width, self.height)   # draw_image(그림 그릴 스크린, 이미지 dir, 왼쪽 상단의 x좌표, y좌표, 너비, 높이)
+            draw_image(screen, self.image, self.x, self.y, self.width, self.height)
 
     def isOver(self, pos):   # 마우스의 위치에 따라 버튼 누르기 -> pos[0]: 마우스의 x 좌표 / pos[1]: 마우스의 y 좌표
         if pos[0] > self.x - (self.width / 2) and pos[0] < self.x + (self.width / 2):   # 좌측 화면/우측 화면 넘어가기 전, 
@@ -373,7 +373,7 @@ def draw_block_image(x, y, image):
 
 # Draw game screen
 def draw_board(next1, next2, hold, score, level, goal):
-    sidebar_width = int(board_width * 0.5312)   # 크기 비율 고정 -> 해당 비율 변수화하기   # sidebar_width 는 사이드바가 전체 screen 에서 위치하는 x 좌표 값
+    sidebar_width = int(board_width * 0.5312)   # 크기 비율 고정 -> 해당 비율 변수화하기
 
     # Draw sidebar
     pygame.draw.rect(
@@ -383,7 +383,7 @@ def draw_board(next1, next2, hold, score, level, goal):
     )
 
     # Draw next mino   # 다음 블록의 모양
-    grid_n1 = tetrimino.mino_map[next1 - 1][0]   # 배열 인덱스 -> -1 처리 
+    grid_n1 = tetrimino.mino_map[next1 - 1][0]   # 배열 인덱스 -> -1처리 
     grid_n2 = tetrimino.mino_map[next2 - 1][0]
 
     for i in range(mino_matrix_y):   # 다음 블록    # 4 = mino_matrix_y
@@ -430,8 +430,7 @@ def draw_board(next1, next2, hold, score, level, goal):
         level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h5.render("COMBO", 1, ui_variables.real_white)
         combo_value = ui_variables.h4.render(str(combo_count), 1, ui_variables.real_white)
-        # 시간
-        # time_value = ui_variables.h4.render(str(time), 1, ui_variables.real_white)
+        
 
     if textsize == True:
         text_hold = ui_variables.h3.render("HOLD", 1, ui_variables.real_white)
@@ -442,9 +441,7 @@ def draw_board(next1, next2, hold, score, level, goal):
         level_value = ui_variables.h2.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h3.render("COMBO", 1, ui_variables.real_white)
         combo_value = ui_variables.h2.render(str(combo_count), 1, ui_variables.real_white)
-        # 시간
-        # time_value = ui_variables.h2.render(str(time), 1, ui_variables.real_white)
-
+        
     # Place texts
     screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
     screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
@@ -454,8 +451,6 @@ def draw_board(next1, next2, hold, score, level, goal):
     screen.blit(level_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.7219)))
     screen.blit(text_combo, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8395)))
     screen.blit(combo_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
-    # 시간표시
-    # screen.blit(time_value, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.9323)))
 
     # Draw board
     for x in range(width):
@@ -465,7 +460,7 @@ def draw_board(next1, next2, hold, score, level, goal):
             ## draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
 
-# PVP 모드에서 1P에 대한 테트리스가 나오는 화면
+
 def draw_1Pboard(next, hold, score, level, goal):
     sidebar_width = int(board_width * 0.2867)   # 위치 비율 고정 / board 가로 길이 * 비율 ( -> 0.31 )
 
@@ -503,16 +498,16 @@ def draw_1Pboard(next, hold, score, level, goal):
         score = 999999   # 최대 점수 999,999로 설정
 
     # Draw texts
-    # text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
-    # text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
-    # text_score = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
-    # score_value = ui_variables.h4.render(str(attack_point), 1, ui_variables.real_white)
+    text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
+    text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
+    text_score = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
+    score_value = ui_variables.h4.render(str(attack_point), 1, ui_variables.real_white)
 
-    # # Place texts
-    # screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))    # board 가로/세로 길이 * 비율
-    # screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
-    # screen.blit(text_score, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
-    # screen.blit(score_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
+    # Place texts
+    screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))    # board 가로/세로 길이 * 비율
+    screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
+    screen.blit(text_score, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(score_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
     # screen.blit(text_level, (int(board_width*0.045) + sidebar_width, int(board_height*0.6791)))
     # screen.blit(level_value, (int(board_width*0.055) + sidebar_width , int(board_height*0.7219)))
     # screen.blit(text_combo, (int(board_width*0.045) + sidebar_width , int(board_height*0.8395)))
@@ -527,7 +522,7 @@ def draw_1Pboard(next, hold, score, level, goal):
 
 # 여기까지
 
-def draw_2Pboard(next, hold, score2, level, goal):
+def draw_2Pboard(next, hold, score_2P, level, goal):
     sidebar_width = int(board_width * 0.7867)    # 위치 비율 고정 / board 가로 길이 * 비율
 
     # Draw sidebar
@@ -560,23 +555,27 @@ def draw_2Pboard(next, hold, score2, level, goal):
                     draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])
 
     # Set max score
-    if score2 > 999999:
-        score2 = 999999   # 최대 점수 설정
+    if score_2P > 999999:
+        score_2P = 999999   # 최대 점수 설정
 
     text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
     text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
-    text_score2 = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
+    text_score_2P = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
     score_value2 = ui_variables.h4.render(str(attack_point_2P), 1, ui_variables.real_white)
     text_level = ui_variables.h5.render("LEVEL", 1, ui_variables.real_white)
     level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
     text_combo = ui_variables.h5.render("COMBO", 1, ui_variables.real_white)
     combo_value = ui_variables.h4.render(str(combo_count), 1, ui_variables.real_white)
+    combo_value_2P = ui_variables.h4.render(str(combo_count), 1, ui_variables.real_white)
 
     # Place texts
     screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
     screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
-    screen.blit(text_score2, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(text_score_2P, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
     screen.blit(score_value2, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
+
+    # screen.blit(combo_value_2P, (int(board_width*0.055) + sidebar_width, int(board_height*0.8823)))   -> 게임 실행 후 다시 추가하도록
+
     # screen.blit(text_level, (int(board_width*0.045) + sidebar_width, int(board_height*0.6791)))
     # screen.blit(level_value, (int(board_width*0.055) + sidebar_width , int(board_height*0.7219)))
     # screen.blit(text_combo, (int(board_width*0.045) + sidebar_width , int(board_height*0.8395)))
@@ -849,10 +848,10 @@ def is_stackable_2P(mino):
     return True
 
 
-def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score, score2, level, goal):
+def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score, score_2P, level, level_2P, goal_2P):
     screen.fill(ui_variables.real_white)
     draw_1Pboard(next_1P, hold_1P, score, level, goal)   
-    draw_2Pboard(next_2P, hold_2P, score2, level, goal)
+    draw_2Pboard(next_2P, hold_2P, score_2P, level_2P, goal_2P)
 
 
 def set_vol(val):
@@ -875,12 +874,14 @@ help = False
 textsize = False
 
 combo_count = 0
-combo_count_2p = 0
-
+combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가 
 score = 0
-score2 = 0
+# score2 = 0   # -> score_2P로 통일
+score_2P = 0
 level = 1
+level_2P = 1
 goal = level * 5
+goal_2P = level_2P * 5
 bottom_count = 0
 hard_drop = False
 
@@ -1167,7 +1168,7 @@ while not done:
 
             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
         if pvp:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3),
                    board_height)
@@ -1266,7 +1267,7 @@ while not done:
 
             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
         if pvp:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
         draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428),
                    board_height)
         resume_button.draw(screen, (0, 0, 0))
@@ -1331,13 +1332,11 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-<<<<<<< Updated upstream
-                    score2 = 0
-=======
->>>>>>> Stashed changes
+                    score_2P = 0
                     level = 1
+                    level_2P = 1
                     combo_count = 0
-                    combo_count_2p = 0
+                    combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
                     goal = level * 5
                     bottom_count = 0
                     hard_drop = False
@@ -1621,13 +1620,13 @@ while not done:
                 for j in range(21):
                     is_full = True
                     for i in range(10):
-                        if matrix[i][j] == 0:   # 빈 공간인 경우
+                        if matrix[i][j] == 0:
                             is_full = False
-                    if is_full:   # (세로 칸들에 대해 내려가며) 한 줄이 꽉 찬 경우
+                    if is_full:
                         erase_count += 1
                         k = j
                         combo_value += 1
-                        combo_count += 1   # 가로로 한 줄이 꽉 찼는지 확인할 때마다 combo count 즐가
+                        combo_count += 1   # N 줄 한 번에 깰 때 N 콤보 작동 -> is_full 확인 시 True일 때마다 combo_count 증가
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
@@ -1635,7 +1634,7 @@ while not done:
                             k -= 1
                 if erase_count >= 1:
                     previous_time = current_time
-                    combo_count += 1
+                    # combo_count += 1   -> if is_full: 조건문으로 이동
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
@@ -1659,6 +1658,8 @@ while not done:
                         ui_variables.tetris_sound.play()
                         score += 1000 * level * erase_count + 4 * combo_count
                         screen.blit(ui_variables.combo_4ring, (250, 160))
+
+                    
 
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
@@ -1870,7 +1871,7 @@ while not done:
 
                 draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
-                draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
                 # Erase a mino
                 if not game_over_pvp:
@@ -1914,7 +1915,7 @@ while not done:
                     if hard_drop_2P or bottom_count_2P == 6:
                         hard_drop_2P = False
                         bottom_count_2P = 0
-                        score2 += 10 * level
+                        score_2P += 10 * level
                         draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
                         if is_stackable_2P(next_mino1_2P):
@@ -1938,10 +1939,12 @@ while not done:
                 erase_count = 0
                 erase_count_2P = 0
                 combo_value = 0
+                combo_value_2P = 0   # pvp 모드에서 콤보 값 출력 변수 combo_value_2P 생성
                 sent = 0
 
                 attack_stack = 0
                 attack_stack_2P = 0
+
                 for j in range(21):
                     is_full = True
                     for i in range(10):
@@ -1953,6 +1956,7 @@ while not done:
                         # attack_stack += 1
                         k = j
                         combo_value += 1
+                        combo_count += 1
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
@@ -1969,11 +1973,13 @@ while not done:
                         attack_stack_2P += 1
                         k = j
                         combo_value += 1
+                        combo_count_2P += 1
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         while k > 0:
                             for i in range(10):
                                 matrix_2P[i][k] = matrix_2P[i][k - 1]
                             k -= 1
+
                 while attack_stack >= 2:
                     for j in range(20):
                         for i in range(10):
@@ -2003,21 +2009,22 @@ while not done:
                 # combo_count -= 1
                 # if combo_count < 0:
                 # combo_count = 0
-
+                
+                # PVP 모드 1P
                 if erase_count >= 1:
-                    combo_count += 1
+                    # combo_count += 1
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
                         score += 50 * level * erase_count + combo_count
-                        score2 += 50 * level * erase_count + combo_count
+                        
                         sent += 1
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
                         score += 150 * level * erase_count + 2 * combo_count
-                        score2 += 150 * level * erase_count + 2 * combo_count
+                        
                         sent += 2
                     elif erase_count == 3:
                         ui_variables.break_sound.play()
@@ -2025,7 +2032,7 @@ while not done:
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         score += 350 * level * erase_count + 3 * combo_count
-                        score2 += 350 * level * erase_count + 3 * combo_count
+                        
                         sent += 3
                     elif erase_count == 4:
                         ui_variables.break_sound.play()
@@ -2034,9 +2041,9 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         score += 1000 * level * erase_count + 4 * combo_count
-                        score2 += 1000 * level * erase_count + 4 * combo_count
+                        
                         sent += 4
-                        screen.blit(ui_variables.combo_4ring, (250, 160))
+                        screen.blit(ui_variables.combo_4ring, (250, 160))   
 
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
@@ -2058,6 +2065,63 @@ while not done:
                     goal += level * 5
                     framerate = int(framerate * 0.8)
 
+
+                # PVP 모드 2P
+                if erase_count_2P >= 1:
+                    # combo_count += 1
+                    if erase_count_2P == 1:
+                        ui_variables.break_sound.play()
+                        ui_variables.single_sound.play()
+                        
+                        score_2P += 50 * level * erase_count_2P + combo_count_2P
+                        sent += 1
+                    elif erase_count_2P == 2:
+                        ui_variables.break_sound.play()
+                        ui_variables.double_sound.play()
+                        ui_variables.double_sound.play()
+                        
+                        score_2P += 150 * level * erase_count_2P + 2 * combo_count_2P
+                        sent += 2
+                    elif erase_count_2P == 3:
+                        ui_variables.break_sound.play()
+                        ui_variables.triple_sound.play()
+                        ui_variables.triple_sound.play()
+                        ui_variables.triple_sound.play()
+                        
+                        score_2P += 350 * level * erase_count_2P + 3 * combo_count_2P
+                        sent += 3
+                    elif erase_count_2P == 4:
+                        ui_variables.break_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        ui_variables.tetris_sound.play()
+                        
+                        score_2P += 1000 * level * erase_count_2P + 4 * combo_count_2P
+                        sent += 4
+                        screen.blit(ui_variables.combo_4ring, (250, 160))
+
+                    for i in range(1, 11):
+                        if combo_count_2P == i:  # 1 ~ 10 콤보 이미지
+                            screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
+                        elif combo_count_2P > 10:  # 11 이상 콤보 이미지
+                            screen.blit(tetris4, (100, 190))  # blits the combo number
+
+                    for i in range(1, 10):
+                        if combo_count_2P == i + 2:  # 3 ~ 11 콤보 사운드
+                            ui_variables.combos_sound[i - 1].play()
+
+                # Increase level
+                goal_2P -= erase_count_2P
+                if goal_2P < 1 and level_2P < 15:
+                    level_2P += 1
+                    ui_variables.LevelUp_sound.play()
+                    ui_variables.LevelUp_sound.play()
+
+                    goal_2P += level_2P * 5
+                    framerate = int(framerate * 0.8)
+
+
             elif event.type == KEYDOWN:  ##중요
                 erase_mino(dx, dy, mino, rotation)
                 erase_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
@@ -2066,7 +2130,7 @@ while not done:
                     ui_variables.click_sound.play()
                     pause = True
                 # Hard drop
-                elif event.key == K_k:
+                elif event.key == K_g:
                     ui_variables.fall_sound.play()
                     ui_variables.drop_sound.play()
                     while not is_bottom(dx, dy, mino, rotation):
@@ -2076,7 +2140,7 @@ while not done:
                     draw_mino(dx, dy, mino, rotation)
                     # draw_mino_2P(dx_2P,dy_2P,mino_2P,rotation_2P)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
-                elif event.key == K_g:
+                elif event.key == K_k:
                     ui_variables.fall_sound.play()
                     ui_variables.drop_sound.play()
                     while not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
@@ -2087,7 +2151,7 @@ while not done:
                     # draw_mino(dx, dy, mino, rotation)
                     # draw_multiboard(next_mino,hold_mino,next_mino_2P,hold_mino_2P,score,level,goal)
                 # Hold
-                elif event.key == K_j:
+                elif event.key == K_f:
                     if hold == False:
                         ui_variables.move_sound.play()
                         if hold_mino == -1:
@@ -2102,13 +2166,8 @@ while not done:
                         hold = True
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-<<<<<<< Updated upstream
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                 elif event.key == K_j:
-=======
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_f:
->>>>>>> Stashed changes
                     if hold_2P == False:
                         ui_variables.move_sound.play()
                         if hold_mino_2P == -1:
@@ -2123,9 +2182,9 @@ while not done:
                         hold_2P = True
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                 # Turn right
-                elif event.key == K_UP:
+                elif event.key == K_h or event.key == K_w:
                     if is_turnable_r(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         rotation += 1
@@ -2158,11 +2217,11 @@ while not done:
                         rotation = 0
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, 
-                                    level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, 
+                                    level, level_2P, goal, goal_2P)
 
 
-                elif event.key == K_h or event.key == K_w:
+                elif event.key == K_UP:
 
                     if is_turnable_r_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
@@ -2196,7 +2255,7 @@ while not done:
                         rotation_2P = 0
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                     
                 elif event.key == K_l or event.key == K_LCTRL:
                     if is_turnable_l(dx, dy, mino, rotation):
@@ -2230,10 +2289,10 @@ while not done:
                         rotation = 3
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
                 # Move left
-                elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
+                elif event.key == K_a:  # key = pygame.key.get_pressed()
                     if not is_leftedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2241,10 +2300,10 @@ while not done:
                         dx -= 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
                 # Move right
-                elif event.key == K_RIGHT:
+                elif event.key == K_d:
                     if not is_rightedge(dx, dy, mino, rotation):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2252,13 +2311,8 @@ while not done:
                         dx += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-<<<<<<< Updated upstream
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                 elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
-=======
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_a:  # key = pygame.key.get_pressed()
->>>>>>> Stashed changes
                     if not is_leftedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2266,10 +2320,10 @@ while not done:
                         dx_2P -= 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
                 # Move right
-                elif event.key == K_d:
+                elif event.key == K_RIGHT:
                     if not is_rightedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2277,29 +2331,24 @@ while not done:
                         dx_2P += 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-<<<<<<< Updated upstream
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                 elif event.key == K_s:
-=======
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
-                elif event.key == K_DOWN:
->>>>>>> Stashed changes
                     if not is_bottom(dx, dy, mino, rotation):
                         dy += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
 
-                elif event.key == K_s:
+                elif event.key == K_DOWN:
                     if not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         dy_2P += 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                     
             elif event.type == VIDEORESIZE:
                 board_width = event.w
-                board_height = event.h  
+                board_height = event.h
 
                 # 최소 화면 너비/높이 조건 설정
                 if board_width < min_width or board_height < min_height:   # 최소 너비/높이를 설정하려는 경우
@@ -2390,7 +2439,6 @@ while not done:
                     framerate = 30
                     score = 0
                     combo_count = 0
-                    combo_count_2p = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0  #
@@ -2482,7 +2530,6 @@ while not done:
                     framerate = 30
                     score = 0
                     combo_count = 0
-                    combo_count_2p = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0  #
@@ -2529,7 +2576,6 @@ while not done:
                     framerate = 30
                     score = 0
                     combo_count = 0
-                    combo_count_2p = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0
@@ -2567,7 +2613,6 @@ while not done:
                     framerate = 30
                     score = 0
                     combo_count = 0
-                    combo_count_2p = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0
@@ -2696,7 +2741,7 @@ while not done:
 
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score2) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score_2P) + '\n')
                     outfile.close()
 
 
@@ -2709,7 +2754,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
-                    score2 = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2800,7 +2845,7 @@ while not done:
 
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score2) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score_2P) + '\n')
                     outfile.close()
 
                     game_over_pvp = False
@@ -2812,7 +2857,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
-                    score2 = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2858,7 +2903,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-                    score2 = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2895,7 +2940,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-                    score2 = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
