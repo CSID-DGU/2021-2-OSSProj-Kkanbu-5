@@ -520,7 +520,7 @@ def draw_1Pboard(next, hold, score, level, goal):
 
 # 여기까지
 
-def draw_2Pboard(next, hold, score, level, goal):
+def draw_2Pboard(next, hold, score2, level, goal):
     sidebar_width = int(board_width * 0.7867)    # 위치 비율 고정 / board 가로 길이 * 비율
 
     # Draw sidebar
@@ -553,13 +553,13 @@ def draw_2Pboard(next, hold, score, level, goal):
                     draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])
 
     # Set max score
-    if score > 999999:
-        score = 999999   # 최대 점수 설정
+    if score2 > 999999:
+        score2 = 999999   # 최대 점수 설정
 
     text_hold = ui_variables.h5.render("HOLD", 1, ui_variables.real_white)
     text_next = ui_variables.h5.render("NEXT", 1, ui_variables.real_white)
-    text_score = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
-    score_value = ui_variables.h4.render(str(attack_point_2P), 1, ui_variables.real_white)
+    text_score2 = ui_variables.h5.render("ATTACK", 1, ui_variables.real_white)
+    score_value2 = ui_variables.h4.render(str(attack_point_2P), 1, ui_variables.real_white)
     text_level = ui_variables.h5.render("LEVEL", 1, ui_variables.real_white)
     level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
     text_combo = ui_variables.h5.render("COMBO", 1, ui_variables.real_white)
@@ -568,8 +568,8 @@ def draw_2Pboard(next, hold, score, level, goal):
     # Place texts
     screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
     screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
-    screen.blit(text_score, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
-    screen.blit(score_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
+    screen.blit(text_score2, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(score_value2, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)))
     # screen.blit(text_level, (int(board_width*0.045) + sidebar_width, int(board_height*0.6791)))
     # screen.blit(level_value, (int(board_width*0.055) + sidebar_width , int(board_height*0.7219)))
     # screen.blit(text_combo, (int(board_width*0.045) + sidebar_width , int(board_height*0.8395)))
@@ -842,10 +842,10 @@ def is_stackable_2P(mino):
     return True
 
 
-def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score, level, goal):
+def draw_multiboard(next_1P, hold_1P, next_2P, hold_2P, score, score2, level, goal):
     screen.fill(ui_variables.real_white)
     draw_1Pboard(next_1P, hold_1P, score, level, goal)   
-    draw_2Pboard(next_2P, hold_2P, score, level, goal)
+    draw_2Pboard(next_2P, hold_2P, score2, level, goal)
 
 
 def set_vol(val):
@@ -869,6 +869,7 @@ textsize = False
 
 combo_count = 0
 score = 0
+score2 = 0
 level = 1
 goal = level * 5
 bottom_count = 0
@@ -1157,7 +1158,7 @@ while not done:
 
             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
         if pvp:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
         draw_image(screen, setting_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 1.3),
                    board_height)
@@ -1256,7 +1257,7 @@ while not done:
 
             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
         if pvp:
-            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+            draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
         draw_image(screen, pause_board_image, board_width * 0.5, board_height * 0.5, int(board_height * 0.7428),
                    board_height)
         resume_button.draw(screen, (0, 0, 0))
@@ -1321,7 +1322,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-                    score = 0
+                    score2 = 0
                     level = 1
                     combo_count = 0
                     goal = level * 5
@@ -1855,7 +1856,7 @@ while not done:
 
                 draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
-                draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
                 # Erase a mino
                 if not game_over_pvp:
@@ -1899,7 +1900,7 @@ while not done:
                     if hard_drop_2P or bottom_count_2P == 6:
                         hard_drop_2P = False
                         bottom_count_2P = 0
-                        score += 10 * level
+                        score2 += 10 * level
                         draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
                         if is_stackable_2P(next_mino1_2P):
@@ -1995,12 +1996,14 @@ while not done:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
                         score += 50 * level * erase_count + combo_count
+                        score2 += 50 * level * erase_count + combo_count
                         sent += 1
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
                         score += 150 * level * erase_count + 2 * combo_count
+                        score2 += 150 * level * erase_count + 2 * combo_count
                         sent += 2
                     elif erase_count == 3:
                         ui_variables.break_sound.play()
@@ -2008,6 +2011,7 @@ while not done:
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         score += 350 * level * erase_count + 3 * combo_count
+                        score2 += 350 * level * erase_count + 3 * combo_count
                         sent += 3
                     elif erase_count == 4:
                         ui_variables.break_sound.play()
@@ -2016,6 +2020,7 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         score += 1000 * level * erase_count + 4 * combo_count
+                        score2 += 1000 * level * erase_count + 4 * combo_count
                         sent += 4
                         screen.blit(ui_variables.combo_4ring, (250, 160))
 
@@ -2083,7 +2088,7 @@ while not done:
                         hold = True
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                 elif event.key == K_j:
                     if hold_2P == False:
                         ui_variables.move_sound.play()
@@ -2099,7 +2104,7 @@ while not done:
                         hold_2P = True
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                 # Turn right
                 elif event.key == K_h or event.key == K_w:
                     if is_turnable_r(dx, dy, mino, rotation):
@@ -2134,7 +2139,7 @@ while not done:
                         rotation = 0
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score,
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, 
                                     level, goal)
 
 
@@ -2172,7 +2177,7 @@ while not done:
                         rotation_2P = 0
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                     
                 elif event.key == K_l or event.key == K_LCTRL:
                     if is_turnable_l(dx, dy, mino, rotation):
@@ -2206,7 +2211,7 @@ while not done:
                         rotation = 3
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
                 # Move left
                 elif event.key == K_a:  # key = pygame.key.get_pressed()
@@ -2217,7 +2222,7 @@ while not done:
                         dx -= 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
                 # Move right
                 elif event.key == K_d:
@@ -2228,7 +2233,7 @@ while not done:
                         dx += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                 elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
                     if not is_leftedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
@@ -2237,7 +2242,7 @@ while not done:
                         dx_2P -= 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
                 # Move right
                 elif event.key == K_RIGHT:
@@ -2248,20 +2253,20 @@ while not done:
                         dx_2P += 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                 elif event.key == K_s:
                     if not is_bottom(dx, dy, mino, rotation):
                         dy += 1
                     draw_mino(dx, dy, mino, rotation)
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
 
                 elif event.key == K_DOWN:
                     if not is_bottom_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         dy_2P += 1
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_mino(dx, dy, mino, rotation)
-                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score2, level, goal)
                     
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -2658,7 +2663,7 @@ while not done:
 
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score2) + '\n')
                     outfile.close()
 
 
@@ -2671,6 +2676,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
+                    score2 = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2761,7 +2767,7 @@ while not done:
 
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score) + '\n')
+                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score2) + '\n')
                     outfile.close()
 
                     game_over_pvp = False
@@ -2773,6 +2779,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
+                    score2 = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2818,6 +2825,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score2 = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2854,6 +2862,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score2 = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
