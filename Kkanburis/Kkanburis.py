@@ -2299,7 +2299,7 @@ while not done:
                     
             elif event.type == VIDEORESIZE:
                 board_width = event.w
-                board_height = event.h
+                board_height = event.h  
 
                 # 최소 화면 너비/높이 조건 설정
                 if board_width < min_width or board_height < min_height:   # 최소 너비/높이를 설정하려는 경우
