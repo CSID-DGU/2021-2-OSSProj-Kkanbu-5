@@ -1153,7 +1153,7 @@ while not done:
 
                     pygame.display.update()
 
-    # 설정 화면 기능 ?
+    # 설정 화면 기능 
     elif setting:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
         single_button.draw(screen, (0, 0, 0))
@@ -1321,7 +1321,7 @@ while not done:
                 if setting_button.isOver(pos):
                     ui_variables.click_sound.play()
                     setting = True
-                if restart_button.isOver(pos):
+                if restart_button.isOver(pos):   # 다시 시작 버튼을 눌렀을 때 게임 변수 초기화
                     ui_variables.click_sound.play()
                     hold = False
                     dx, dy = 3, 0
@@ -1632,32 +1632,43 @@ while not done:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
                             k -= 1
+
                 if erase_count >= 1:
                     previous_time = current_time
                     # combo_count += 1   -> if is_full: 조건문으로 이동
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        score += 50 * level * erase_count + combo_count
+                        # score += 50 * level * erase_count + combo_count
+                        score += (10 * (combo_count *combo_count))
+
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        score += 150 * level * erase_count + 2 * combo_count
+                        # score += 150 * level * erase_count + 2 * combo_count
+                        score += (10 * (combo_count * combo_count))
+
                     elif erase_count == 3:
                         ui_variables.break_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        score += 350 * level * erase_count + 3 * combo_count
+                        # score += 350 * level * erase_count + 3 * combo_count
+                        score += (10 * (combo_count * combo_count))
+
                     elif erase_count == 4:
                         ui_variables.break_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
-                        score += 1000 * level * erase_count + 4 * combo_count
+                        # score += 1000 * level * erase_count + 4 * combo_count
+                        score += (10 * (combo_count * combo_count))
                         screen.blit(ui_variables.combo_4ring, (250, 160))
+
+                    else:
+                        score += (10 * (combo_count * combo_count ))
 
                     
 
@@ -1678,8 +1689,9 @@ while not done:
                             ui_variables.combos_sound[i - 1].play()
                         if combo_count > 11:
                             ui_variables.combos_sound[8].play()
-                if current_time - previous_time > 11000:
-                    previous_time = current_time
+
+                if current_time - previous_time > 11000:   # 11초가 지나면
+                    previous_time = current_time   # 현재 시간을 과거 시간으로 하고
                     combo_count = 0
 
                 # 지운 블록이 없으면 콤보 -1
@@ -1879,7 +1891,7 @@ while not done:
                     erase_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
 
                 # Move mino down
-                if not is_bottom(dx, dy, mino, rotation):
+                if not is_bottom(dx, dy, mino, rotation):   # 땅에 붙어있는 것이 아니라면 -> 아래로 한 칸씩
                     dy += 1
 
                 # Create new mino
@@ -2016,23 +2028,23 @@ while not done:
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        score += 50 * level * erase_count + combo_count
-                        
+                        # score += 50 * level * erase_count + combo_count
+                        score += (10 * (combo_count * combo_count))
                         sent += 1
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        score += 150 * level * erase_count + 2 * combo_count
-                        
+                        # score += 150 * level * erase_count + 2 * combo_count
+                        score += (10 * (combo_count * combo_count))
                         sent += 2
                     elif erase_count == 3:
                         ui_variables.break_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        score += 350 * level * erase_count + 3 * combo_count
-                        
+                        # score += 350 * level * erase_count + 3 * combo_count
+                        score += (10 * (combo_count * combo_count))
                         sent += 3
                     elif erase_count == 4:
                         ui_variables.break_sound.play()
@@ -2040,16 +2052,20 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
-                        score += 1000 * level * erase_count + 4 * combo_count
-                        
+                        # score += 1000 * level * erase_count + 4 * combo_count
+                        score += (10 * (combo_count * combo_count))
                         sent += 4
-                        screen.blit(ui_variables.combo_4ring, (250, 160))   
+                        screen.blit(ui_variables.combo_4ring, (250, 160))  
+
+                    else:
+                        score += (10 * (combo_count * combo_count)) 
 
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
                             screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
-                        elif combo_count > 10:  # 11 이상 콤보 이미지
+                        elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
                             screen.blit(tetris4, (100, 190))  # blits the combo number
+                            # combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
 
                     for i in range(1, 10):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
@@ -2068,38 +2084,49 @@ while not done:
 
                 # PVP 모드 2P
                 if erase_count_2P >= 1:
+                    # erase_count_2P는 해당 if문에서 정적인 상수
+                    # 10 * (N * N) 점수 처리
                     # combo_count += 1
+                    # for i in range(erase_count_2P):
+                    #     score_2P += (10 * (combo_count_2P ** 2))
                     if erase_count_2P == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        
-                        score_2P += 50 * level * erase_count_2P + combo_count_2P
+                        # score_2P += 50 * level * erase_count_2P + combo_count_2P
+                        score_2P += (10 * (combo_count_2P * combo_count_2P))   # 다른 값 대체 필요
+
                         sent += 1
                     elif erase_count_2P == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        
-                        score_2P += 150 * level * erase_count_2P + 2 * combo_count_2P
+                        # score_2P += 150 * level * erase_count_2P + 2 * combo_count_2P
+                        score_2P += (10 * (combo_count_2P * combo_count_2P))   # 다른 값 대체 필요
+
                         sent += 2
                     elif erase_count_2P == 3:
                         ui_variables.break_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        
-                        score_2P += 350 * level * erase_count_2P + 3 * combo_count_2P
+                        # score_2P += 350 * level * erase_count_2P + 3 * combo_count_2P
+                        score_2P += (10 * (combo_count_2P * combo_count_2P))   # 다른 값 대체 필요
+
                         sent += 3
                     elif erase_count_2P == 4:
                         ui_variables.break_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
-                        ui_variables.tetris_sound.play()
-                        
-                        score_2P += 1000 * level * erase_count_2P + 4 * combo_count_2P
+                        ui_variables.tetris_sound.play()         
+                        # score_2P += 1000 * level * erase_count_2P + 4 * combo_count_2P
+                        score_2P += (10 * (combo_count_2P * combo_count_2P))   # 다른 값 대체 필요
                         sent += 4
                         screen.blit(ui_variables.combo_4ring, (250, 160))
+
+                    else:
+                        score_2P += (10 * (combo_count_2P * combo_count_2P)) 
+
 
                     for i in range(1, 11):
                         if combo_count_2P == i:  # 1 ~ 10 콤보 이미지
@@ -2756,6 +2783,7 @@ while not done:
                     score = 0
                     score_2P = 0
                     combo_count = 0
+                    combo_count_2P = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0  #
@@ -2764,6 +2792,10 @@ while not done:
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
+                    score_2P = 0
+                    combo_count_2P = 0
+                    level_2P = 1
+                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -2857,7 +2889,6 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
-                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2867,6 +2898,10 @@ while not done:
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
+                    score_2P = 0
+                    combo_count_2P = 0
+                    level_2P = 1
+                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -2903,7 +2938,6 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2912,6 +2946,11 @@ while not done:
                     name_location = 0
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+                    score_2P = 0
+                    combo_count_2P = 0
+                    level_2P = 1
+                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -2927,11 +2966,15 @@ while not done:
                     if game_status == 'start':
                         start = True
                         pygame.mixer.music.play(-1)
+
                     if game_status == 'pvp':
                         pvp = True
                         pygame.mixer.music.play(-1)
                     ui_variables.click_sound.play()
+
                     game_over_pvp = False
+                    
+                    # 1P
                     hold = False
                     dx, dy = 3, 0
                     rotation = 0
@@ -2940,7 +2983,6 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
-                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -2949,6 +2991,12 @@ while not done:
                     name_location = 0
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+                    # 2P
+                    score_2P = 0
+                    combo_count_2P = 0
+                    level_2P = 1
+                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
