@@ -1585,7 +1585,7 @@ while not done:
 
                 # Move mino down
                 if not is_bottom(dx, dy, mino, rotation):
-                    dy += 1
+                    dy += 1 
 
                 # Create new mino
                 else:
@@ -1627,7 +1627,18 @@ while not done:
                         k = j
                         combo_value += 1
                         combo_count += 1   # N 줄 한 번에 깰 때 N 콤보 작동 -> is_full 확인 시 True일 때마다 combo_count 증가
+
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+
+                        if combo_count >= 11:
+                            screen.blit(tetris4, (board_width * 0.27, board_height * 0.3))  # blits the combo number
+                            pygame.display.update()
+                            ui_variables.combos_sound[8].play()
+                            pygame.time.delay(300)
+
+                            combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
+                            combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
+                        
                         while k > 0:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
@@ -1640,7 +1651,7 @@ while not done:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
                         # score += 50 * level * erase_count + combo_count
-                        score += (10 * (combo_count *combo_count))
+                        score += (10 * (combo_count * combo_count))   # 동시에 2줄 완성 시 10 + 40 점 추가
 
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
@@ -1670,8 +1681,6 @@ while not done:
                     else:
                         score += (10 * (combo_count * combo_count ))
 
-                    
-
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
                             screen.blit(ui_variables.large_combos[i - 1],
@@ -1684,15 +1693,23 @@ while not done:
 
                             pygame.time.delay(300)
 
+                    # for i in range(1, 11):
+                    #     if combo_count == i:  # 1 ~ 10 콤보 이미지
+                    #         screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
+                    #     elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
+                    #         screen.blit(tetris4, (100, 190))  # blits the combo number
+                    #         # combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
+
                     for i in range(1, 9):
-                        if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
+                        if combo_count == i + 2:  # 3 ~ 11 콤보 사운드 
                             ui_variables.combos_sound[i - 1].play()
+                            pygame.time.delay(800)   # 콤보 작동 사운드 출력 후 delay
                         if combo_count > 11:
                             ui_variables.combos_sound[8].play()
 
-                if current_time - previous_time > 11000:   # 11초가 지나면
-                    previous_time = current_time   # 현재 시간을 과거 시간으로 하고
-                    combo_count = 0
+                # if current_time - previous_time > 11000:   # 11초가 지나면
+                #     previous_time = current_time   # 현재 시간을 과거 시간으로 하고
+                #     combo_count = 0
 
                 # 지운 블록이 없으면 콤보 -1
                 #               if is_bottom(dx, dy, mino, rotation) :
@@ -1969,7 +1986,18 @@ while not done:
                         k = j
                         combo_value += 1
                         combo_count += 1
+
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+
+                        if combo_count >= 11:
+                            screen.blit(tetris4, (100, 190))
+                            pygame.display.update()
+                            ui_variables.combos_sound[8].play()
+                            pygame.time.delay(300)
+
+                            combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
+                            combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
+                        
                         while k > 0:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
@@ -1984,9 +2012,20 @@ while not done:
                         erase_count_2P += 1
                         attack_stack_2P += 1
                         k = j
-                        combo_value += 1
+                        combo_value_2P += 1
                         combo_count_2P += 1
+
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+
+                        if combo_count_2P >= 11:
+                            screen.blit(tetris4, (100, 190))  # blits the combo number
+                            pygame.display.update()
+                            ui_variables.combos_sound[8].play()
+                            pygame.time.delay(300)
+
+                            combo_value_2P = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
+                            combo_count_2P = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
+                
                         while k > 0:
                             for i in range(10):
                                 matrix_2P[i][k] = matrix_2P[i][k - 1]
@@ -2065,7 +2104,7 @@ while not done:
                             screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
                         elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
                             screen.blit(tetris4, (100, 190))  # blits the combo number
-                            # combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
+                            combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
 
                     for i in range(1, 10):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
