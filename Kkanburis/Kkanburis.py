@@ -2382,6 +2382,8 @@ while not done:
                     draw_mino_2P(dx_2P, dy_2P, mino_2P, rotation_2P)
                     draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, score_2P, level, level_2P, goal, goal_2P)
                 elif event.key == K_LEFT:  # key = pygame.key.get_pressed()
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                elif event.key == K_a:  # key = pygame.key.get_pressed()
                     if not is_leftedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
@@ -2393,6 +2395,8 @@ while not done:
 
                 # Move right
                 elif event.key == K_RIGHT:
+                    draw_multiboard(next_mino1, hold_mino, next_mino1_2P, hold_mino_2P, score, level, goal)
+                elif event.key == K_DOWN:
                     if not is_rightedge_2P(dx_2P, dy_2P, mino_2P, rotation_2P):
                         ui_variables.move_sound.play()
                         keys_pressed = pygame.key.get_pressed()
