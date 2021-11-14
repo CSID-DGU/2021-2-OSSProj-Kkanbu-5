@@ -1627,7 +1627,7 @@ while not done:
                         k = j
                         combo_value += 1
                         combo_count += 1   # N 줄 한 번에 깰 때 N 콤보 작동 -> is_full 확인 시 True일 때마다 combo_count 증가
-
+                        pygame.time.delay(300)
                         pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count >= 11:
@@ -1635,6 +1635,9 @@ while not done:
                             pygame.display.update()
                             ui_variables.combos_sound[8].play()
                             pygame.time.delay(300)
+
+                            # 아이템 - 속도는 pygame.time.set_timer(pygame.USEREVENT, 1)로
+                            # pygame.time.delay(1000)
 
                             combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
                             combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
