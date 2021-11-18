@@ -1616,6 +1616,7 @@ while not done:
                 # Erase line
                 erase_count = 0
                 combo_value = 0
+                attack_stack = 0
 
                 for j in range(21):
                     is_full = True
@@ -1624,6 +1625,7 @@ while not done:
                             is_full = False
                     if is_full:
                         erase_count += 1
+                        attack_stack += 1
                         k = j
                         combo_value += 1
                         combo_count += 1   # N 줄 한 번에 깰 때 N 콤보 작동 -> is_full 확인 시 True일 때마다 combo_count 증가
@@ -1646,6 +1648,18 @@ while not done:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
                             k -= 1
+                
+                while attack_stack >= 2:
+                    for j in range(20):
+                        for i in range(10):
+                            matrix[i][j] = matrix[i][j + 1]
+
+                            attack_stack -= 1
+                    for i in range(10):
+                        matrix[i][20] = 9
+                    k = randint(1, 10)
+                    matrix[k][20] = 0
+                    attack_point += 1
 
                 if erase_count >= 1:
                     previous_time = current_time
