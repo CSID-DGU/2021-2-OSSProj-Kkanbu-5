@@ -1933,10 +1933,53 @@ while not done:
                 # Set speed
                 if not game_over_pvp:
                     keys_pressed = pygame.key.get_pressed()
-                    if keys_pressed[K_DOWN] or keys_pressed[K_s]:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 1)
+                    if keys_pressed[K_DOWN]: 
+                        if level <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        elif level < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 6 + 20) #200 숫자가 클수록 느림
+                        
                     else:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 20)
+                        if level <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15) #450
+                        elif level < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
+                    
+                    if keys_pressed[K_s]: 
+                        if level_2P <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level_2P < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level_2P < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        elif level_2P < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 6 + 20) #200 숫자가 클수록 느림
+                        
+                    else:
+                        if level_2P <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15) #450
+                        elif level_2P < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level_2P < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level_2P < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation)
