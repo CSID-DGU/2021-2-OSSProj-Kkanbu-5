@@ -29,6 +29,9 @@ min_height = 225   # 최소 화면 높이
 mid_width = 1200
 
 framerate = 30  # Bigger -> Slower
+color = pygame.Color('dodgerblue2')
+text = ''
+gamername =''
 
 pygame.init()   # 게임 초가화
 
@@ -865,6 +868,7 @@ blink = False
 start = False
 pause = False
 done = False
+done2 = False
 game_over = False
 game_over_pvp = False
 leader_board = False
@@ -1566,7 +1570,7 @@ while not done:
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:   # USEREVENT: 사용자가 임의로 설정하는 이벤트
-            
+
                 # Set speed
                 if not game_over:
                     if level <1:
@@ -2489,105 +2493,41 @@ while not done:
                 menu_button.draw(screen, (0, 0, 0))
                 restart_button.draw(screen, (0, 0, 0))
                 ok_button.draw(screen, (0, 0, 0))
+                color = pygame.Color('dodgerblue2')
 
-                name_1 = ui_variables.h1_b.render(chr(name[0]), 1, ui_variables.white)
-                name_2 = ui_variables.h1_b.render(chr(name[1]), 1, ui_variables.white)
-                name_3 = ui_variables.h1_b.render(chr(name[2]), 1, ui_variables.white)
-
-                underbar_1 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_2 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_3 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-
-                screen.blit(name_1, (int(board_width * 0.434), int(board_height * 0.55)))
-                screen.blit(name_2, (int(board_width * 0.494), int(board_height * 0.55)))
-                screen.blit(name_3, (int(board_width * 0.545), int(board_height * 0.55)))
-
-                if blink:
-
-                    blink = False
-                else:
-                    if name_location == 0:
-                        screen.blit(underbar_1, ((int(board_width * 0.437), int(board_height * 0.56))))
-                    elif name_location == 1:
-                        screen.blit(underbar_2, ((int(board_width * 0.497), int(board_height * 0.56))))
-                    elif name_location == 2:
-                        screen.blit(underbar_3, ((int(board_width * 0.557), int(board_height * 0.56))))
-                    blink = True
-
-                pygame.display.update()
-            elif event.type == KEYDOWN:
-                if event.key == K_RETURN:
-                    ui_variables.click_sound.play()
-
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.close()
-
-                    game_over = False
-                    game_over_pvp = False
-                    hold = False  #
-                    dx, dy = 3, 0  #
-                    rotation = 0  #
-                    mino = randint(1, 7)  #
-                    next_mino1 = randint(1, 7)  #
-                    hold_mino = -1  #
-                    framerate = 30
-                    score = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0  #
-                    hard_drop = False  #
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-
-                    with open('leaderboard.txt') as f:
-                        lines = f.readlines()
-                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
-
-                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-                    for i in lines:
-                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-
+                while not done2: #done2 == True 이면 while문 종료
+                    for event2 in pygame.event.get():
+                        if event2.type == pygame.QUIT:
+                            done2 = True
+                            done = True
+                        if event2.type == pygame.KEYDOWN: #키보드 키가 눌리는 이벤트가 발생할 경우
+                            if event2.key == pygame.K_RETURN:#눌린 키가 다시 올라왔다면(=키보드 키를 누르고 손을 뗌)
+                                ui_variables.click_sound.play()#키보드 눌렀을 때 나오는 효과음 출력
+                                gamername = ''#빈 문자열인 gamername 변수 생성
+                                gamername=text.upper()#gamername 에 입력한 내용(text)을 대문자로 넣음
+                                done2 =True
+                                
+                            elif event2.key == pygame.K_BACKSPACE:#backspace키를 눌렀다면
+                                text = text[:-1]#text의 마지막 값 지움
+                                
+                            else:
+                                if event2.unicode.isalpha()==True:
+                                    if len(text)<3: #3글자 이하라면
+                                        text += event2.unicode #입력한 내용을 text에 저장                    
+                    
+                                        
+                    txt_surface =  ui_variables.h1_b.render(text.upper(), True, color)  #text로 적은 내용의 글자 크기, 색 지정
+                    screen.blit(txt_surface, (int(board_width * 0.434), int(board_height * 0.55))) #text내용을 표시하귀 위한 구문. 표시할 내용, x좌표, y좌표를 의미
+                    
+                    
+                    pygame.display.update()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_RIGHT:
-                    if name_location != 2:
-                        name_location += 1
-                    else:
-                        name_location = 0
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_LEFT:
-                    if name_location != 0:
-                        name_location -= 1
-                    else:
-                        name_location = 2
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_UP:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 90:
-                        name[name_location] += 1
-                    else:
-                        name[name_location] = 65
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_DOWN:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 65:
-                        name[name_location] -= 1
-                    else:
-                        name[name_location] = 90
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+
+                outfile = open('leaderboard.txt', 'a')
+                outfile.write(text + ' ' + str(score) + '\n')
+                outfile.close() 
+
+                
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver(pos):
                     menu_button.image = clicked_menu_button_image
@@ -2611,7 +2551,7 @@ while not done:
                     ui_variables.click_sound.play()
 
                     outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                    outfile.write(text + ' ' + str(score) + '\n')
                     outfile.close()
 
                     game_over = False
@@ -2655,6 +2595,7 @@ while not done:
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+                    pygame.display.update()
 
                 if menu_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2689,6 +2630,8 @@ while not done:
                     attack_point = 0
                     ttack_point_2P = 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    pygame.display.update()
+
                 if restart_button.isOver(pos):
                     if game_status == 'start':
                         start = True
@@ -2727,10 +2670,12 @@ while not done:
                     ttack_point_2P = 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
                     pause = False
+                    pygame.display.update()
 
                 if resume_button.isOver(pos):
                     pause = False
                     ui_variables.click_sound.play()
+                    pygame.display.update()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
             elif event.type == VIDEORESIZE:
@@ -2758,6 +2703,7 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+                pygame.display.update()
 
     elif game_over_pvp:
         for event in pygame.event.get():
