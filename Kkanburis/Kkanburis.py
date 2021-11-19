@@ -13,6 +13,8 @@ color_active = pygame.Color('lightskyblue3')
 color_inactive = pygame.Color('blue')
 color = color_inactive
 text=''
+
+
 block_size = 17  # Height, width of single block
 width = 10  # Board width
 height = 20  # Board height
@@ -1573,16 +1575,30 @@ while not done:
             
                 # Set speed
                 if not game_over:
-                    if level <1:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 15) #450
-                    elif level < 3:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
-                    elif level < 6:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
-                    elif level < 10:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                    keys_pressed = pygame.key.get_pressed()
+                    if keys_pressed[K_DOWN]: #얘가 더 빨라야함
+                        if level <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        elif level < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 6 + 20) #200 숫자가 클수록 느림
+                        
                     else:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
+                        if level <1:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15) #450
+                        elif level < 3:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                        elif level < 6:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                        elif level < 10:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
+                        else:
+                            pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation)
@@ -2497,11 +2513,21 @@ while not done:
                 pygame.display.update()
 
             elif event.type == KEYDOWN:
+
                 if event.key == pygame.K_BACKSPACE: 
                     text = text[:-1]
                 else:
                     text += event.unicode 
                     text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)       
+
+                '''
+                if event.unicode.isalpha():
+                    text += event.unicode
+                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
+                elif event.key == K_BACKSPACE:
+                    text = text[:-1]
+                '''
+                   
 
                 #window_center = screen.get_rect().center
                 screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
@@ -2509,11 +2535,12 @@ while not done:
                 pygame.display.flip()
                 #clock.tick(30)
 
+            
+
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
-                    #name2 = text
                     outfile = open('leaderboard.txt', 'a')
-                    outfile.write(text + ' ' + str(score) + '\n')
+                    outfile.write( text + ' ' + str(score) + '\n')
                     outfile.close()
 
                     game_over = False
@@ -2545,6 +2572,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
+                    '''
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -2553,6 +2581,7 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+                    '''
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 pygame.display.flip()
@@ -2615,6 +2644,7 @@ while not done:
                     attack_point = 0
                     ttack_point_2P = 0
 
+                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -2623,7 +2653,7 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-
+                    
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
                 if menu_button.isOver(pos):
@@ -2728,6 +2758,9 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+        text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
+        screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
+        pygame.display.flip()
 
     elif game_over_pvp:
         for event in pygame.event.get():
