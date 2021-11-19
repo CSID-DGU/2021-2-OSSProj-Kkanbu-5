@@ -1566,6 +1566,7 @@ while not done:
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:   # USEREVENT: 사용자가 임의로 설정하는 이벤트
+            
                 # Set speed
                 if not game_over:
                     if level <1:
