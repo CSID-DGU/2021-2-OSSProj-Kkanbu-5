@@ -1566,13 +1566,19 @@ while not done:
             if event.type == QUIT:
                 done = True
             elif event.type == USEREVENT:   # USEREVENT: 사용자가 임의로 설정하는 이벤트
+            
                 # Set speed
                 if not game_over:
-                    keys_pressed = pygame.key.get_pressed()
-                    if keys_pressed[K_DOWN]:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 1)
+                    if level <1:
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 15) #450
+                    elif level < 3:
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 15 - 50) #400
+                    elif level < 6:
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10 + 50) #350
+                    elif level < 10:
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) #300
                     else:
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 20)
+                        pygame.time.set_timer(pygame.USEREVENT, framerate * 8 + 10) #250
 
                 # Draw a mino
                 draw_mino(dx, dy, mino, rotation)
