@@ -9,6 +9,10 @@ from pygame.locals import *
 import datetime
 
 # Define values
+color_active = pygame.Color('lightskyblue3')
+color_inactive = pygame.Color('blue')
+color = color_inactive
+text=''
 block_size = 17  # Height, width of single block
 width = 10  # Board width
 height = 20  # Board height
@@ -2490,37 +2494,26 @@ while not done:
                 restart_button.draw(screen, (0, 0, 0))
                 ok_button.draw(screen, (0, 0, 0))
 
-                name_1 = ui_variables.h1_b.render(chr(name[0]), 1, ui_variables.white)
-                name_2 = ui_variables.h1_b.render(chr(name[1]), 1, ui_variables.white)
-                name_3 = ui_variables.h1_b.render(chr(name[2]), 1, ui_variables.white)
-
-                underbar_1 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_2 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_3 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-
-                screen.blit(name_1, (int(board_width * 0.434), int(board_height * 0.55)))
-                screen.blit(name_2, (int(board_width * 0.494), int(board_height * 0.55)))
-                screen.blit(name_3, (int(board_width * 0.545), int(board_height * 0.55)))
-
-                if blink:
-
-                    blink = False
-                else:
-                    if name_location == 0:
-                        screen.blit(underbar_1, ((int(board_width * 0.437), int(board_height * 0.56))))
-                    elif name_location == 1:
-                        screen.blit(underbar_2, ((int(board_width * 0.497), int(board_height * 0.56))))
-                    elif name_location == 2:
-                        screen.blit(underbar_3, ((int(board_width * 0.557), int(board_height * 0.56))))
-                    blink = True
-
                 pygame.display.update()
+
             elif event.type == KEYDOWN:
+                if event.key == pygame.K_BACKSPACE: 
+                    text = text[:-1]
+                else:
+                    text += event.unicode 
+                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)       
+
+                #window_center = screen.get_rect().center
+                screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
+                #pygame.draw.rect(screen, color, input_box, 2) #박스를 그릴 색깔과 위치 굵기
+                pygame.display.flip()
+                #clock.tick(30)
+
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
-
+                    #name2 = text
                     outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                    outfile.write(text + ' ' + str(score) + '\n')
                     outfile.close()
 
                     game_over = False
@@ -2562,32 +2555,9 @@ while not done:
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_RIGHT:
-                    if name_location != 2:
-                        name_location += 1
-                    else:
-                        name_location = 0
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_LEFT:
-                    if name_location != 0:
-                        name_location -= 1
-                    else:
-                        name_location = 2
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_UP:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 90:
-                        name[name_location] += 1
-                    else:
-                        name[name_location] = 65
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_DOWN:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 65:
-                        name[name_location] -= 1
-                    else:
-                        name[name_location] = 90
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
+                pygame.display.flip()
+                
+
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver(pos):
                     menu_button.image = clicked_menu_button_image
@@ -2611,7 +2581,7 @@ while not done:
                     ui_variables.click_sound.play()
 
                     outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
+                    outfile.write(text+ ' ' + str(score) + '\n')
                     outfile.close()
 
                     game_over = False
