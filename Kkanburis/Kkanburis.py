@@ -2785,7 +2785,7 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
         text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-        screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
+        screen.blit(text_surf, (int(board_width * 0.440), int(board_height * 0.5))) #입력한 글자 표시할 위치
         pygame.display.flip()
 
     elif game_over_pvp:
