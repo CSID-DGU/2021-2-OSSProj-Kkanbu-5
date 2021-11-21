@@ -261,9 +261,9 @@ pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, 
 back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
-ok_button_pvp1 = button(board_width, board_height, 0.25, 0.83, 0.37, 0.17, 1, ok_button_image)
-ok_button_pvp2 = button(board_width, board_height, 0.75, 0.83, 0.37, 0.17, 1, ok_button_image)
+ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
+ok_button_pvp1 = button(board_width, board_height, 0.25, 0.90, 0.37, 0.17, 1, ok_button_image)
+ok_button_pvp2 = button(board_width, board_height, 0.75, 0.90, 0.37, 0.17, 1, ok_button_image)
 
 menu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
 menu_button_pvp1 = button(board_width, board_height, 0.25, 0.23, 0.37, 0.17, 1, menu_button_image)
@@ -308,7 +308,7 @@ def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 
     back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
     volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
     screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-    ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
+    ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
 
     mmenu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
     gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
@@ -1479,7 +1479,7 @@ while not done:
                 back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
                 volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
                 screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-                ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
+                ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
 
                 menu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
                 gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
@@ -2555,30 +2555,13 @@ while not done:
 
                 pygame.display.update()
 
-            elif event.type == KEYDOWN:
-
+            elif event.type == KEYDOWN:                
                 if event.key == pygame.K_BACKSPACE: 
                     text = text[:-1]
-                else:
-                    text += event.unicode 
-                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)       
-
-                '''
-                if event.unicode.isalpha():
-                    text += event.unicode
-                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-                elif event.key == K_BACKSPACE:
-                    text = text[:-1]
-                '''
-                   
-
-                #window_center = screen.get_rect().center
-                screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
-                #pygame.draw.rect(screen, color, input_box, 2) #박스를 그릴 색깔과 위치 굵기
-                pygame.display.flip()
-                #clock.tick(30)
-
-            
+                elif event.unicode.isalpha() == True:
+                    if len(text) < 3:
+                        text += event.unicode 
+                        text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)  
 
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
@@ -2615,7 +2598,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-                    '''
+                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -2624,7 +2607,7 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-                    '''
+                    
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 pygame.display.flip()
@@ -2802,7 +2785,7 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
         text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-        screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
+        screen.blit(text_surf, (int(board_width * 0.440), int(board_height * 0.5))) #입력한 글자 표시할 위치
         pygame.display.flip()
 
     elif game_over_pvp:
