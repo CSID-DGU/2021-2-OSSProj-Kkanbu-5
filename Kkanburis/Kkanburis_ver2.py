@@ -944,14 +944,13 @@ def use_item():
 def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
     grid = tetrimino.mino_map[mino - 1][r]
 
-    for j in range(21):
-        for i in range(10):
-            k = height   # 가장 아랫줄부터
+    k = height
+            # 가장 아랫줄부터
             # if matrix[j][i] == 10:
             #     k = j #;
             #     matrix[i][k] = 0   # 해당 행 삭제
 
-            while k > 0:
+    while k > 0:
                 for i in range(10):
                     matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
                 k -= 1
