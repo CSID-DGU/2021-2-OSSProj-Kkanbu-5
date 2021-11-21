@@ -470,7 +470,7 @@ def draw_board(next1, next2, hold, score, level, goal):
     screen.blit(level_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.7219)))
     screen.blit(text_combo, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8395)))
     screen.blit(combo_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
-    screen.blit(text_item, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.5187)))
+    screen.blit(text_item, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
 
     # Draw board
     for x in range(width):
@@ -920,12 +920,10 @@ def get_item():    # inventory_list에 아이템 생성
         # inventory_list.append(item_list[random.randrange(0,2)])
         # inventory_list.append(item_list[rand.randrange(0,2)])
         inventory_list.append(item_list[0])
-        print(inventory_list)
 
 def show_item():
     for i in range(len(inventory_list)):
         item = inventory_list[i]
-        print(item)
         screen.blit(item, item.get_rect(center = (dx_inventory[i], dy_inventory)))
 
         # draw_mino(dx, dy, mino, rotation)
@@ -946,6 +944,7 @@ def use_item():
 
 # 아이템 사용 함수
 # 폭탄 아이템(폭탄이 존재하는 행 제거) 제거
+# 아이템 사용 시 잠깐 멈추거나 딜레이 하는 순간 필요(이미지, 사운드 출력)
 def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
     grid = tetrimino.mino_map[mino - 1][r]
 
@@ -1072,7 +1071,9 @@ dx_inventory2 = int(board_width * 0.175) + sidebar_width
 dx_inventory3 = int(board_width * 0.215) + sidebar_width
 dx_inventory = [dx_inventory1, dx_inventory2, dx_inventory3]
  # score value 위치: (int(board_width * 0.055) + sidebar_width, int(board_height * 0.5614)
-dy_inventory = int(board_height * 0.6)
+ # Level value 위치: int(board_widt * 0.7219)
+ # text item 위치: int(board_height * 0.6791)
+dy_inventory = int(board_height * 0.75)
 
 # 아이템 이미지 scale
 item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
