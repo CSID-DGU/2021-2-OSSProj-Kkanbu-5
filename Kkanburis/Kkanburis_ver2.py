@@ -481,11 +481,12 @@ def draw_board(next1, next2, hold, score, level, goal):
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
     
     # 아이템/인벤토리 그리기
-    if len(inventory_list) == 0:
+    if len(inventory_list) >= 0:   # 아이템이 있어도, 없어도 상자는 그대로 존재 
         pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[0] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
         pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[1] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
         pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[2] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
 
+        show_item()
 
     # 타이머를 위한 시간 초기화
 
@@ -927,6 +928,10 @@ def show_item():
         print(item)
         screen.blit(item, item.get_rect(center = (dx_inventory[i], dy_inventory)))
 
+        # draw_mino(dx, dy, mino, rotation)
+        # screen.fill(ui_variables.real_white)
+        # draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
+
 def use_item():
     if len(inventory_list) > 0:
         item = inventory_list[0]
@@ -944,20 +949,19 @@ def use_item():
 def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
     grid = tetrimino.mino_map[mino - 1][r]
 
-    # # k = height   # 마지막 행 제거
-    # k = height - 3   # 아래서부터 3개 행 제거
+    k = height   # 마지막 행 제거
 
-    # while k > 0:
-    #     for i in range(width):
-    #         matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
-    #     k -= 1
+    while k > 0:
+        for i in range(width):
+            matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
+        k -= 1
 
-    for i in range(3):
-        k = height 
-        while k>0:
-            for i in range(width):
-                matrix[i][k] = matrix[i][k-1]
-            k -= 1
+    # for i in range(3):
+    #     k = height 
+    #     while k > 0:
+    #         for i in range(width):
+    #             matrix[i][k] = matrix[i][k-1]
+    #         k -= 1
 
 # def use_bomb(x, y, mino, r):   # 3*3, 5*5 삭제 폭탄
 #     grid = tetrimino.mino_map[mino - 1][r]
@@ -2084,6 +2088,8 @@ while not done:
                         draw_mino(dx, dy, mino, rotation)
                         screen.fill(ui_variables.real_white)
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
+                    
+                    show_item()
                 
                 # # Use erase attack
                 # elif event.key == K_c:
