@@ -2553,21 +2553,21 @@ while not done:
                 restart_button.draw(screen, (0, 0, 0))
                 ok_button.draw(screen, (0, 0, 0))
 
+                score1 = ui_variables.h1_b.render(str(score), 1, ui_variables.white) #점수를 출력하기 위해 폰트, 글자색 지정
+                screen.blit(score1, (int(board_width * 0.440), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+
                 pygame.display.update()
 
             elif event.type == KEYDOWN:                
-                if event.key == pygame.K_BACKSPACE: 
-                    text = text[:-1]
-                elif event.unicode.isalpha() == True:
-                    if len(text) < 3:
-                        text += event.unicode 
-                        text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)  
+                  
 
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
+                    '''
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write( text + ' ' + str(score) + '\n')
                     outfile.close()
+                    '''
 
                     game_over = False
                     game_over_pvp = False
@@ -2637,10 +2637,11 @@ while not done:
                 if ok_button.isOver(pos):
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
-
+                    '''
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(text+ ' ' + str(score) + '\n')
                     outfile.close()
+                    '''
                     text=''
                     game_over = False
                     game_over_pvp = False
@@ -2792,9 +2793,6 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
-        text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-        screen.blit(text_surf, (int(board_width * 0.440), int(board_height * 0.5))) #입력한 글자 표시할 위치
-        pygame.display.flip()
 
     elif game_over_pvp:
         for event in pygame.event.get():
@@ -2814,16 +2812,10 @@ while not done:
 
                 pygame.display.update()
 
-            elif event.type == KEYDOWN:                
-                if event.key == pygame.K_BACKSPACE: 
-                    text = text[:-1]
-                elif event.unicode.isalpha() == True:
-                    if len(text) < 3:
-                        text += event.unicode 
-                        text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)  
-
+            elif event.type == KEYDOWN:            
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
+                    '''
                     if score > score_2P:
                         outfile = open('leaderboard.txt', 'a')
                         outfile.write( text + ' ' + str(score) + '\n')
@@ -2832,6 +2824,7 @@ while not done:
                         outfile = open('leaderboard.txt', 'a')
                         outfile.write( text + ' ' + str(score_2P) + '\n')
                         outfile.close()
+                    '''
                     text=''
                     game_over = False
                     game_over_pvp = False
@@ -3060,14 +3053,7 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
-        text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-        textRectObj = text_surf.get_rect()
-        textRectObj.center = (int(board_width * 0.440), int(board_height * 0.5))
-        screen.blit(text_surf, textRectObj.center) #입력한 글자 표시할 위치
-        #screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
-        #screen.fill('white')
-        screen.blit(pygame.transform.scale(screen, screen.get_rect().size), (0, 0))
-        pygame.display.flip()
+        
 
 
     # Start screen
