@@ -296,40 +296,6 @@ button_list = [mute_button, single_button, pvp_button, help_button, quit_button,
         ok_button, ok_button_pvp1, ok_button_pvp2, menu_button, menu_button_pvp1, menu_button_pvp2, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, 
         sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button]
 
-# def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 만들어서 인터페이스 부분 정의?
-#     single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
-#     pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
-#     help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
-#     quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
-#     setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
-#     leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
-
-
-#     esume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
-#     restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
-#     setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
-#     pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
-
-#     back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
-#     volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
-#     screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-#     ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
-
-#     mmenu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
-#     gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
-
-#     effect_plus_button = button(board_width, board_height, 0.43, 0.43, 0.06, 0.11, 1, plus_button_image)
-#     effect_minus_button = button(board_width, board_height, 0.57, 0.43, 0.06, 0.11, 1, minus_button_image)
-
-#     sound_plus_button = button(board_width, board_height, 0.43, 0.63, 0.06, 0.11, 1, plus_button_image)
-#     sound_minus_button = button(board_width, board_height, 0.57, 0.63, 0.06, 0.11, 1, minus_button_image)
-
-#     mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.06, 0.11, 1, check_button_image)
-#     smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.18, 0.14, 1, smallsize_board)
-#     midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.18, 0.14, 1, midiumsize_board)
-#     bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 1, bigsize_board)
-
-
 def set_volume():
     ui_variables.fall_sound.set_volume(effect_volume / 10)   # effect_volume = 10 으로 초기화
     ui_variables.click_sound.set_volume(effect_volume / 10)
@@ -984,7 +950,6 @@ dy_inventory = int(board_height * 0.75)
 
 # 아이템 이미지 scale
 item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
-
 item_list.append(item_bomb)
 
 # 시간 부분
@@ -1154,21 +1119,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
-                # if smallsize_check_button.isOver(pos):
-                #    smallsize_check_button.image = clicked_plus_button_image
-                # else :
-                #    smallsize_check_button.image = plus_button_image
-
-                # if bigsize_check_button.isOver(pos):
-                #    bigsize_check_button.image = clicked_minus_button_image
-                # else :
-                #    bigsize_check_button.image = minus_button_image
-
-                # if midiumsize_check_button.isOver(pos):
-                #    midiumsize_check_button.image = clicked_plus_button_image
-                # else :
-                #    midiumsize_check_button.image = plus_button_image
 
                 pygame.display.update()
 
@@ -1525,7 +1475,7 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
-    
+
     # 리더보드 화면 기능
     elif leader_board:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -1951,7 +1901,7 @@ while not done:
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
                     
                     show_item()
-                    
+
             elif event.type == VIDEORESIZE:
                 board_width = event.w
                 board_height = event.h
@@ -3126,6 +3076,7 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
         
+
 
     # Start screen
     else:
