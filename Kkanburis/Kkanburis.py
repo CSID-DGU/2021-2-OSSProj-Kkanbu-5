@@ -237,10 +237,6 @@ clicked_minus_button_image = 'assets/vector/clicked_minus_button.png'
 check_button_image = 'assets/vector/checkbox_button.png'   # 체크박스 버튼
 clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 
-# 아이템 이미지
-bomb_image = 'item/bomb_powerup.png'
-explosion_image = 'item/explosion.png'
-
 # 버튼 객체 생성 - class button()에서 확인
 # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img = '')
 # (현재 보드 너비, 현재 보드 높이, 버튼의 x 좌표 위치 비율, 버튼의 y좌표 위치 비율, 버튼의 너비 길이 비율, 버튼의 높이 길이 비율) - 전체 화면 크기에 대한 비율
@@ -295,39 +291,38 @@ button_list = [mute_button, single_button, pvp_button, help_button, quit_button,
         resume_button, restart_button, restart_button_pvp1, restart_button_pvp2, setting_button, pause_quit_button, back_button, volume_icon, screen_icon, 
         ok_button, ok_button_pvp1, ok_button_pvp2, menu_button, menu_button_pvp1, menu_button_pvp2, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, 
         sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button]
+def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 만들어서 인터페이스 부분 정의?
+    single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
+    pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
+    help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
+    quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
+    setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
+    leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
 
-# def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 만들어서 인터페이스 부분 정의?
-#     single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
-#     pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
-#     help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
-#     quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
-#     setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
-#     leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
 
+    esume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
+    restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
+    setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
+    pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
 
-#     esume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
-#     restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
-#     setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
-#     pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
+    back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
+    volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
+    screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
+    ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
 
-#     back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
-#     volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
-#     screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-#     ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
+    mmenu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
+    gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
 
-#     mmenu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
-#     gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
+    effect_plus_button = button(board_width, board_height, 0.43, 0.43, 0.06, 0.11, 1, plus_button_image)
+    effect_minus_button = button(board_width, board_height, 0.57, 0.43, 0.06, 0.11, 1, minus_button_image)
 
-#     effect_plus_button = button(board_width, board_height, 0.43, 0.43, 0.06, 0.11, 1, plus_button_image)
-#     effect_minus_button = button(board_width, board_height, 0.57, 0.43, 0.06, 0.11, 1, minus_button_image)
+    sound_plus_button = button(board_width, board_height, 0.43, 0.63, 0.06, 0.11, 1, plus_button_image)
+    sound_minus_button = button(board_width, board_height, 0.57, 0.63, 0.06, 0.11, 1, minus_button_image)
 
-#     sound_plus_button = button(board_width, board_height, 0.43, 0.63, 0.06, 0.11, 1, plus_button_image)
-#     sound_minus_button = button(board_width, board_height, 0.57, 0.63, 0.06, 0.11, 1, minus_button_image)
-
-#     mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.06, 0.11, 1, check_button_image)
-#     smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.18, 0.14, 1, smallsize_board)
-#     midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.18, 0.14, 1, midiumsize_board)
-#     bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 1, bigsize_board)
+    mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.06, 0.11, 1, check_button_image)
+    smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.18, 0.14, 1, smallsize_board)
+    midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.18, 0.14, 1, midiumsize_board)
+    bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 1, bigsize_board)
 
 
 def set_volume():
@@ -441,7 +436,7 @@ def draw_board(next1, next2, hold, score, level, goal):
         level_value = ui_variables.h4.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h5.render("COMBO", 1, ui_variables.real_white)
         combo_value = ui_variables.h4.render(str(combo_count), 1, ui_variables.real_white)
-        text_item = ui_variables.h5.render("ITEM", 1, ui_variables.real_white)
+        
 
     if textsize == True:
         text_hold = ui_variables.h3.render("HOLD", 1, ui_variables.real_white)
@@ -452,8 +447,7 @@ def draw_board(next1, next2, hold, score, level, goal):
         level_value = ui_variables.h2.render(str(level), 1, ui_variables.real_white)
         text_combo = ui_variables.h3.render("COMBO", 1, ui_variables.real_white)
         combo_value = ui_variables.h2.render(str(combo_count), 1, ui_variables.real_white)
-        text_item = ui_variables.h3.render("ITEM", 1, ui_variables.real_white)
-
+        
     # Place texts
     screen.blit(text_hold, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.0374)))
     screen.blit(text_next, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.2780)))
@@ -463,7 +457,6 @@ def draw_board(next1, next2, hold, score, level, goal):
     screen.blit(level_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.7219)))
     screen.blit(text_combo, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8395)))
     screen.blit(combo_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
-    screen.blit(text_item, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
 
     # Draw board
     for x in range(width):
@@ -473,13 +466,6 @@ def draw_board(next1, next2, hold, score, level, goal):
             ## draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
 
-    # 아이템/인벤토리 그리기
-    if len(inventory_list) >= 0:   # 아이템이 있어도, 없어도 상자는 그대로 존재 
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[0] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[1] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[2] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
-
-        show_item()
 
 def draw_1Pboard(next, hold, score, level, goal):
     sidebar_width = int(board_width * 0.2867)   # 위치 비율 고정 / board 가로 길이 * 비율 ( -> 0.31 )
@@ -879,34 +865,6 @@ def set_vol(val):
     print(volume)
     ui_variables.click_sound.set_volume(volume)
 
-# 아이템 획득 - 콤보 11 달성 시 item_list 중 랜덤으로 
-def get_item():    # inventory_list에 아이템 생성
-    if len(inventory_list) < 3:
-        inventory_list.append(item_list[0])
-
-def show_item():
-    for i in range(len(inventory_list)):
-        item = inventory_list[i]
-        screen.blit(item, item.get_rect(center = (dx_inventory[i], dy_inventory)))
-
-def use_item():
-    if len(inventory_list) > 0:
-        item = inventory_list[0]
-        inventory_list.pop(0)
-
-        if item == item_bomb:
-            use_bomb(dx, dy, mino, rotation)
-
-# 아이템 사용 함수 - 아이템 사용 시 잠깐 멈추거나 딜레이 하는 순간 필요(이미지, 사운드 출력)
-def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
-    grid = tetrimino.mino_map[mino - 1][r]
-
-    k = height   # 마지막 행 제거
-
-    while k > 0:
-        for i in range(width):
-            matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
-        k -= 1
 
 # Initial values   # 변수 초기화 부분 -> 정리하기 
 blink = False
@@ -932,7 +890,6 @@ goal = level * 5
 goal_2P = level_2P * 5
 bottom_count = 0
 hard_drop = False
-item = False
 
 volume_setting = False
 screen_setting = False
@@ -967,26 +924,6 @@ dx_2P, dy_2P = 3, 0
 
 name_location = 0
 name = [65, 65, 65, 65, 65, 65]
-
-# 아이템 변수 - bomb, 행 제거
-item_list = []
-inventory_list = []   # 인벤토리 리스트
-bomb_size = 3
-item_size = 30
-
-# inventory 출력을 위한 위치 변수
-sidebar_width = int(board_width * 0.5312)
-dx_inventory1 = int(board_width * 0.135) + sidebar_width
-dx_inventory2 = int(board_width * 0.175) + sidebar_width
-dx_inventory3 = int(board_width * 0.215) + sidebar_width
-dx_inventory = [dx_inventory1, dx_inventory2, dx_inventory3]
-dy_inventory = int(board_height * 0.75)
-
-# 아이템 이미지 scale
-item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
-
-item_list.append(item_bomb)
-
 # 시간 부분
 previous_time = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
@@ -1525,7 +1462,29 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+
+                single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
+                pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
+                help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
+                quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
+                setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
+                leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
+
+
+                resume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
+                restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
+                setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
+                pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
+
+                back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
+                volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
+                screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
+                ok_button = button(board_width, board_height, 0.5, 0.90, 0.37, 0.17, 1, ok_button_image)
+
+                menu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
+                gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
     
+    # Game screen
     # 리더보드 화면 기능
     elif leader_board:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -1645,8 +1604,7 @@ while not done:
                 draw_mino(dx, dy, mino, rotation)
                 screen.fill(ui_variables.real_white)
                 draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
-                pygame.display.update()
-
+                
                 # Erase a mino
                 if not game_over:
                     erase_mino(dx, dy, mino, rotation)
@@ -1706,15 +1664,15 @@ while not done:
                             ui_variables.combos_sound[8].play()
                             pygame.time.delay(300)
 
-                            get_item()
-                            show_item()
+                            # 아이템 - 속도는 pygame.time.set_timer(pygame.USEREVENT, 1)로
+                            # pygame.time.delay(1000)
 
                             combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
                             combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
                         
                         while k > 0:
                             for i in range(10):
-                                matrix[i][k] = matrix[i][k - 1]   # 남아있는 블록 한 줄씩 내리기(덮어쓰기)
+                                matrix[i][k] = matrix[i][k - 1]
                             k -= 1
                 
                 while attack_stack >= 2:
@@ -1937,21 +1895,6 @@ while not done:
                     screen.fill(ui_variables.real_white)
                     draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
-                # Use bomb
-                elif event.key == K_x:
-                    ui_variables.fall_sound.play()
-                    ui_variables.drop_sound.play()
-
-                    use_item()
-
-                    if item == item_bomb:
-                        use_bomb(dx, dy, mino, rotation)
-                        draw_mino(dx, dy, mino, rotation)
-                        screen.fill(ui_variables.real_white)
-                        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
-                    
-                    show_item()
-                    
             elif event.type == VIDEORESIZE:
                 board_width = event.w
                 board_height = event.h
@@ -2730,7 +2673,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
                     attack_point = 0
-                    attack_point_2P = 0
+                    ttack_point_2P = 0
 
                     
                     with open('leaderboard.txt') as f:
@@ -3126,6 +3069,7 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
         
+
 
     # Start screen
     else:
