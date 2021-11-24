@@ -3,19 +3,19 @@
 
 import pygame
 import operator
+import datetime
 from mino import *
 from random import *
 import random as rand
 from pygame.locals import *
-import datetime
-
+from database import *
 
 # Define values
 color_active = pygame.Color('lightskyblue3')
 color_inactive = pygame.Color('blue')
 color = color_inactive
 text=''
-
+FONT = pygame.font.FONT(None, 32)
 
 block_size = 17  # Height, width of single block
 width = 10  # Board width
@@ -37,6 +37,8 @@ min_height = 225   # 최소 화면 높이
 mid_width = 1200
 
 framerate = 30  # Bigger -> Slower
+
+set_300 = 300   # 0.3초
 
 pygame.init()   # 게임 초가화
 
@@ -133,7 +135,6 @@ class ui_variables:
     t_block = [table_image, cyan_image, blue_image, orange_image, yellow_image, green_image, pink_image, red_image,
                ghost_image, linessent_image]
 
-
 class button():   # 버튼 객체
     # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, id, img=''):   # 버튼 생성
     def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, id, img=''):   # 버튼 생성
@@ -164,6 +165,59 @@ class button():   # 버튼 객체
             if pos[1] > self.y - (self.height / 2) and pos[1] < self.y + (self.height / 2):   # 상/하단 화면 넘어가기 전, 
                 return True
         return False
+
+# InoutBox 초기 설정
+class InputBox:
+    def __init__(self, x, y, w, h, text = ''):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.color = color_inactive
+        self.text = text
+        self.txt_surface = FONT.render(text, True, self.color)
+        self.active = False
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # if the user clicked on the inpur_box rect
+            if self.rect.collidepoint(event.pos):
+                # Toggle the active variable
+                self.active = not self.active
+            else:
+                self.active = False
+            # Change the currnet of input box
+            self.color = color_active if self.active else color_inactive
+
+        if event.type == pygame.KEYDOWN:
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    print(self.text)
+                    self.text = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
+                # Re-render the text
+                self.text_surface = FONT.render(text, True, self.color)
+
+    def update(self):
+        # Resize the box if the txt is too long
+        width = max(200, self.txt_surface.get_width() + 10)
+        self.rect.w = width
+
+    def draw(self, screen):
+        # Blit the text
+        screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
+        # Blit the text
+        screen.draw.rect(screen, self.color, self.rect, 2)
+
+# InputBox 설정
+# Sign up에서 box
+input_box1 = InputBox(int(board_width * 322 / 800), int(board_height * 155.5/450), 156, 32)
+input_box2 = InputBox(int(board_width * 322 / 800), int(board_height * 242.5/450), 156, 32)
+input_boxes_signup = [input_box1, input_box2]
+# Sign in에서 box
+input_box3 = InputBox(int(board_width * 322 / 800), int(board_height * 155.5/450), 156, 32)
+input_box4 = InputBox(int(board_width * 322 / 800), int(board_height * 242.5/450), 156, 32)
+input_boxes_signin = [input_box3, input_box4]
 
 # start_image = 'assets/images/start.png'
 # help_image = 'assets/images/help.png'
@@ -243,6 +297,19 @@ clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 bomb_image = 'item/bomb_powerup.png'
 explosion_image = 'item/explosion.png'
 
+# 회원가입/로그인 이미지
+signup_board = 'assets/vector/signup.png'
+signin_board = 'assets/vector/signin.png'
+login_bg = 'assets/vector/Background_login.png'
+log_board = 'assets/vector/log_or_sign_board.png'
+
+button_log_back = 'assets/vector/button_l_back.png'   # 이거 추가
+button_log_back_clicked = 'assets/vector/button_l_back_clicked.png'   # 이거 추가
+button_sign_up = 'assets/vector/button_sign_up.png'
+button_sign_up_clicked = 'assets/vector/button_sign_up_clicked.png'
+button_sign_in = 'assets/vector/button_sign_in.png'
+button_sign_in_clicked = 'assets/vector/button_sign_in_clicked.png'
+
 # 버튼 객체 생성 - class button()에서 확인
 # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img = '')
 # (현재 보드 너비, 현재 보드 높이, 버튼의 x 좌표 위치 비율, 버튼의 y좌표 위치 비율, 버튼의 너비 길이 비율, 버튼의 높이 길이 비율) - 전체 화면 크기에 대한 비율
@@ -288,6 +355,16 @@ mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.06, 0.11, 1, c
 smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.18, 0.14, 1, smallsize_board)
 midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.18, 0.14, 1, midiumsize_board)
 bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 1, bigsize_board)
+
+# 회원가입/로그인 버튼
+sign_up_button1 = button(board_width, board_height, 0.415, 0.5, 12/80, 4/45, button_sign_up)
+sign_in_button1 = button(board_width, board_height, 0.585, 0.5, 12/80, 4/45, button_sign_in)
+# log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, button_quit)
+log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, quit_button_image)
+# login page 2) sign up / sign in
+sign_up_button2 = button(board_width, board_height, 0.415, 0.7, 12/80, 4/45, button_sign_up)
+sign_in_button2 = button(board_width, board_height, 0.415, 0.7, 12/80, 4/45, button_sign_in)
+log_back = button(board_width, board_height, 0.585, 0.7, 12/80, 4/45, button_log_back)
 
 # 아이템을 버튼 클래스 객체로 생성 - 비율은 테트리스 블럭 하나 사이즈 -> block_size = int(board_height * 0.045) 만큼으로
 # bomb = button()
@@ -904,15 +981,6 @@ def set_vol(val):
 #         for j in range(mino_matrix_x):
 #             if grid[i][j] != 0:   # 테트리스 블록에서 해당 행렬 위치에 블록이 존재하면, 
 #                 matrix[x + j][y + i] = 0   # 해당 위치에 블록을 없애 빈 곳으로 만들기
-                
-# 폭탄
-# matrix = [[0 for y in range(height + 1)] for x in range(width)]
-# grid[i][j] = 0 / matrix[tx+j][ty+i] = 0에서
-# 0은 빈 칸
-# 1~7: 테트리스 블록 종류
-# 8: ghost
-# 9: 장애물(벽돌)에 해당  -> t_block 참고
-# 10: 아이템(폭탄)
 
 # 아이템 획득 - 콤보 11 달성 시 item_list 중 랜덤으로 
 def get_item():    # inventory_list에 아이템 생성
@@ -942,9 +1010,7 @@ def use_item():
 
     return item
 
-# 아이템 사용 함수
-# 폭탄 아이템(폭탄이 존재하는 행 제거) 제거
-# 아이템 사용 시 잠깐 멈추거나 딜레이 하는 순간 필요(이미지, 사운드 출력)
+# 아이템 사용 함수 - 아이템 사용 시 잠깐 멈추거나 딜레이 하는 순간 필요(이미지, 사운드 출력)
 def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
     grid = tetrimino.mino_map[mino - 1][r]
 
@@ -1008,6 +1074,8 @@ setting = False
 pvp = False
 help = False
 textsize = False
+signup = False
+signin = False
 
 combo_count = 0
 combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가 
@@ -1827,8 +1895,6 @@ while not done:
 
                             get_item()
                             show_item()
-                            # use_item()
-
                             # if item == item_bomb:
                             #     use_bomb(dx, dy, mino, rotation)
                             # elif item == item_explosion:
@@ -2744,8 +2810,130 @@ while not done:
 
         pygame.display.update()
 
+    elif signup:
+        draw_image(screen, login_bg, board_width * 0.5, board_height * 0.5, board_width, board_height)
+        draw_image(screen, signup_board, board_width * 0.5, board_height * 0.55, int(board_width * 3/8), int(board_height * 24/45))
+        
+        sign_up_button2.draw(screen, (0, 0, 0))
+        log_back.draw(screen, (0, 0, 0))
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+            if event.type == QUIT:
+                done = True
+            for box in input_boxes_signup:
+                box.handle_event(event)
+            for box in input_boxes_signup:
+                box.update()
+            for box in input_boxes_signup:
+                box.draw(screen)
+            pygame.display.update()
+
+            if event.type == USEREVENT:
+                pygame.time.set_timer(pygame.USEREVENT, set_300)
+            elif event.type == pygame.MOUSEMOTION:
+                if sign_up_button2.isOver_2(pos):
+                    sign_up_button2.image = button_sign_up_clicked
+                else:
+                    sign_up_button2.image = button_sign_up
+                if log_back.isOver_2(pos):
+                    log_back.image = button_log_back_clicked
+                else:
+                    log_back.image = button_log_back
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if sign_up_button2.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    id_text = input_box1.text
+                    pw_text = input_box2.text
+                    add_id(id_text)
+                    add_pw(id_text, pw_text)
+                    signup = False
+                if log_back.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    signup = False
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height: #최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)): #높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                    board_width = int(board_height / board_rate) #너비를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate) #높이를 적정 비율로 바꿔줌
+
+                block_size = int(board_height * 0.045)
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
+
+    elif signin:
+        draw_image(screen, login_bg, board_width*0.5, board_height*0.5,
+        board_width, board_height)
+        draw_image(screen, signin_board, board_width*0.5, board_height*0.55,
+        int(board_width*3/8),int(board_height*24/45))
+        sign_in_button2.draw(screen,(0,0,0))
+        log_back.draw(screen,(0,0,0))
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+            if event.type == QUIT:
+                done = True
+            for box in input_boxes_signin:
+                box.handle_event(event)
+            for box in input_boxes_signin:
+                box.update()
+            for box in input_boxes_signin:
+                box.draw(screen)
+            pygame.display.update()
+            if event.type == USEREVENT:
+                pygame.time.set_timer(pygame.USEREVENT, set_300)
+                pygame.display.update()
+            elif event.type == pygame.MOUSEMOTION:
+                if sign_in_button2.isOver_2(pos):
+                    sign_in_button2.image = button_sign_in_clicked
+                else:
+                    sign_in_button2.image = button_sign_in
+                if log_back.isOver_2(pos):
+                    log_back.image = button_log_back_clicked
+                else:
+                    log_back.image = button_log_back
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if sign_in_button2.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    id_text = input_box3.text
+                    pw_text = input_box4.text
+                    if check_info(id_text, pw_text):
+                        signin= False
+                        main = True
+                        # num_earthquake = load_earthquake_data(id_text)
+                        # num_light = load_light_data(id_text)
+                        # num_tnt = load_tnt_data(id_text)
+                        # gold = load_gold_data(id_text)
+                        user_id = id_info(id_text)
+
+                if log_back.isOver_2(pos):
+                    ui_variables.click_sound.play()
+                    signin = False
+
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
+                if board_width < min_width or board_height < min_height: #최소 너비 또는 높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                if not ((board_rate-0.1) < (board_height/board_width) < (board_rate+0.05)): #높이 또는 너비가 비율의 일정수준 이상을 넘어서게 되면
+                    board_width = int(board_height / board_rate) #너비를 적정 비율로 바꿔줌
+                    board_height = int(board_width*board_rate) #높이를 적정 비율로 바꿔줌
+
+
+                block_size = int(board_height * 0.045)
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                        button_list[i].change(board_width, board_height)
+               
+
     # Game over screen
-    # 게임 종료 화면 기능
     elif game_over:
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -2780,14 +2968,11 @@ while not done:
                     text = text[:-1]
                 '''
                    
-
                 #window_center = screen.get_rect().center
                 screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
                 #pygame.draw.rect(screen, color, input_box, 2) #박스를 그릴 색깔과 위치 굵기
                 pygame.display.flip()
                 #clock.tick(30)
-
-             
 
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
