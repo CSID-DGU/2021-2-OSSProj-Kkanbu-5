@@ -309,6 +309,8 @@ button_sign_up = 'assets/vector/button_sign_up.png'
 button_sign_up_clicked = 'assets/vector/button_sign_up_clicked.png'
 button_sign_in = 'assets/vector/button_sign_in.png'
 button_sign_in_clicked = 'assets/vector/button_sign_in_clicked.png'
+button_quit = 'assets/vector/button_quit.png'
+button_quit_clicked = 'assets/vector/button_quit_clicked.png'
 
 # 버튼 객체 생성 - class button()에서 확인
 # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img = '')
@@ -359,8 +361,9 @@ bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 
 # 회원가입/로그인 버튼
 sign_up_button1 = button(board_width, board_height, 0.415, 0.5, 12/80, 4/45, button_sign_up)
 sign_in_button1 = button(board_width, board_height, 0.585, 0.5, 12/80, 4/45, button_sign_in)
-# log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, button_quit)
-log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, quit_button_image)
+log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, button_quit)
+# log_quit = button(board_width, board_height, 0.5, 0.9, 0.16, 0.084, quit_button_image)
+
 # login page 2) sign up / sign in
 sign_up_button2 = button(board_width, board_height, 0.415, 0.7, 12/80, 4/45, button_sign_up)
 sign_in_button2 = button(board_width, board_height, 0.415, 0.7, 12/80, 4/45, button_sign_in)
@@ -377,40 +380,9 @@ tetris4 = pygame.transform.smoothscale(tetris3, (200, 150))
 button_list = [mute_button, single_button, pvp_button, help_button, quit_button, setting_icon, leaderboard_icon, 
         resume_button, restart_button, restart_button_pvp1, restart_button_pvp2, setting_button, pause_quit_button, back_button, volume_icon, screen_icon, 
         ok_button, ok_button_pvp1, ok_button_pvp2, menu_button, menu_button_pvp1, menu_button_pvp2, gameover_quit_button, effect_plus_button, effect_minus_button, sound_plus_button, 
-        sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button]
-
-def set_screen_interface():   # 함수 밖에서도 정의하고, 따로 함수 만들어서 인터페이스 부분 정의?
-    single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
-    pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
-    help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
-    quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
-    setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
-    leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
-
-
-    esume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
-    restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
-    setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
-    pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
-
-    back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
-    volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
-    screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-    ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
-
-    mmenu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
-    gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
-
-    effect_plus_button = button(board_width, board_height, 0.43, 0.43, 0.06, 0.11, 1, plus_button_image)
-    effect_minus_button = button(board_width, board_height, 0.57, 0.43, 0.06, 0.11, 1, minus_button_image)
-
-    sound_plus_button = button(board_width, board_height, 0.43, 0.63, 0.06, 0.11, 1, plus_button_image)
-    sound_minus_button = button(board_width, board_height, 0.57, 0.63, 0.06, 0.11, 1, minus_button_image)
-
-    mute_check_button = button(board_width, board_height, 0.2, 0.4, 0.06, 0.11, 1, check_button_image)
-    smallsize_check_button = button(board_width, board_height, 0.5, 0.25, 0.18, 0.14, 1, smallsize_board)
-    midiumsize_check_button = button(board_width, board_height, 0.5, 0.45, 0.18, 0.14, 1, midiumsize_board)
-    bigsize_check_button = button(board_width, board_height, 0.5, 0.65, 0.18, 0.14, 1, bigsize_board)
+        sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button,
+        # 회원가입/로그인 관련
+        sign_up_button1, sign_up_button2 ,sign_in_button1, sign_in_button2, log_back, log_quit]
 
 
 def set_volume():
@@ -485,7 +457,7 @@ def draw_board(next1, next2, hold, score, level, goal):
         for j in range(mino_matrix_x):   # 4 = mino_matrix_x 변수화
             dx1 = int(board_width * 0.025) + sidebar_width + block_size * j   # 위치 비율 고정 / 전체 가로 길이 * 비율
             dy1 = int(board_height * 0.3743) + block_size * i   # 위치 비율 고정 / 전체 세로 길이 * 비율
-            if grid_n1[i][j] != 0:
+            if grid_n1[i][j] != 0:   # 해당 부분에 블록이 존재하면 -> 0 = mino_zero 로 바꾸기
                 ##draw_block(dx,dy,ui_variables.t_color[grid_n[i][j]])
                 draw_block_image(dx1, dy1, ui_variables.t_block[grid_n1[i][j]])     # t_block: 테트리스 블록 이미지 리스트
                                                                                     # 블록 이미지 출력
@@ -499,14 +471,14 @@ def draw_board(next1, next2, hold, score, level, goal):
                 draw_block_image(dx2, dy2, ui_variables.t_block[grid_n2[i][j]])
 
     # Draw hold mino
-    grid_h = tetrimino.mino_map[hold - 1][0]   # 기본 블록 모양
+    grid_h = tetrimino.mino_map[hold - 1][0] 
 
     if hold_mino != -1:   # hold_mino = -1  # Holded mino   # hold가 존재하지 않으면, 
         for i in range(mino_matrix_y):   # mino_matrix_y
             for j in range(mino_matrix_x):   # mino_matrix_x
                 dx = int(board_width * 0.045) + sidebar_width + block_size * j   # 위치 비율 고정 / 전체 가로 길이 * 비율
                 dy = int(board_height * 0.1336) + block_size * i   # 위치 비율 고정 / 전체 세로 길이 * 비율
-                if grid_h[i][j] != 0:
+                if grid_h[i][j] != 0:   # 해당 부분에 블록이 존재하면, 
                     ##draw_block(dx,dy,ui_variables.t_color[grid_h[i][j]])
                     draw_block_image(dx, dy, ui_variables.t_block[grid_h[i][j]])   # hold 블록 모양 출력
 
@@ -566,7 +538,6 @@ def draw_board(next1, next2, hold, score, level, goal):
         show_item()
 
     # 타이머를 위한 시간 초기화
-
 
 def draw_1Pboard(next, hold, score, level, goal):
     sidebar_width = int(board_width * 0.2867)   # 위치 비율 고정 / board 가로 길이 * 비율 ( -> 0.31 )
@@ -887,7 +858,7 @@ def is_turnable_r_2P(x, y, mino, r):
     for i in range(mino_matrix_y):
         for j in range(mino_matrix_x):
             if grid[i][j] != 0:
-                if (x + j) < 0 or (x + j) > 9 or (y + i) < 0 or (y + i) > 20:
+                if (x + j) < 0 or (x + j) > 9 or (y + i) < 0 or (y + i) > 20:   
                     return False
                 elif matrix_2P[x + j][y + i] != 0:
                     return False
@@ -994,10 +965,6 @@ def show_item():
         item = inventory_list[i]
         screen.blit(item, item.get_rect(center = (dx_inventory[i], dy_inventory)))
 
-        # draw_mino(dx, dy, mino, rotation)
-        # screen.fill(ui_variables.real_white)
-        # draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
-
 def use_item():
     if len(inventory_list) > 0:
         item = inventory_list[0]
@@ -1076,6 +1043,7 @@ help = False
 textsize = False
 signup = False
 signin = False
+main = False
 
 combo_count = 0
 combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가 
@@ -1151,8 +1119,11 @@ bomb_num = 10
 
 item_list.append(item_bomb)
 # item_list.append(item_explosion)
-print(item_list)
 
+# 추가
+add_leaders = ['1st', '2nd', '3rd']
+r_n = ['n1', 'n2', 'n3']
+r_s = ['0', '0', '0']
 
 # 시간 부분
 previous_time = pygame.time.get_ticks()
@@ -1254,6 +1225,7 @@ while not done:
                     sound_minus_button.image = minus_button_image
 
                 pygame.display.update()
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
@@ -1288,6 +1260,8 @@ while not done:
                     music_volume = 0
 
                 set_volume()
+
+            # elif event.type == VIDEORESIZE: 부분 추가
 
     # 화면(크기) 설정 창  ->  각 화면 크기 설정 시 화면(board) 크기 설정 후 -> board 사이즈에 비례하게 크기 각각 조절 -> 조절하는 비율 변수화하기 ?
     elif screen_setting:
@@ -1666,6 +1640,7 @@ while not done:
                 if back_button.isOver(pos):
                     ui_variables.click_sound.play()
                     help = False
+
             elif event.type == VIDEORESIZE:
                 board_width = event.w
                 board_height = event.h
@@ -1692,28 +1667,6 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
-                single_button = button(board_width, board_height, 0.78, 0.23, 0.37, 0.17, 1, single_button_image)
-                pvp_button = button(board_width, board_height, 0.78, 0.43, 0.37, 0.17, 2, pvp_button_image)
-                help_button = button(board_width, board_height, 0.78, 0.63, 0.37, 0.17, 3, help_button_image)
-                quit_button = button(board_width, board_height, 0.78, 0.83, 0.37, 0.17, 4, quit_button_image)
-                setting_icon = button(board_width, board_height, 0.1, 0.85, 0.15, 0.15, 5, setting_vector)
-                leaderboard_icon = button(board_width, board_height, 0.1, 0.6, 0.15, 0.15, 6, leaderboard_vector)
-
-
-                resume_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, resume_button_image)
-                restart_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, restart_button_image)
-                setting_button = button(board_width, board_height, 0.5, 0.63, 0.37, 0.17, 1, setting_button_image)
-                pause_quit_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, quit_button_image)
-
-                back_button = button(board_width, board_height, 0.5, 0.9, 0.37, 0.17, 1, back_button_image)
-                volume_icon = button(board_width, board_height, 0.4, 0.5, 0.15, 0.15, 5, volume_vector)
-                screen_icon = button(board_width, board_height, 0.6, 0.5, 0.15, 0.15, 6, screen_vector)
-                ok_button = button(board_width, board_height, 0.5, 0.83, 0.37, 0.17, 1, ok_button_image)
-
-                menu_button = button(board_width, board_height, 0.5, 0.23, 0.37, 0.17, 1, menu_button_image)
-                gameover_quit_button = button(board_width, board_height, 0.5, 0.43, 0.37, 0.17, 1, quit_button_image)
-    
-    # Game screen
     # 리더보드 화면 기능
     elif leader_board:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -1797,6 +1750,12 @@ while not done:
    
     # 싱글모드 시작 화면 기능
     elif start:
+        # 시간 계산
+        if start == False:
+            start_ticks = pygame.time.get_ticks()   # 현재 시간을 게임 시작 시간으로
+            start = True
+            play_time = (pygame.time.get_ticks() + start_ticks)   # 경과시간 계산   ->  formating 하기
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 done = True
@@ -1899,9 +1858,6 @@ while not done:
                             #     use_bomb(dx, dy, mino, rotation)
                             # elif item == item_explosion:
                             #     use_erase_attack(dx, dy, mino, rotation)
-
-                            # 아이템 추가 - 떨어지면, 속도는 pygame.time.set_timer(pygame.USEREVENT, 1)로
-                            # pygame.time.delay(1000)
 
                             combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
                             combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
@@ -2197,7 +2153,7 @@ while not done:
                     button_list[i].change(board_width, board_height) 
 
         pygame.display.update()
-        
+
     # PVP 모드 화면 기능     
     elif pvp:
         for event in pygame.event.get():
@@ -2950,38 +2906,26 @@ while not done:
                 restart_button.draw(screen, (0, 0, 0))
                 ok_button.draw(screen, (0, 0, 0))
 
+                score1 = ui_variables.h1_b.render(str(score), 1, ui_variables.white) #점수를 출력하기 위해 폰트, 글자색 지정
+                screen.blit(score1, (int(board_width * 0.440), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+
                 pygame.display.update()
 
-            elif event.type == KEYDOWN:
-
-                if event.key == pygame.K_BACKSPACE: 
-                    text = text[:-1]
-                else:
-                    text += event.unicode 
-                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color) #입력한 글자 폰트, 색깔  ui_variables.h1_b.render(text.upper(), True, color)       
-
-                '''
-                if event.unicode.isalpha():
-                    text += event.unicode
-                    text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-                elif event.key == K_BACKSPACE:
-                    text = text[:-1]
-                '''
-                   
-                #window_center = screen.get_rect().center
-                screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
-                #pygame.draw.rect(screen, color, input_box, 2) #박스를 그릴 색깔과 위치 굵기
-                pygame.display.flip()
-                #clock.tick(30)
+            elif event.type == KEYDOWN:                
+                  
 
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
+                    '''
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write( text + ' ' + str(score) + '\n')
                     outfile.close()
+                    '''
 
                     game_over = False
                     game_over_pvp = False
+                    main = True
+
                     hold = False  #
                     dx, dy = 3, 0  #
                     rotation = 0  #
@@ -2990,6 +2934,9 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
+                    #
+                    score_2P = 0
+
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3009,7 +2956,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-                    '''
+                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -3018,7 +2965,7 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-                    '''
+                    
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 pygame.display.flip()
@@ -3045,13 +2992,15 @@ while not done:
                 if ok_button.isOver(pos):
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
-
+                    '''
                     outfile = open('leaderboard.txt', 'a')
                     outfile.write(text+ ' ' + str(score) + '\n')
                     outfile.close()
-
+                    '''
+                    text=''
                     game_over = False
                     game_over_pvp = False
+                    main = True
                     hold = False  #
                     dx, dy = 3, 0  #
                     rotation = 0  #
@@ -3060,6 +3009,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3079,7 +3029,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
                     attack_point = 0
-                    ttack_point_2P = 0
+                    attack_point_2P = 0
 
                     
                     with open('leaderboard.txt') as f:
@@ -3095,6 +3045,7 @@ while not done:
 
                 if menu_button.isOver(pos):
                     ui_variables.click_sound.play()
+                    text=''
                     start = False
                     pvp = False
                     game_over = False
@@ -3107,6 +3058,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3134,6 +3086,7 @@ while not done:
                         pvp = True
                         pygame.mixer.music.play(-1)
                     ui_variables.click_sound.play()
+                    text=''
                     game_over = False
                     game_over_pvp = False
                     hold = False
@@ -3144,6 +3097,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3195,9 +3149,7 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
-        text_surf =  ui_variables.h1_b.render(text.upper(), True, color)
-        screen.blit(text_surf, (int(board_width * 0.434), int(board_height * 0.55))) #입력한 글자 표시할 위치
-        pygame.display.flip()
+
 
     elif game_over_pvp:
         for event in pygame.event.get():
@@ -3209,77 +3161,44 @@ while not done:
                 pygame.mixer.music.stop()
                 pygame.time.set_timer(pygame.USEREVENT, 300)
 
-                #user1 leader board
-                draw_image(screen, gameover_board_image, board_width * 0.25, board_height * 0.5,
+                draw_image(screen, gameover_board_image, board_width * 0.5, board_height * 0.5,
                            int(board_height * 0.7428), board_height)
+                menu_button.draw(screen, (0, 0, 0))
+                restart_button.draw(screen, (0, 0, 0))
+                ok_button.draw(screen, (0, 0, 0))
 
-                menu_button_pvp1.draw(screen, (0, 0, 0))
-                restart_button_pvp1.draw(screen, (0, 0, 0))
-                ok_button_pvp1.draw(screen, (0, 0, 0))
-
-                name_1 = ui_variables.h1_b.render(chr(name[0]), 1, ui_variables.white)
-                name_2 = ui_variables.h1_b.render(chr(name[1]), 1, ui_variables.white)
-                name_3 = ui_variables.h1_b.render(chr(name[2]), 1, ui_variables.white)
-
-                underbar_1 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_2 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_3 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-
-                screen.blit(name_1, (int(board_width * 0.170), int(board_height * 0.55))) 
-                screen.blit(name_2, (int(board_width * 0.230), int(board_height * 0.55)))
-                screen.blit(name_3, (int(board_width * 0.290), int(board_height * 0.55)))
-
-                #user2 leader board
-                draw_image(screen, gameover_board_image, board_width * 0.75, board_height * 0.5,
-                           int(board_height * 0.7428), board_height)
-
-                menu_button_pvp2.draw(screen, (0, 0, 0))
-                restart_button_pvp2.draw(screen, (0, 0, 0))
-                ok_button_pvp2.draw(screen, (0, 0, 0))
-
-                name_4 = ui_variables.h1_b.render(chr(name[3]), 1, ui_variables.white)
-                name_5 = ui_variables.h1_b.render(chr(name[4]), 1, ui_variables.white)
-                name_6 = ui_variables.h1_b.render(chr(name[5]), 1, ui_variables.white)
-
-                underbar_4 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_5 = ui_variables.h1_b.render("_", 1, ui_variables.white)
-                underbar_6= ui_variables.h1_b.render("_", 1, ui_variables.white)
-
-                screen.blit(name_4, (int(board_width * 0.670), int(board_height * 0.55))) 
-                screen.blit(name_5, (int(board_width * 0.730), int(board_height * 0.55)))
-                screen.blit(name_6, (int(board_width * 0.790), int(board_height * 0.55)))
-
-                if blink:
-                    blink = False
-                else:
-                    if name_location == 0:
-                        screen.blit(underbar_1, ((int(board_width * 0.175), int(board_height * 0.56))))
-                    elif name_location == 1:
-                        screen.blit(underbar_2, ((int(board_width * 0.235), int(board_height * 0.56))))
-                    elif name_location == 2:
-                        screen.blit(underbar_3, ((int(board_width * 0.295), int(board_height * 0.56))))
-                    elif name_location == 3:
-                        screen.blit(underbar_4, ((int(board_width * 0.675), int(board_height * 0.56))))
-                    elif name_location == 4:
-                        screen.blit(underbar_5, ((int(board_width * 0.735), int(board_height * 0.56))))
-                    elif name_location == 5:
-                        screen.blit(underbar_6, ((int(board_width * 0.795), int(board_height * 0.56))))
+                score1 = ui_variables.h1_b.render(str(score), 1, ui_variables.white) #점수를 출력하기 위해 폰트, 글자색 지정
+                player_1 = ui_variables.h2_b.render('1P', 1, ui_variables.grey_1)
+                score2 = ui_variables.h1_b.render(str(score_2P), 1, ui_variables.white) #점수를 출력하기 위해 폰트, 글자색 지정
+                player_2 = ui_variables.h2_b.render('2P', 1, ui_variables.grey_1)
+                winner = ui_variables.h4.render('WIN',1,ui_variables.red)
+                if(str(score)>str(score_2P)) :
+                    screen.blit(winner,(int(board_width * 0.330), int(board_height * 0.457)))
+                else :
+                    screen.blit(winner,(int(board_width * 0.600), int(board_height * 0.457)))
                     
-                    blink = True
+                screen.blit(score1, (int(board_width * 0.380), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+                screen.blit(score2, (int(board_width * 0.550), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+                screen.blit(player_1, (int(board_width * 0.390), int(board_height * 0.457)))
+                screen.blit(player_2, (int(board_width * 0.560), int(board_height * 0.457)))
 
                 pygame.display.update()
 
-            #user1 keyboard
-            elif event.type == KEYDOWN:
+            elif event.type == KEYDOWN:            
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
-
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score_2P) + '\n')
-                    outfile.close()
-
-
+                    '''
+                    if score > score_2P:
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write( text + ' ' + str(score) + '\n')
+                        outfile.close()
+                    else:
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write( text + ' ' + str(score_2P) + '\n')
+                        outfile.close()
+                    '''
+                    text=''
+                    game_over = False
                     game_over_pvp = False
                     hold = False  #
                     dx, dy = 3, 0  #
@@ -3291,7 +3210,6 @@ while not done:
                     score = 0
                     score_2P = 0
                     combo_count = 0
-                    combo_count_2P = 0
                     level = 1
                     goal = level * 5
                     bottom_count = 0  #
@@ -3300,10 +3218,6 @@ while not done:
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
-                    score_2P = 0
-                    combo_count_2P = 0
-                    level_2P = 1
-                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -3314,6 +3228,7 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
+                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -3322,72 +3237,45 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+                    
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+                pygame.display.flip()
                 
-
-                elif event.key == K_RIGHT:
-                    if name_location != 5:
-                        name_location += 1
-                    else:
-                        name_location = 0
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_LEFT:
-                    if name_location != 0:
-                        name_location -= 1
-                    else:
-                        name_location = 5
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_UP:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 90:
-                        name[name_location] += 1
-                    else:
-                        name[name_location] = 65
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-                elif event.key == K_DOWN:
-                    ui_variables.click_sound.play()
-                    if name[name_location] != 65:
-                        name[name_location] -= 1
-                    else:
-                        name[name_location] = 90
-
-                    pygame.time.set_timer(pygame.USEREVENT, 1)
-
 
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver(pos):
-                    menu_button_pvp1.image = clicked_menu_button_image
-                    menu_button_pvp2.image = clicked_menu_button_image
+                    menu_button.image = clicked_menu_button_image
                 else:
-                    menu_button_pvp1.image = menu_button_image
-                    menu_button_pvp2.image = menu_button_image
+                    menu_button.image = menu_button_image
 
-                if restart_button_pvp1.isOver(pos) or restart_button_pvp2.isOver(pos):
-                    restart_button_pvp1.image = clicked_restart_button_image
-                    restart_button_pvp2.image = clicked_restart_button_image
+                if restart_button.isOver(pos):
+                    restart_button.image = clicked_restart_button_image
                 else:
-                    restart_button_pvp1.image = restart_button_image
-                    restart_button_pvp2.image = restart_button_image
+                    restart_button.image = restart_button_image
 
-                if ok_button_pvp1.isOver(pos) or ok_button_pvp2.isOver(pos):
-                    ok_button_pvp1.image = clicked_ok_button_image
-                    ok_button_pvp2.image = clicked_ok_button_image
+                if ok_button.isOver(pos):
+                    ok_button.image = clicked_ok_button_image
                 else:
-                    ok_button_pvp1.image = ok_button_image
-                    ok_button_pvp2.image = ok_button_image
+                    ok_button.image = ok_button_image
 
                 pygame.display.update()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if ok_button_pvp1.isOver(pos) or ok_button_pvp2.isOver(pos):
+                if ok_button.isOver(pos):
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
 
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(chr(name[0]) + chr(name[1]) + chr(name[2]) + ' ' + str(score) + '\n')
-                    outfile.write(chr(name[3]) + chr(name[4]) + chr(name[5]) + ' ' + str(score_2P) + '\n')
-                    outfile.close()
-
+                    if score > score_2P:
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write( text + ' ' + str(score) + '\n')
+                        outfile.close()
+                    else:
+                        outfile = open('leaderboard.txt', 'a')
+                        outfile.write( text + ' ' + str(score_2P) + '\n')
+                        outfile.close()
+                    
+                    text=''
+                    game_over = False
                     game_over_pvp = False
                     hold = False  #
                     dx, dy = 3, 0  #
@@ -3397,6 +3285,7 @@ while not done:
                     hold_mino = -1  #
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3406,10 +3295,6 @@ while not done:
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
-                    score_2P = 0
-                    combo_count_2P = 0
-                    level_2P = 1
-                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -3422,6 +3307,7 @@ while not done:
                     attack_point = 0
                     ttack_point_2P = 0
 
+                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -3430,13 +3316,15 @@ while not done:
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
                     leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-
+                    
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
-                if menu_button_pvp1.isOver(pos) or menu_button_pvp2.isOver(pos):
+                if menu_button.isOver(pos):
                     ui_variables.click_sound.play()
+                    text=''
                     start = False
                     pvp = False
+                    game_over = False
                     game_over_pvp = False
                     hold = False
                     dx, dy = 3, 0
@@ -3446,6 +3334,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3454,11 +3343,6 @@ while not done:
                     name_location = 0
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    score_2P = 0
-                    combo_count_2P = 0
-                    level_2P = 1
-                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -3470,19 +3354,17 @@ while not done:
                     attack_point = 0
                     ttack_point_2P = 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-                if restart_button_pvp1.isOver(pos) or restart_button_pvp2.isOver(pos):
+                if restart_button.isOver(pos):
                     if game_status == 'start':
                         start = True
                         pygame.mixer.music.play(-1)
-
                     if game_status == 'pvp':
                         pvp = True
                         pygame.mixer.music.play(-1)
                     ui_variables.click_sound.play()
-
+                    text=''
+                    game_over = False
                     game_over_pvp = False
-                    
-                    # 1P
                     hold = False
                     dx, dy = 3, 0
                     rotation = 0
@@ -3491,6 +3373,7 @@ while not done:
                     hold_mino = -1
                     framerate = 30
                     score = 0
+                    score_2P = 0
                     combo_count = 0
                     level = 1
                     goal = level * 5
@@ -3499,12 +3382,6 @@ while not done:
                     name_location = 0
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    # 2P
-                    score_2P = 0
-                    combo_count_2P = 0
-                    level_2P = 1
-                    goal_2P = level_2P * 5
                     hold_mino_2P = -1  #
                     bottom_count_2P = 0  #
                     hard_drop_2P = False  #
@@ -3523,9 +3400,36 @@ while not done:
                     ui_variables.click_sound.play()
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
+            elif event.type == VIDEORESIZE:
+                board_width = event.w
+                board_height = event.h
 
-    # Start screen
-    else:
+                # 최소 화면 너비/높이 조건 설정
+                if board_width < min_width or board_height < min_height:   # 최소 너비/높이를 설정하려는 경우
+                    board_width = min_width
+                    board_height = min_height
+                
+                if not ( (board_rate - 0.1) < (board_height / board_width) < (board_rate + 0.05) ):   # 높이/너비가 일정 비율을 넘어서게 되면
+                    board_width = int(board_height / board_rate)   # 너비를 적정 비율로 바꾸어줌
+                    board_height = int(board_width * board_rate)   # 높이를 적정 비율로 바꾸어줌
+
+                if board_width >= mid_width:   # 화면 사이즈가 큰  경우
+                    textsize = True   # 큰  글자 
+                    
+                if board_width <= mid_width:
+                    textsize = False
+
+                block_size = int(board_height * 0.045)
+
+                screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
+
+                for i in range(len(button_list)):
+                    button_list[i].change(board_width, board_height) 
+
+    # Start screen  ->  여기가 기존에서는 메인
+    elif main:
+        main = True
+
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -3630,5 +3534,8 @@ while not done:
         if not start:
             pygame.display.update()
             clock.tick(3)
+
+    else:
+
 
 pygame.quit()
