@@ -46,6 +46,8 @@ database = pymysql.connect(   # MySQL connection 연결
             host = 'kkanburis.cdattwopi4a6.ap-northeast-2.rds.amazonaws.com',
             port = 3306,
             db = 'kkanburisDB',
+            # db = 'kkanburis',
+            # db = 'AWS FREE',
             charset = 'utf8'
         )
 
