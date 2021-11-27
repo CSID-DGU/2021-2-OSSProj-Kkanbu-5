@@ -303,7 +303,8 @@ clicked_check_button_image = 'assets/vector/clicked_checkbox_button.png'
 
 # 아이템 이미지
 bomb_image = 'item/bomb_powerup.png'
-explosion_image = 'item/explosion.png'
+explosion_image = pygame.image.load('item/explosion.png')
+explosion = pygame.transform.smoothscale(explosion_image, (300, 200))
 
 # 회원가입/로그인 이미지
 signup_board = 'assets/vector/signup.png'
@@ -1836,13 +1837,14 @@ while not done:
                         if matrix[i][j] == 0:
                             is_full = False
                     if is_full:
+                        # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
                         erase_count += 1
                         attack_stack += 1
                         k = j
                         combo_value += 1
                         combo_count += 1   # N 줄 한 번에 깰 때 N 콤보 작동 -> is_full 확인 시 True일 때마다 combo_count 증가
                         pygame.time.delay(300)
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+                        # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count >= 11:
                             screen.blit(tetris4, (board_width * 0.27, board_height * 0.3))  # blits the combo number
@@ -1852,11 +1854,7 @@ while not done:
 
                             get_item()
                             show_item()
-                            # if item == item_bomb:
-                            #     use_bomb(dx, dy, mino, rotation)
-                            # elif item == item_explosion:
-                            #     use_erase_attack(dx, dy, mino, rotation)
-
+                            
                             combo_value = 0   # combo_value = 0 -> combo_count = 0으로 하면 11이 되는 순간 value 값에 11을 출력하지 않고 바로 0으로 
                             combo_count = 0   # 11이 되는 순간 이미지/사운드 먼저 띄우고 초기화
                         
@@ -1864,18 +1862,6 @@ while not done:
                             for i in range(10):
                                 matrix[i][k] = matrix[i][k - 1]
                             k -= 1
-
-                # while attack_stack >= 2:
-                #     for j in range(20):
-                #         for i in range(10):
-                #             matrix_2P[i][j] = matrix_2P[i][j + 1]
-
-                #             attack_stack -= 1
-                #     for i in range(10):
-                #         matrix_2P[i][20] = 9
-                #     k = randint(1, 10)
-                #     matrix_2P[k][20] = 0
-                #     attack_point += 1
                 
                 while attack_stack >= 2:
                     for j in range(20):
@@ -1891,7 +1877,6 @@ while not done:
 
                 if erase_count >= 1:
                     previous_time = current_time
-                    # combo_count += 1   -> if is_full: 조건문으로 이동
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
@@ -2099,6 +2084,7 @@ while not done:
 
                 # Use bomb
                 elif event.key == K_x:
+                    screen.blit(explosion, (135, 190))
                     ui_variables.fall_sound.play()
                     ui_variables.drop_sound.play()
 
@@ -2106,7 +2092,9 @@ while not done:
 
                     if item == item_bomb:
                         use_bomb(dx, dy, mino, rotation)
-                        draw_mino(dx, dy, mino, rotation)
+
+                        pygame.time.delay(300)
+                        draw_mino(dx, dy, mino, rotation) 
                         screen.fill(ui_variables.real_white)
                         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
                     
@@ -2303,7 +2291,7 @@ while not done:
                         combo_value += 1
                         combo_count += 1
 
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+                        # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count >= 11:
                             screen.blit(tetris4, (100, 190))
@@ -2332,7 +2320,7 @@ while not done:
                         combo_value_2P += 1
                         combo_count_2P += 1
 
-                        pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
+                        # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count_2P >= 11:
                             screen.blit(tetris4, (100, 190))  # blits the combo number
