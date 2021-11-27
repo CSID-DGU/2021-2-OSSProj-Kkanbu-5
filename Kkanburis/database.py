@@ -1,44 +1,5 @@
-import sys
-import os
 import pymysql
-import logging
 import bcrypt
-
-# class Database:
-#     def __init__(self):
-#         self.score = pymysql.connect(   # MySQL connection 연결
-#             user = 'admin',
-#             password = 'administer',
-#             host = 'kkanburis.cdattwopi4a6.ap-northeast-2.rds.amazonaws.com',
-#             port = 3306,
-#             db = 'kkanburisDB',
-#             charset = 'utf8'
-#         )
-
-#     def connect_RDS(self):
-#         try:
-#             cursor = self.score.cursor(pymysql.cursors.DictCursor)
-
-#             query = "select * from user_score by score desc"
-#             cursor.execute(query)
-#             score_data = cursor.fetchall()
-#             cursor.close()
-
-#             return score_data
-        
-#         except:
-#             logging.error('RDS에 연결되지 않았습니다.')
-#             sys.exit(1)
-
-#     def add_id_score(self, id, score):
-#         cursor = self.score.cursor()
-
-#         query = "INSERT INTO user_score (id, score) VALUES (%s)"
-#         cursor.execute(query, (id, score))
-
-#         self.score.commit()   # 서버로 추가 정보 전달
-#         cursor.close()   # connection 닫기
-
         
 database = pymysql.connect(   # MySQL connection 연결
             user = 'admin',
@@ -46,8 +7,6 @@ database = pymysql.connect(   # MySQL connection 연결
             host = 'kkanburis.cdattwopi4a6.ap-northeast-2.rds.amazonaws.com',
             port = 3306,
             db = 'kkanburisDB',
-            # db = 'kkanburis',
-            # db = 'AWS FREE',
             charset = 'utf8'
         )
 
@@ -71,6 +30,7 @@ def add_pw(id_text, pw_text):
     curs.close()
 
 # 입력받은 아이디가 데이터베이스에 있는지 확인, 아이디와 비밀번호가 일치하는지 확인
+# 이 부분 보완 필요
 def check_info(id_text, pw_text):
     input_pw = pw_text.encode('utf-8')
     curs = database.cursor(pymysql.cursors.DictCursor)

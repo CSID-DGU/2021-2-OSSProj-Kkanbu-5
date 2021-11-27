@@ -41,8 +41,6 @@ framerate = 30  # Bigger -> Slower
 
 set_300 = 300   # 0.3초
 
-# pygame.init()   # 게임 초가화
-
 clock = pygame.time.Clock()   # FPS - 화면을 초당 몇 번 출력하는가? -> clock.tick() 가 높을수록 CPU를 많이 사용 
 # pygame.RESIZABLE : 마우스 커서로 screen 화면 조절 가능
 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)   # 스크린 화면을 설정하는 변수 (board_width, board_height)
