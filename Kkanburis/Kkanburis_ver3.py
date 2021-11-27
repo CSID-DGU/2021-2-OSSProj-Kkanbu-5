@@ -185,7 +185,6 @@ class InputBox:
         self.color = color_inactive
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)   # FONT = pygame.font.Font(None, 32)
-        # self.txt_surface = pygame.font.Font.render(text, True, self.color)
         self.active = False
 
     def handle_event(self, event):
@@ -236,8 +235,7 @@ input_boxes_signin = [input_box3, input_box4]
 # help_image = 'assets/images/help.png'
 # start_button = button(board_width * 0.5, board_height * 0.5, 146, 43, 1, start_image)
 
-# background_image = 'assets/vector/Background.png'   # 배경 보드 이미지
-background_image = 'assets/vector/Background_pre.png'   
+background_image = 'assets/vector/Background.png'   # 배경 보드 이미지  
 
 single_button_image = 'assets/vector/single_button.png'   # 싱글 모드 버튼 이미지
 clicked_single_button_image = 'assets/vector/clicked_single_button.png'   # 싱글 모드 버튼 클릭 시 이미지
@@ -314,21 +312,19 @@ explosion_image = 'item/explosion.png'
 # 회원가입/로그인 이미지
 signup_board = 'assets/vector/signup.png'
 signin_board = 'assets/vector/signin.png'
-# login_bg = 'assets/vector/Background_login.png'
-login_bg = 'assets/vector/Background_pre.png'
+login_bg = 'assets/vector/Background_login.png'
 log_board = 'assets/vector/log_or_sign_board.png'
 
 button_log_back = 'assets/vector/button_l_back.png'   # 이거 추가
 button_log_back_clicked = 'assets/vector/button_l_back_clicked.png'   # 이거 추가
 button_sign_up = 'assets/vector/button_sign_up.png'
-# button_sign_up = 'Kkanburis/assets/vector/button_sign_up.png'
 button_sign_up_clicked = 'assets/vector/button_sign_up_clicked.png'
 button_sign_in = 'assets/vector/button_sign_in.png'
 button_sign_in_clicked = 'assets/vector/button_sign_in_clicked.png'
 # button_quit = 'assets/vector/button_quit.png'
-button_quit = 'assets/vector/button_sign_in.png'
+button_quit = 'assets/vector/quit_button.png'
 # button_quit_clicked = 'assets/vector/button_quit_clicked.png'
-button_quit_clicked = 'assets/vector/button_sign_in.png'
+button_quit_clicked = 'assets/vector/clicked_quit_button.png'
 
 # 버튼 객체 생성 - class button()에서 확인
 # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img = '')
@@ -744,7 +740,6 @@ def erase_mino(x, y, mino, r):
                 matrix[x + j][y + i] = 0   # 해당 위치에 블록을 없애 빈 곳으로 만들기
                 
 
-
 def erase_mino_2P(x, y, mino, r):
     grid = tetrimino.mino_map[mino - 1][r]
 
@@ -955,22 +950,6 @@ def set_vol(val):
     print(volume)
     ui_variables.click_sound.set_volume(volume)
 
-# # Erase a tetrimino
-# def erase_mino(x, y, mino, r):
-#     grid = tetrimino.mino_map[mino - 1][r]
-
-#     # Erase ghost
-#     for j in range(21):
-#         for i in range(10):
-#             if matrix[i][j] == 8:   # 테트리스 블록에서 해당 행렬 위치에 ghost 블록이 존재하면,
-#                 matrix[i][j] = 0   # 없애서 빈 곳으로 만들기
- 
-#     # Erase mino
-#     for i in range(mino_matrix_y):
-#         for j in range(mino_matrix_x):
-#             if grid[i][j] != 0:   # 테트리스 블록에서 해당 행렬 위치에 블록이 존재하면, 
-#                 matrix[x + j][y + i] = 0   # 해당 위치에 블록을 없애 빈 곳으로 만들기
-
 # 아이템 획득 - 콤보 11 달성 시 item_list 중 랜덤으로 
 def get_item():    # inventory_list에 아이템 생성
     if len(inventory_list) < 3:
@@ -999,19 +978,12 @@ def use_item():
 def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
     grid = tetrimino.mino_map[mino - 1][r]
 
-    k = height   # 마지막 행 제거
-
-    while k > 0:
-        for i in range(width):
-            matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
-        k -= 1
-
-    # for i in range(3):
-    #     k = height 
-    #     while k > 0:
-    #         for i in range(width):
-    #             matrix[i][k] = matrix[i][k-1]
-    #         k -= 1
+    for i in range(5):   # bomb 아이템 사용 시 5줄 제거
+        k = height 
+        while k > 0:
+            for i in range(width):
+                matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
+            k -= 1
 
 # def use_bomb(x, y, mino, r):   # 3*3, 5*5 삭제 폭탄
 #     grid = tetrimino.mino_map[mino - 1][r]
@@ -1066,7 +1038,6 @@ main = False
 combo_count = 0
 combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가 
 score = 0
-# score2 = 0   # -> score_2P로 통일
 score_2P = 0
 level = 1
 level_2P = 1
@@ -2892,14 +2863,15 @@ while not done:
                     ui_variables.click_sound.play()
                     id_text = input_box3.text
                     pw_text = input_box4.text
-                    if check_info(id_text, pw_text):
-                        signin= False
-                        main = True
-                        # num_earthquake = load_earthquake_data(id_text)
-                        # num_light = load_light_data(id_text)
-                        # num_tnt = load_tnt_data(id_text)
-                        # gold = load_gold_data(id_text)
-                        user_id = id_info(id_text)
+
+                    signin = False
+                    main = True
+                    user_id = id_info(id_text)   # 확인
+
+                    # if check_info(id_text, pw_text):   # 우선, 버튼 넘어가는 것을 확인하기 위해 주석 처리 -> database.py에서 수정
+                    #     signin= False
+                    #     main = True
+                    #     user_id = id_info(id_text)
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2950,7 +2922,7 @@ while not done:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
 
-                    add_score(user_id, score)
+                    add_score(game_status, user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3029,7 +3001,7 @@ while not done:
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
 
-                    add_score(user_id, score)
+                    add_score(game_status, user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3228,9 +3200,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(user_id, score)
+                        add_score(game_status, user_id, score)
                     else:
-                        add_score(user_id, score_2P)
+                        add_score(game_status, user_id, score_2P)
 
                     '''
                     if score > score_2P:
@@ -3311,9 +3283,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(user_id, score)
+                        add_score(game_status, user_id, score)
                     else:
-                        add_score(user_id, score_2P)
+                        add_score(game_status, user_id, score_2P)
 
                     # if score > score_2P:
                     #     outfile = open('leaderboard.txt', 'a')
@@ -3478,42 +3450,11 @@ while not done:
 
     # Start screen  ->  여기가 기존에서는 메인
     elif main:
-        main = True
+        signin = False
+        signup = False
+        text=''
 
-        hold = False
-        dx, dy = 3, 0
-        rotation = 0
-        mino = randint(1, 7)
-        next_mino1 = randint(1, 7)
-        next_mino2 = randint(1, 7)
-        hold_mino = -1
-        framerate = 30
-        score = 0
-        score_2P = 0
-        level = 1
-        level_2P = 1
-        combo_count = 0
-        combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
-        goal = level * 5
-        bottom_count = 0
-        hard_drop = False
-        name_location = 0
-        name = [65, 65, 65, 65, 65, 65]
-        matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-        pause = False
-        start = False
-
-        hold_mino_2P = -1  #
-        bottom_count_2P = 0  #
-        hard_drop_2P = False  #
-        hold_2P = False  #
-        next_mino1_2P = randint(1, 7)  #
-        mino_2P = randint(1, 7)  #
-        rotation_2P = 0  #
-        dx_2P, dy_2P = 3, 0  #
-        matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-
+        # 변수 초기화 부분 추가
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -3618,7 +3559,6 @@ while not done:
 
         if not start:
             pygame.display.update()
-            clock.tick(3)
 
     else:
         screen.fill(ui_variables.white)
