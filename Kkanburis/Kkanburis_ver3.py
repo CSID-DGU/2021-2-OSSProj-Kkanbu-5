@@ -208,23 +208,18 @@ class InputBox:
                     self.text = self.text[:-1]
                 else:
                     self.text += event.unicode
-                # Re-render the text
-                # text_item = ui_variables.h5.render("ITEM", 1, ui_variables.real_white)
-                    self.text_surface = FONT.render(self.text, True, self.color)
-                screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
-                # pygame.draw.rect(screen, self.color, self.rect, 2)
-                pygame.display.update()
+                # Re-render the text.
+                self.txt_surface = FONT.render(self.text, True, self.color)
 
     def update(self):
-        # Resize the box if the txt is too long
-        width = max(200, self.txt_surface.get_width() + 10)
+        # Resize the box if the text is too long.
+        width = max(200, self.txt_surface.get_width()+10)
         self.rect.w = width
 
     def draw(self, screen):
         # Blit the text
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the text
-        # screen.draw.rect(screen, self.color, self.rect, 2)
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
 # InputBox 설정
@@ -241,7 +236,8 @@ input_boxes_signin = [input_box3, input_box4]
 # help_image = 'assets/images/help.png'
 # start_button = button(board_width * 0.5, board_height * 0.5, 146, 43, 1, start_image)
 
-background_image = 'assets/vector/Background.png'   # 배경 보드 이미지 
+# background_image = 'assets/vector/Background.png'   # 배경 보드 이미지
+background_image = 'assets/vector/Background_pre.png'   
 
 single_button_image = 'assets/vector/single_button.png'   # 싱글 모드 버튼 이미지
 clicked_single_button_image = 'assets/vector/clicked_single_button.png'   # 싱글 모드 버튼 클릭 시 이미지
@@ -318,7 +314,8 @@ explosion_image = 'item/explosion.png'
 # 회원가입/로그인 이미지
 signup_board = 'assets/vector/signup.png'
 signin_board = 'assets/vector/signin.png'
-login_bg = 'assets/vector/Background_login.png'
+# login_bg = 'assets/vector/Background_login.png'
+login_bg = 'assets/vector/Background_pre.png'
 log_board = 'assets/vector/log_or_sign_board.png'
 
 button_log_back = 'assets/vector/button_l_back.png'   # 이거 추가
@@ -328,8 +325,10 @@ button_sign_up = 'assets/vector/button_sign_up.png'
 button_sign_up_clicked = 'assets/vector/button_sign_up_clicked.png'
 button_sign_in = 'assets/vector/button_sign_in.png'
 button_sign_in_clicked = 'assets/vector/button_sign_in_clicked.png'
-button_quit = 'assets/vector/button_quit.png'
-button_quit_clicked = 'assets/vector/button_quit_clicked.png'
+# button_quit = 'assets/vector/button_quit.png'
+button_quit = 'assets/vector/button_sign_in.png'
+# button_quit_clicked = 'assets/vector/button_quit_clicked.png'
+button_quit_clicked = 'assets/vector/button_sign_in.png'
 
 # 버튼 객체 생성 - class button()에서 확인
 # def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, img = '')
@@ -2948,11 +2947,10 @@ while not done:
 
             elif event.type == KEYDOWN:                
                   
-
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
 
-                    add_score(id_text, score)
+                    add_score(user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3031,7 +3029,7 @@ while not done:
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
 
-                    add_score(id_text, score)
+                    add_score(user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3230,9 +3228,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(id_text, score)
+                        add_score(user_id, score)
                     else:
-                        add_score(id_text, score_2P)
+                        add_score(user_id, score_2P)
 
                     '''
                     if score > score_2P:
@@ -3313,11 +3311,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(id_text, score)
+                        add_score(user_id, score)
                     else:
-                        add_score(id_text, score_2P)
-
-                    # add_score(id_text, score)
+                        add_score(user_id, score_2P)
 
                     # if score > score_2P:
                     #     outfile = open('leaderboard.txt', 'a')
@@ -3484,6 +3480,41 @@ while not done:
     elif main:
         main = True
 
+        hold = False
+        dx, dy = 3, 0
+        rotation = 0
+        mino = randint(1, 7)
+        next_mino1 = randint(1, 7)
+        next_mino2 = randint(1, 7)
+        hold_mino = -1
+        framerate = 30
+        score = 0
+        score_2P = 0
+        level = 1
+        level_2P = 1
+        combo_count = 0
+        combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
+        goal = level * 5
+        bottom_count = 0
+        hard_drop = False
+        name_location = 0
+        name = [65, 65, 65, 65, 65, 65]
+        matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+        pause = False
+        start = False
+
+        hold_mino_2P = -1  #
+        bottom_count_2P = 0  #
+        hard_drop_2P = False  #
+        hold_2P = False  #
+        next_mino1_2P = randint(1, 7)  #
+        mino_2P = randint(1, 7)  #
+        rotation_2P = 0  #
+        dx_2P, dy_2P = 3, 0  #
+        matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+
+
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -3597,7 +3628,7 @@ while not done:
         int(board_width*3/8), int(board_height*2/9))
         sign_up_button1.draw(screen,(0,0,0))
         sign_in_button1.draw(screen,(0,0,0))
-        # log_quit.draw(screen,(0,0,0))
+        log_quit.draw(screen,(0,0,0))
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
