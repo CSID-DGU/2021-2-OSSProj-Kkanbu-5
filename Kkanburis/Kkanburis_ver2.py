@@ -1871,7 +1871,7 @@ while not done:
                             attack_stack -= 1
                     for i in range(10):
                         matrix[i][20] = 9
-                    k = randint(1, 10)
+                    k = randint(1, 5)
                     matrix[k][20] = 0
                     attack_point += 1
 
@@ -1917,6 +1917,7 @@ while not done:
                                         (board_width * 0.27, board_height * 0.3))  # blits the combo number
                             pygame.display.update()
                             pygame.time.delay(500)
+                            
                         elif combo_count > 10:  # 11 이상 콤보 이미지
                             screen.blit(tetris4, (board_width * 0.27, board_height * 0.3))  # blits the combo number
                             pygame.display.update()
@@ -2084,21 +2085,25 @@ while not done:
 
                 # Use bomb
                 elif event.key == K_x:
-                    screen.blit(explosion, (135, 190))
-                    ui_variables.fall_sound.play()
-                    ui_variables.drop_sound.play()
+                    if len(inventory_list) == 0:   # 아이템 인벤토리에 아무것도 존재하지 않으면 pass
+                        pass
+                    else:
+                        screen.blit(explosion, (135, 190))
+                        ui_variables.fall_sound.play()
+                        ui_variables.drop_sound.play()
 
-                    use_item()
+                        use_item()
 
-                    if item == item_bomb:
-                        use_bomb(dx, dy, mino, rotation)
+                        if item == item_bomb:
+                            
+                            use_bomb(dx, dy, mino, rotation)
 
-                        pygame.time.delay(300)
-                        draw_mino(dx, dy, mino, rotation) 
-                        screen.fill(ui_variables.real_white)
-                        draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
-                    
-                    show_item()
+                            # pygame.time.delay(300)
+                            draw_mino(dx, dy, mino, rotation) 
+                            screen.fill(ui_variables.real_white)
+                            draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
+                        
+                        show_item()
                 
                 # # Use erase attack
                 # elif event.key == K_c:
