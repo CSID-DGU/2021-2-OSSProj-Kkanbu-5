@@ -204,14 +204,18 @@ class InputBox:
                 else:
                     self.text += event.unicode
                 # Re-render the text.
-                self.txt_surface = FONT.render(self.text, True, self.color)
+                # 아이디인지 비밀번호인지 구분
+                if input_id == True:
+                    self.txt_surface = FONT.render(self.text, True, self.color)
+                else:
+                    self.txt_surface = FONT.render('*' * len(self.text), True, self.color)
 
     def update(self):
         # Resize the box if the text is too long.
         width = max(200, self.txt_surface.get_width()+10)
         self.rect.w = width
 
-    def draw(self, screen):
+    def draw(self, screen):   # ID는 그대로, PW는 * 처리
         # Blit the text
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the text
@@ -1098,7 +1102,6 @@ item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (
 # item_explosion = pygame.transform.scale(pygame.image.load('item/explosion.png'), (item_size,item_size))
 bomb_num = 10
 # explosion_num = 11
-
 item_list.append(item_bomb)
 # item_list.append(item_explosion)
 
@@ -1111,6 +1114,10 @@ r_s = ['0', '0', '0']
 previous_time = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
 pause_time = pygame.time.get_ticks()
+
+# 아이디/비밀번호 구분
+input_id = False
+input_pw = False
 
 # 리더보드 .txt 파일 작성/정렬(내림차순 정렬 -> reverse=True)
 with open('leaderboard.txt') as f:
@@ -2756,8 +2763,11 @@ while not done:
         #    movement_keys_timer += clock.tick(50)
 
         pygame.display.update()
-
-    elif signup:
+    
+    # 회원가입 페이지
+    # 기존 아이디와 있는지 확인 -> 기존에 존재하는 아이디인 경우 false 처리 - signup X
+    # 비밀번호 입력 시 * 처리
+    elif signup:   
         screen.fill(ui_variables.white)
         draw_image(screen, login_bg, board_width * 0.5, board_height * 0.5, board_width, board_height)
         draw_image(screen, signup_board, board_width * 0.5, board_height * 0.55, int(board_width * 3/8), int(board_height * 24/45))
@@ -2768,11 +2778,23 @@ while not done:
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
                 done = True
-            for box in input_boxes_signup:
+            for box in input_boxes_signup:   # input_boxes_signup[0]: id, input_boxes_signup[1]: pw
+                if box == input_box1:
+                    input_id = True
+                else:
+                    input_id = False
                 box.handle_event(event)
             for box in input_boxes_signup:
+                if box == input_box1:
+                    input_id = True
+                else:
+                    input_id = False
                 box.update()
-            for box in input_boxes_signup:
+            for box in input_boxes_signup:   # input_box1과 input_box2 구분해서 blit -> 이부분 출력은 문자 개수만큼 * 로 
+                if box == input_box1:
+                    input_id = True
+                else:
+                    input_id = False
                 box.draw(screen)
             pygame.display.update()
 
@@ -2791,8 +2813,8 @@ while not done:
                 if sign_up_button2.isOver(pos):
                     ui_variables.click_sound.play()
                     id_text = input_box1.text
-                    pw_text = input_box2.text
-                    add_id(id_text)
+                    pw_text = input_box2.text   
+                    add_id(id_text)   # 여기서 확인
                     add_pw(id_text, pw_text)
                     signup = False
                 if log_back.isOver(pos):
@@ -2851,16 +2873,19 @@ while not done:
                 if sign_in_button2.isOver(pos):
                     ui_variables.click_sound.play()
                     id_text = input_box3.text
-                    pw_text = input_box4.text
+                    pw_text = input_box4.text   # 이부분 출력은 문자 개수만큼 * 로 
+
+                    check_info(id_text, pw_text)
 
                     signin = False
                     main = True
                     user_id = id_info(id_text)   # 확인
-
-                    # if check_info(id_text, pw_text):   # 우선, 버튼 넘어가는 것을 확인하기 위해 주석 처리 -> database.py에서 수정
+                    
+                    # if not check_info(id_text, pw_text):   # 우선, 버튼 넘어가는 것을 확인하기 위해 주석 처리 -> database.py에서 수정
                     #     signin= False
                     #     main = True
                     #     user_id = id_info(id_text)
+                    #     # start = True
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
@@ -3439,9 +3464,10 @@ while not done:
 
     # Start screen  ->  여기가 기존에서는 메인
     elif main:
-        signin = False
-        signup = False
-        text=''
+        main = True
+        # signin = False
+        # signup = False
+        # text=''
 
         # 변수 초기화 부분 추가
 
