@@ -317,6 +317,8 @@ login_bg = 'assets/vector/Background_login.png'
 log_board = 'assets/vector/log_or_sign_board.png'
 signup_fail_image = pygame.image.load('assets/vector/id_already_exists.png')
 signup_fail = pygame.transform.smoothscale(signup_fail_image, (150, 75))
+signin_id_fail_image = pygame.image.load('assets/vector/id_does_not_exists.png')
+signin_id_fail = pygame.transform.smoothscale(signin_id_fail_image, (150, 75))
 signin_fail_image = pygame.image.load('assets/vector/please_try_again.png')
 signin_fail = pygame.transform.smoothscale(signin_fail_image, (150, 75))
 
@@ -2892,30 +2894,27 @@ while not done:
                     ui_variables.click_sound.play()
                     id_text = input_box3.text
                     pw_text = input_box4.text 
+                    # 존재하지 않는 아이디인지 여부도 확인해야 함!!
+                    if exist_id(id_text):
+                        if not check_info(id_text, pw_text):
+                            signin = False
+                            main = True
+                            user_id = id_info(id_text)
+                        elif check_info(id_text, pw_text):
+                            signin = True
+                            main = False
+                            screen.blit(signin_fail, (330, 350))
+                            pygame.display.update()
+                            pygame.time.delay(1000)
+                            print('Please try again sign in')
 
-                    # check_info(id_text, pw_text)
-                    # signin = False
-                    # main = True
-                    # user_id = id_info(id_text)   # 확인
-                    
-                    # if not check_info(id_text, pw_text):   # 우선, 버튼 넘어가는 것을 확인하기 위해 주석 처리 -> database.py에서 수정
-                    #     signin= False
-                    #     main = True
-                    #     user_id = id_info(id_text)
-                    #     # start = True
-
-                    if not check_info(id_text, pw_text):
-                        signin = False
-                        main = True
-                        user_id = id_info(id_text)
                     else:
                         signin = True
                         main = False
-                        screen.blit(signin_fail, (330, 350))
+                        screen.blit(signin_id_fail, (330, 350))
                         pygame.display.update()
                         pygame.time.delay(1000)
-                        print('Please try again sign in')
-
+                        print('Please check your ID')
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()

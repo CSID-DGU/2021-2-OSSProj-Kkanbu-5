@@ -17,7 +17,6 @@ def exist_id(id_text):
     curs.execute(sql, id_text)
     existID = curs.fetchone()
     curs.close()
-
     if existID:
         return True   # 입력한 ID에 해당하는 사용자가 이미 users 테이블에 존재
     else:
@@ -42,9 +41,9 @@ def add_pw(id_text, pw_text):
     sql = "UPDATE users SET user_pw= %s WHERE user_id=%s"
     curs.execute(sql,(decode_hash_pw,id_text))
     database.commit()
+    
     print(hashed_pw)
     print(decode_hash_pw)
-
     curs.close()
 
 # 입력받은 아이디가 데이터베이스에 있는지 확인, 아이디와 비밀번호가 일치하는지 확인
@@ -56,10 +55,21 @@ def check_info(id_text, pw_text):
     curs.execute(sql ,id_text)
     data = curs.fetchone()  # 리스트 안에 딕셔너리가 있는 형태
     curs.close()
-    check_password=bcrypt.checkpw(input_pw,data['user_pw'].encode('utf-8'))
+    check_password = bcrypt.checkpw(input_pw, data['user_pw'].encode('utf-8'))
     
-    print(check_password)
-    print(data['user_pw'].encode('utf-8'))
+    # 수정
+    input_hashed_pw = bcrypt.hashpw(input_pw, bcrypt.gensalt())
+    input_decode_hashed_pw = input_hashed_pw.decode('utf-8')
+    # if input_decode_hashed_pw == data['user_pw']:
+    #     check_password = True
+    # else:
+    #     check_password = False
+
+    print('input_pw : ', input_pw, ' type : ',type(input_pw))
+    print('check_password : ', check_password)
+    print("data['user_pw'] : ", data['user_pw'], ' type : ',type(data['user_pw']))
+    print("data['user_pw'].encode('utf-8') : ", data['user_pw'].encode('utf-8'), ' type : ', type(data['user_pw'].encode('utf-8')))
+    
     return check_password
 
 def id_info(id_text):
@@ -70,7 +80,7 @@ def id_info(id_text):
 # 사용자의 점수 기록이 존재하는지 확인
 def exist_score(id_text):
     curs = database.cursor()
-    sql = "SELECT * FROM sigle_rank WHERE user_id = %s "
+    sql = "SELECT * FROM single_rank WHERE user_id = %s "
     curs.execute(sql, id_text)
     existScore = curs.fetchone()
     curs.close()
@@ -89,21 +99,23 @@ def add_score(game_status, id_text, score):
             sql = "SELECT score from single_rank where user_id = %s"
             curs.execute(sql, id_text)
             data = curs.fetchone()
-            if score > data[1]:   # 획득한 점수가 기존 등록된 score보다 큰 경우 -> update
-                sql = "UPDATE single_rank set score = %s where id = %s"
+            print(data)
+            if score > data[0]:   # 획득한 점수가 기존 등록된 score보다 큰 경우 -> update
+                sql = "UPDATE single_rank set score = %s where user_id = %s"
                 curs.execute(sql, (score, id_text))
-                data.commit()
+                database.commit()
                 curs.close()
             else:
                 pass
 
         else:   # 아이디에 해당하는 사용자 점수 기록이 없는 경우
             curs = database.cursor()
-            if game_status == 'start':
-                sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
+            sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"   # game_status 구분 X
+            # if game_status == 'start':
+            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
             
-            if game_status == 'pvp':
-                sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
+            # if game_status == 'pvp':
+            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
 
             curs.execute(sql, (id_text, score))
             database.commit()  #서버로 추가 사항 보내기
