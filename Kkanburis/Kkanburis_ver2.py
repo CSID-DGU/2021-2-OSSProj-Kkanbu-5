@@ -315,6 +315,10 @@ signup_board = 'assets/vector/signup.png'
 signin_board = 'assets/vector/signin.png'
 login_bg = 'assets/vector/Background_login.png'
 log_board = 'assets/vector/log_or_sign_board.png'
+signup_fail_image = pygame.image.load('assets/vector/id_already_exists.png')
+signup_fail = pygame.transform.smoothscale(signup_fail_image, (150, 75))
+signin_fail_image = pygame.image.load('assets/vector/please_try_again.png')
+signin_fail = pygame.transform.smoothscale(signin_fail_image, (150, 75))
 
 button_log_back = 'assets/vector/button_l_back.png'   # 이거 추가
 button_log_back_clicked = 'assets/vector/button_l_back_clicked.png'   # 이거 추가
@@ -2811,7 +2815,10 @@ while not done:
                     pw_text = input_box2.text   
                     if exist_id(id_text):
                         signup = True
-                        # 이미지 출력
+                        screen.blit(signup_fail, (330, 350))
+                        pygame.display.update()
+                        pygame.time.delay(1000)
+                        print('This ID already exists')
                     else:
                         add_id(id_text)   # 여기서 확인 
                         add_pw(id_text, pw_text)
@@ -2884,19 +2891,31 @@ while not done:
                 if sign_in_button2.isOver(pos):
                     ui_variables.click_sound.play()
                     id_text = input_box3.text
-                    pw_text = input_box4.text   # 이부분 출력은 문자 개수만큼 * 로 
+                    pw_text = input_box4.text 
 
-                    check_info(id_text, pw_text)
-
-                    signin = False
-                    main = True
-                    user_id = id_info(id_text)   # 확인
+                    # check_info(id_text, pw_text)
+                    # signin = False
+                    # main = True
+                    # user_id = id_info(id_text)   # 확인
                     
                     # if not check_info(id_text, pw_text):   # 우선, 버튼 넘어가는 것을 확인하기 위해 주석 처리 -> database.py에서 수정
                     #     signin= False
                     #     main = True
                     #     user_id = id_info(id_text)
                     #     # start = True
+
+                    if not check_info(id_text, pw_text):
+                        signin = False
+                        main = True
+                        user_id = id_info(id_text)
+                    else:
+                        signin = True
+                        main = False
+                        screen.blit(signin_fail, (330, 350))
+                        pygame.display.update()
+                        pygame.time.delay(1000)
+                        print('Please try again sign in')
+
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2959,34 +2978,34 @@ while not done:
                     game_over_pvp = False
                     main = True
 
-                    hold = False  #
-                    dx, dy = 3, 0  #
-                    rotation = 0  #
-                    mino = randint(1, 7)  #
-                    next_mino1 = randint(1, 7)  #
-                    hold_mino = -1  #
+                    hold = False  
+                    dx, dy = 3, 0  
+                    rotation = 0  
+                    mino = randint(1, 7)  
+                    next_mino1 = randint(1, 7)  
+                    hold_mino = -1  
                     framerate = 30
                     score = 0
-                    #
+                    
                     score_2P = 0
 
                     combo_count = 0
                     level = 1
                     goal = level * 5
-                    bottom_count = 0  #
-                    hard_drop = False  #
+                    bottom_count = 0  
+                    hard_drop = False  
                     name_location = 0
                     name = [65, 65, 65, 65, 65, 65]
                     matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
+                    hold_mino_2P = -1 
+                    bottom_count_2P = 0 
+                    hard_drop_2P = False 
+                    hold_2P = False
+                    next_mino1_2P = randint(1, 7)
+                    mino_2P = randint(1, 7)
+                    rotation_2P = 0
+                    dx_2P, dy_2P = 3, 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
                     
@@ -3475,11 +3494,7 @@ while not done:
 
     # Start screen  ->  여기가 기존에서는 메인
     elif main:
-        main = True
-        # signin = False
-        # signup = False
         # text=''
-
         # 변수 초기화 부분 추가
 
         for event in pygame.event.get():
