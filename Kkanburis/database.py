@@ -118,13 +118,9 @@ def add_score(id_text, score):
         pass
 
 # 데이터 베이스에서 데이터 불러오기
-def load_rank_data(game_status):
+def load_rank_data():
     curs = database.cursor(pymysql.cursors.DictCursor)
-    if game_status == 'single':
-        sql = "select * from single_rank order by score desc "
-    elif game_status == 'pvp':
-        sql = "select * from single_rank order by score desc"
-
+    sql = "select * from single_rank order by score desc "
     curs.execute(sql)
     data = curs.fetchall()
     curs.close()
