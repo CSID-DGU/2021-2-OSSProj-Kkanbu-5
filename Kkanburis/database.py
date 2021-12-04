@@ -99,21 +99,23 @@ def add_score(game_status, id_text, score):
             sql = "SELECT score from single_rank where user_id = %s"
             curs.execute(sql, id_text)
             data = curs.fetchone()
-            if score > data[1]:   # 획득한 점수가 기존 등록된 score보다 큰 경우 -> update
-                sql = "UPDATE single_rank set score = %s where id = %s"
+            print(data)
+            if score > data[0]:   # 획득한 점수가 기존 등록된 score보다 큰 경우 -> update
+                sql = "UPDATE single_rank set score = %s where user_id = %s"
                 curs.execute(sql, (score, id_text))
-                data.commit()
+                database.commit()
                 curs.close()
             else:
                 pass
 
         else:   # 아이디에 해당하는 사용자 점수 기록이 없는 경우
             curs = database.cursor()
-            if game_status == 'start':
-                sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
+            sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"   # game_status 구분 X
+            # if game_status == 'start':
+            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
             
-            if game_status == 'pvp':
-                sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
+            # if game_status == 'pvp':
+            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
 
             curs.execute(sql, (id_text, score))
             database.commit()  #서버로 추가 사항 보내기
