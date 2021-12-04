@@ -2829,8 +2829,9 @@ while not done:
                         pygame.time.delay(1000)
                         print('This ID already exists')
                     else:
-                        add_id(id_text)   # 여기서 확인 
+                        add_id(id_text)  
                         add_pw(id_text, pw_text)
+                        # new_add_pw(id_text, pw_text)
                         signup = False
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2913,7 +2914,7 @@ while not done:
                             screen.blit(signin_fail, (330, 350))
                             pygame.display.update()
                             pygame.time.delay(1000)
-                            print('Please try again sign in')
+                            print('Please try again sign in')    
 
                     else:
                         signin = True
@@ -3232,15 +3233,15 @@ while not done:
                 player_2 = ui_variables.h2_b.render('2P', 1, ui_variables.grey_1)
                 winner = ui_variables.h4.render('WIN',1,ui_variables.red)
                 if(str(score)>str(score_2P)) :
-                    screen.blit(winner,(int(board_width * 0.330), int(board_height * 0.457)))
+                    screen.blit(winner,(int(board_width * 0.330), int(board_height * 0.51)))
                 else :
-                    screen.blit(winner,(int(board_width * 0.600), int(board_height * 0.457)))
+                    screen.blit(winner,(int(board_width * 0.600), int(board_height * 0.51)))
                     
-                screen.blit(score1, (int(board_width * 0.380), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
-                screen.blit(score2, (int(board_width * 0.550), int(board_height * 0.55))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
-                screen.blit(player_1, (int(board_width * 0.390), int(board_height * 0.457)))
-                screen.blit(player_2, (int(board_width * 0.560), int(board_height * 0.457)))
-
+                screen.blit(score1, (int(board_width * 0.360), int(board_height * 0.575))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+                screen.blit(score2, (int(board_width * 0.530), int(board_height * 0.575))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
+                screen.blit(player_1, (int(board_width * 0.390), int(board_height * 0.52)))
+                screen.blit(player_2, (int(board_width * 0.560), int(board_height * 0.52)))
+                
                 pygame.display.update()
 
             elif event.type == KEYDOWN:            
