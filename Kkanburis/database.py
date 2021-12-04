@@ -90,7 +90,7 @@ def exist_score(id_text):
         return False   # 입력한 ID에 해당하는 사용자가 기존 점수 기록 X
 
 # 점수 기록 부분
-def add_score(game_status, id_text, score): 
+def add_score(id_text, score): 
     # score 기록이 없는 사용자는 추가하고, score 기록이 있는 사용자는 등록된 score와 게임에서 얻은 score 중 높은 것으로 update 하기
     # score 테이블에서 id_text에 해당하는 사용자 데이터 있는지 확인
     if exist_id(id_text):   # 아이디가 존재하고
@@ -111,12 +111,6 @@ def add_score(game_status, id_text, score):
         else:   # 아이디에 해당하는 사용자 점수 기록이 없는 경우
             curs = database.cursor()
             sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"   # game_status 구분 X
-            # if game_status == 'start':
-            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
-            
-            # if game_status == 'pvp':
-            #     sql = "INSERT INTO single_rank (user_id, score) VALUES (%s, %s)"
-
             curs.execute(sql, (id_text, score))
             database.commit()  #서버로 추가 사항 보내기
             curs.close()  
@@ -124,13 +118,9 @@ def add_score(game_status, id_text, score):
         pass
 
 # 데이터 베이스에서 데이터 불러오기
-def load_rank_data(game_status):
+def load_rank_data():
     curs = database.cursor(pymysql.cursors.DictCursor)
-    if game_status == 'single':
-        sql = "select * from single_rank order by score desc "
-    elif game_status == 'pvp':
-        sql = "select * from single_rank order by score desc"
-
+    sql = "select * from single_rank order by score desc "
     curs.execute(sql)
     data = curs.fetchall()
     curs.close()
