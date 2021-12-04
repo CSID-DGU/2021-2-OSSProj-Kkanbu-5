@@ -322,9 +322,7 @@ button_sign_up = 'assets/vector/button_sign_up.png'
 button_sign_up_clicked = 'assets/vector/button_sign_up_clicked.png'
 button_sign_in = 'assets/vector/button_sign_in.png'
 button_sign_in_clicked = 'assets/vector/button_sign_in_clicked.png'
-# button_quit = 'assets/vector/button_quit.png'
 button_quit = 'assets/vector/quit_button.png'
-# button_quit_clicked = 'assets/vector/button_quit_clicked.png'
 button_quit_clicked = 'assets/vector/clicked_quit_button.png'
 
 # 버튼 객체 생성 - class button()에서 확인
@@ -2811,9 +2809,13 @@ while not done:
                     ui_variables.click_sound.play()
                     id_text = input_box1.text
                     pw_text = input_box2.text   
-                    add_id(id_text)   # 여기서 확인
-                    add_pw(id_text, pw_text)
-                    signup = False
+                    if exist_id(id_text):
+                        signup = True
+                        # 이미지 출력
+                    else:
+                        add_id(id_text)   # 여기서 확인 
+                        add_pw(id_text, pw_text)
+                        signup = False
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
                     signup = False
