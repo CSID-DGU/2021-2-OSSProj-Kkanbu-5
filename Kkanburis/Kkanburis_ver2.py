@@ -478,8 +478,7 @@ def draw_board(next1, next2, hold, score, level, goal):
             dy1 = int(board_height * 0.3743) + block_size * i   # 위치 비율 고정 / 전체 세로 길이 * 비율
             if grid_n1[i][j] != 0:   # 해당 부분에 블록이 존재하면 -> 0 = mino_zero 로 바꾸기
                 ##draw_block(dx,dy,ui_variables.t_color[grid_n[i][j]])
-                draw_block_image(dx1, dy1, ui_variables.t_block[grid_n1[i][j]])     # t_block: 테트리스 블록 이미지 리스트
-                                                                                    # 블록 이미지 출력
+                draw_block_image(dx1, dy1, ui_variables.t_block[grid_n1[i][j]])     # t_block: 테트리스 블록 이미지 리스트 -> 블록 이미지 출력                                                                     
 
     for i in range(mino_matrix_y):   # 다음 다음 블록
         for j in range(mino_matrix_x):
@@ -727,7 +726,6 @@ def draw_mino_2P(x, y, mino, r):
             if grid[i][j] != 0:   # 테트리스 블록에서 해당 행렬 위치에 블록이 존재하면, 
                 matrix_2P[x + j][y + i] = grid[i][j]   # 해당 위치에 블록 만들기
 
-
 # Erase a tetrimino
 def erase_mino(x, y, mino, r):
     grid = tetrimino.mino_map[mino - 1][r]
@@ -744,7 +742,6 @@ def erase_mino(x, y, mino, r):
             if grid[i][j] != 0:   # 테트리스 블록에서 해당 행렬 위치에 블록이 존재하면, 
                 matrix[x + j][y + i] = 0   # 해당 위치에 블록을 없애 빈 곳으로 만들기
                 
-
 def erase_mino_2P(x, y, mino, r):
     grid = tetrimino.mino_map[mino - 1][r]
 
@@ -1688,12 +1685,22 @@ while not done:
 
         back_button.draw(screen, (0, 0, 0))
 
-        leader_1 = ui_variables.h1_b.render('1st ' + leaders[0][0] + ' ' + str(leaders[0][1]), 1, ui_variables.grey_1)
-        leader_2 = ui_variables.h1_b.render('2nd ' + leaders[1][0] + ' ' + str(leaders[1][1]), 1, ui_variables.grey_1)
-        leader_3 = ui_variables.h1_b.render('3rd ' + leaders[2][0] + ' ' + str(leaders[2][1]), 1, ui_variables.grey_1)
+        data = load_rank_data()
+        loc_x = board_width * 0.3
+        loc_y = board_height * 0.15
+        loc_y_incre = 0.2
+      
+        leader_1 = ui_variables.h2_b.render('1st  ' + data[0]['user_id'] + '  ' + str(data[0]['score']), 1, ui_variables.grey_1)
+        leader_2 = ui_variables.h2_b.render('2nd  ' + data[1]['user_id'] + '  ' + str(data[1]['score']), 1, ui_variables.grey_1)
+        leader_3 = ui_variables.h2_b.render('3rd  ' + data[2]['user_id'] + '  ' + str(data[2]['score']), 1, ui_variables.grey_1)
+        leader_4 = ui_variables.h2_b.render('4th  ' + data[3]['user_id'] + '  ' + str(data[3]['score']), 1, ui_variables.grey_1)
+        leader_5 = ui_variables.h2_b.render('5th  ' + data[4]['user_id'] + '  ' + str(data[4]['score']), 1, ui_variables.grey_1)
+
         screen.blit(leader_1, (board_width * 0.3, board_height * 0.15))
-        screen.blit(leader_2, (board_width * 0.3, board_height * 0.35))
-        screen.blit(leader_3, (board_width * 0.3, board_height * 0.55))
+        screen.blit(leader_2, (board_width * 0.3, board_height * 0.275))
+        screen.blit(leader_3, (board_width * 0.3, board_height * 0.4))
+        screen.blit(leader_4, (board_width * 0.3, board_height * 0.525))
+        screen.blit(leader_5, (board_width * 0.3, board_height * 0.65))
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -3042,6 +3049,7 @@ while not done:
                     ui_variables.click_sound.play()
 
                     add_score(user_id, score)
+                    print(load_rank_data())
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
