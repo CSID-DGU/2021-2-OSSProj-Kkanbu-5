@@ -3041,7 +3041,7 @@ while not done:
                     ui_variables.click_sound.play()
                     ui_variables.click_sound.play()
 
-                    add_score(game_status, user_id, score)
+                    add_score(user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3240,9 +3240,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(game_status, user_id, score)
+                        add_score(user_id, score)
                     else:
-                        add_score(game_status, user_id, score_2P)
+                        add_score(user_id, score_2P)
 
                     '''
                     if score > score_2P:
@@ -3323,9 +3323,9 @@ while not done:
                     ui_variables.click_sound.play()
 
                     if score > score_2P:
-                        add_score(game_status, user_id, score)
+                        add_score(user_id, score)
                     else:
-                        add_score(game_status, user_id, score_2P)
+                        add_score(user_id, score_2P)
 
                     # if score > score_2P:
                     #     outfile = open('leaderboard.txt', 'a')
