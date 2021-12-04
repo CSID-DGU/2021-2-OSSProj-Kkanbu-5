@@ -543,7 +543,7 @@ def draw_board(next1, next2, hold, score, level, goal):
     for x in range(width):
         for y in range(height):
             dx = int(board_width * 0.25) + block_size * x   # 위치 비율 고정 / board 가로 길이 * 비율
-            dy = int(board_height * 0.055) + block_size * y   # 위치 비율 고정 / board 세로 길이 * 비율
+            dy = int(board_height * 0.08) + block_size * y   # 위치 비율 고정 / board 세로 길이 * 비율
             ## draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
     
@@ -618,7 +618,7 @@ def draw_1Pboard(next, hold, score, level, goal):
     for x in range(width):
         for y in range(height):
             dx = int(board_height * 0.055) + block_size * x    # 위치 비율 고정 / board 가로 길이 * 비율
-            dy = int(board_height * 0.055) + block_size * y    # 위치 비율 고정 / board 세로 길이 * 비율
+            dy = int(board_height * 0.07) + block_size * y    # 위치 비율 고정 / board 세로 길이 * 비율
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
 
 # 여기까지
@@ -681,8 +681,8 @@ def draw_2Pboard(next, hold, score, level, goal):
     # Draw board
     for x in range(width):
         for y in range(height):
-            dx = int(board_width * 0.5) + block_size * x    # 위치 비율 고정 
-            dy = int(board_height * 0.055) + block_size * y    # 위치 비율 고정 
+            dx = int(board_width * 0.525) + block_size * x    # 위치 비율 고정 
+            dy = int(board_height * 0.07) + block_size * y    # 위치 비율 고정 
             draw_block_image(dx, dy, ui_variables.t_block[matrix_2P[x][y + 1]])
 
 
@@ -1931,7 +1931,7 @@ while not done:
                             screen.blit(ui_variables.large_combos[i - 1],
                                         (board_width * 0.27, board_height * 0.3))  # blits the combo number
                             pygame.display.update()
-                            pygame.time.delay(500)
+                            pygame.time.delay(300)
                             
                         elif combo_count > 10:  # 11 이상 콤보 이미지
                             screen.blit(tetris4, (board_width * 0.27, board_height * 0.3))  # blits the combo number
@@ -1949,7 +1949,7 @@ while not done:
                     for i in range(1, 9):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드 
                             ui_variables.combos_sound[i - 1].play()
-                            pygame.time.delay(800)   # 콤보 작동 사운드 출력 후 delay
+                            pygame.time.delay(300)   # 콤보 작동 사운드 출력 후 delay
                         if combo_count > 11:
                             ui_variables.combos_sound[8].play()
 
@@ -2392,14 +2392,12 @@ while not done:
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        # score += 50 * level * erase_count + combo_count
                         score += (10 * (combo_count * combo_count))
                         sent += 1
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        # score += 150 * level * erase_count + 2 * combo_count
                         score += (10 * (combo_count * combo_count))
                         sent += 2
                     elif erase_count == 3:
@@ -2407,7 +2405,6 @@ while not done:
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        # score += 350 * level * erase_count + 3 * combo_count
                         score += (10 * (combo_count * combo_count))
                         sent += 3
                     elif erase_count == 4:
@@ -2416,20 +2413,21 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
-                        # score += 1000 * level * erase_count + 4 * combo_count
                         score += (10 * (combo_count * combo_count))
                         sent += 4
-                        screen.blit(ui_variables.combo_4ring, (250, 160))  
+                        screen.blit(ui_variables.combo_4ring, (150, 160))  
 
                     else:
                         score += (10 * (combo_count * combo_count)) 
 
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
-                            screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
+                            screen.blit(ui_variables.large_combos[i - 1], (80, 190))  # blits the combo number
+                            pygame.time.delay(300)
                         elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
-                            screen.blit(tetris4, (100, 190))  # blits the combo number
+                            screen.blit(tetris4, (80, 190))  # blits the combo number
                             combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
+                            pygame.time.delay(300)
 
                     for i in range(1, 10):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
@@ -2486,7 +2484,7 @@ while not done:
                         # score_2P += 1000 * level * erase_count_2P + 4 * combo_count_2P
                         score_2P += (10 * (combo_count_2P * combo_count_2P))  
                         sent += 4
-                        screen.blit(ui_variables.combo_4ring, (250, 160))
+                        screen.blit(ui_variables.combo_4ring, (450, 160))
 
                     else:
                         score_2P += (10 * (combo_count_2P * combo_count_2P)) 
@@ -2494,9 +2492,11 @@ while not done:
 
                     for i in range(1, 11):
                         if combo_count_2P == i:  # 1 ~ 10 콤보 이미지
-                            screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
+                            screen.blit(ui_variables.large_combos[i - 1], (400, 190))  # blits the combo number
+                            pygame.time.delay(300)
                         elif combo_count_2P > 10:  # 11 이상 콤보 이미지
-                            screen.blit(tetris4, (100, 190))  # blits the combo number
+                            screen.blit(tetris4, (400, 190))  # blits the combo number
+                            pygame.time.delay(300)
 
                     for i in range(1, 10):
                         if combo_count_2P == i + 2:  # 3 ~ 11 콤보 사운드
