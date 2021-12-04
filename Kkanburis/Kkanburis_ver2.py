@@ -543,7 +543,7 @@ def draw_board(next1, next2, hold, score, level, goal):
     for x in range(width):
         for y in range(height):
             dx = int(board_width * 0.25) + block_size * x   # 위치 비율 고정 / board 가로 길이 * 비율
-            dy = int(board_height * 0.055) + block_size * y   # 위치 비율 고정 / board 세로 길이 * 비율
+            dy = int(board_height * 0.08) + block_size * y   # 위치 비율 고정 / board 세로 길이 * 비율
             ## draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
     
@@ -618,7 +618,7 @@ def draw_1Pboard(next, hold, score, level, goal):
     for x in range(width):
         for y in range(height):
             dx = int(board_height * 0.055) + block_size * x    # 위치 비율 고정 / board 가로 길이 * 비율
-            dy = int(board_height * 0.055) + block_size * y    # 위치 비율 고정 / board 세로 길이 * 비율
+            dy = int(board_height * 0.07) + block_size * y    # 위치 비율 고정 / board 세로 길이 * 비율
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
 
 # 여기까지
@@ -681,8 +681,8 @@ def draw_2Pboard(next, hold, score, level, goal):
     # Draw board
     for x in range(width):
         for y in range(height):
-            dx = int(board_width * 0.5) + block_size * x    # 위치 비율 고정 
-            dy = int(board_height * 0.055) + block_size * y    # 위치 비율 고정 
+            dx = int(board_width * 0.525) + block_size * x    # 위치 비율 고정 
+            dy = int(board_height * 0.07) + block_size * y    # 위치 비율 고정 
             draw_block_image(dx, dy, ui_variables.t_block[matrix_2P[x][y + 1]])
 
 
