@@ -1085,7 +1085,6 @@ name = [65, 65, 65, 65, 65, 65]
 # 아이템 변수 - bomb, 행 제거
 item_list = []
 inventory_list = []   # 인벤토리 리스트
-# bomb_size = 20   # 블록 한 칸의 사이즈
 bomb_size = 3
 item_size = 30
 
@@ -1115,9 +1114,7 @@ previous_time = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
 pause_time = pygame.time.get_ticks()
 
-# 아이디/비밀번호 구분
-input_id = False
-input_pw = False
+input_id = False   # 아이디/비밀번호 구분
 
 # 리더보드 .txt 파일 작성/정렬(내림차순 정렬 -> reverse=True)
 with open('leaderboard.txt') as f:
@@ -2778,9 +2775,9 @@ while not done:
             pos = pygame.mouse.get_pos()
             if event.type == QUIT:
                 done = True
-            for box in input_boxes_signup:   # input_boxes_signup[0]: id, input_boxes_signup[1]: pw
+            for box in input_boxes_signup:
                 if box == input_box1:
-                    input_id = True
+                    input_id = True 
                 else:
                     input_id = False
                 box.handle_event(event)
@@ -2849,10 +2846,22 @@ while not done:
             if event.type == QUIT:
                 done = True
             for box in input_boxes_signin:
+                if box == input_box3:
+                    input_id = True 
+                else:
+                    input_id = False
                 box.handle_event(event)
             for box in input_boxes_signin:
+                if box == input_box3:
+                    input_id = True 
+                else:
+                    input_id = False
                 box.update()
             for box in input_boxes_signin:
+                if box == input_box3:
+                    input_id = True 
+                else:
+                    input_id = False
                 box.draw(screen)
             pygame.display.update()
 
