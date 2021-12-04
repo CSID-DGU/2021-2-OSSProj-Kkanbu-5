@@ -2965,7 +2965,7 @@ while not done:
                 if event.key == K_RETURN:
                     ui_variables.click_sound.play()
 
-                    add_score(game_status, user_id, score)
+                    add_score(user_id, score)
 
                     '''
                     outfile = open('leaderboard.txt', 'a')
@@ -3007,7 +3007,6 @@ while not done:
                     dx_2P, dy_2P = 3, 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-                    
                     with open('leaderboard.txt') as f:
                         lines = f.readlines()
                     lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
@@ -3015,13 +3014,11 @@ while not done:
                     leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
                     for i in lines:
                         leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-                    
+                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)                    
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
                 pygame.display.flip()
                 
-
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver(pos):
                     menu_button.image = clicked_menu_button_image
