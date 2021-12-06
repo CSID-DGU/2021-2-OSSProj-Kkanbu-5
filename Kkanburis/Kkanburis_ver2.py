@@ -1492,7 +1492,7 @@ while not done:
             pos = pygame.mouse.get_pos()
 
             if event.type == QUIT:
-                done = True
+                main = True
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
 
@@ -1530,12 +1530,7 @@ while not done:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if pause_quit_button.isOver(pos):
                     ui_variables.click_sound.play()
-                    done = True
-                if setting_button.isOver(pos):
-                    ui_variables.click_sound.play()
-                    setting = True
-                if restart_button.isOver(pos):   # 다시 시작 버튼을 눌렀을 때 게임 변수 초기화
-                    ui_variables.click_sound.play()
+                    main = True
                     hold = False
                     dx, dy = 3, 0
                     rotation = 0
@@ -1570,8 +1565,47 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
+                if setting_button.isOver(pos):
+                    ui_variables.click_sound.play()
+                    setting = True
+                if restart_button.isOver(pos):   # 다시 시작 버튼을 눌렀을 때 게임 변수 초기화
+                    ui_variables.click_sound.play()
+                    hold = False
+                    dx, dy = 3, 0
+                    rotation = 0
+                    mino = randint(1, 7)
+                    next_mino1 = randint(1, 7)
+                    next_mino2 = randint(1, 7)
+                    hold_mino = -1
+                    framerate = 30
+                    score = 0
+                    score_2P = 0
+                    level = 1
+                    level_2P = 1
+                    combo_count = 0
+                    combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
+                    goal = level * 5
+                    bottom_count = 0
+                    hard_drop = False
+                    name_location = 0
+                    name = [65, 65, 65, 65, 65, 65]
+                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
+
+                    pause = False
+                    start = True
+
+                    hold_mino_2P = -1  #
+                    bottom_count_2P = 0  #
+                    hard_drop_2P = False  #
+                    hold_2P = False  #
+                    next_mino1_2P = randint(1, 7)  #
+                    mino_2P = randint(1, 7)  #
+                    rotation_2P = 0  #
+                    dx_2P, dy_2P = 3, 0  #
+                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+
                     if pvp:
-                        pvp = False
+                        pvp = True
 
                 if resume_button.isOver(pos):
                     pygame.mixer.music.unpause()
@@ -2923,6 +2957,7 @@ while not done:
                         pygame.display.update()
                         pygame.time.delay(1000)
                         print('Please check your ID')
+                    
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
