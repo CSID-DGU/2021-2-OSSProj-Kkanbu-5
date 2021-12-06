@@ -41,6 +41,9 @@ framerate = 30  # Bigger -> Slower
 
 set_300 = 300   # 0.3초
 
+bomb_size = 3
+item_size = 30
+
 clock = pygame.time.Clock()   # FPS - 화면을 초당 몇 번 출력하는가? -> clock.tick() 가 높을수록 CPU를 많이 사용 
 # pygame.RESIZABLE : 마우스 커서로 screen 화면 조절 가능
 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)   # 스크린 화면을 설정하는 변수 (board_width, board_height)
@@ -985,74 +988,142 @@ def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
                 matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
             k -= 1
 
+ # Initial values
+def set_initial_values():
+    global framerate, blink, start, pause, done, game_over, game_over_pvp, leader_board, setting, pvp, help, textsize, signup, signin, main, input_id, combo_count, combo_count_2P, score, score_2P, level, level_2P, goal, goal_2P, attack_point, attack_point_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, item, volume_setting, screen_setting, keyboard_setting, music_volume, effect_volume, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, matrix, matrix_2P, item_list, inventory_list, item_bomb
 
-# Initial values   # 변수 초기화 부분 -> 정리하기 
-blink = False
-start = False
-pause = False
-done = False
-game_over = False
-game_over_pvp = False
-leader_board = False
-setting = False
-pvp = False
-help = False
-textsize = False
-signup = False
-signin = False
-main = False
+    framerate = 30
+    # game status 관련 values
+    blink = False
+    start = False
+    pause = False
+    done = False
+    game_over = False
+    game_over_pvp = False
+    leader_board = False
+    setting = False
+    pvp = False
+    help = False
+    textsize = False
+    signup = False
+    signin = False
+    main = False
+    input_id = False   # 아이디/비밀번호 구분
 
-combo_count = 0
-combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가 
-score = 0
-score_2P = 0
-level = 1
-level_2P = 1
-goal = level * 5
-goal_2P = level_2P * 5
-bottom_count = 0
-hard_drop = False
-item = False
+    # 플레이 관련 정보 values
+    combo_count = 0
+    combo_count_2P = 0 
+    score = 0
+    score_2P = 0
+    level = 1
+    level_2P = 1
+    goal = level * 5
+    goal_2P = level_2P * 5
+    attack_point = 0
+    attack_point_2P = 0
+    bottom_count = 0
+    bottom_count_2P = 0
+    hard_drop = False
+    hard_drop_2P = False
+    item = False
 
-volume_setting = False
-screen_setting = False
-keyboard_setting = False
+    # 설정 관련 values
+    volume_setting = False
+    screen_setting = False
+    keyboard_setting = False
+    music_volume = 10
+    effect_volume = 10
 
-music_volume = 10
-effect_volume = 10
-attack_point = 0
-attack_point_2P = 0
+    # 블록 관련 values
+    dx, dy = 3, 0  # Minos location status
+    dx_2P, dy_2P = 3, 0
 
-dx, dy = 3, 0  # Minos location status
+    rotation = 0  # Minos rotation status
+    rotation_2P = 0
 
-rotation = 0  # Minos rotation status
+    mino = randint(1, 7)  # Current mino  
+    mino_2P = randint(1, 7)
 
-mino = randint(1, 7)  # Current mino   # 테트리스 블록 7가지 중 하나
+    next_mino1 = randint(1, 7) 
+    next_mino2 = randint(1, 7) 
+    next_mino1_2P = randint(1, 7)
+    hold = False  # Hold status
+    hold_2P = False
+    hold_mino = -1  # Holded mino   # 현재 hold 하는 것이 없는 상태
+    hold_mino_2P = -1
 
-next_mino1 = randint(1, 7)  # Next mino1   # 다음 테트리스 블록 7가지 중 하나
-next_mino2 = randint(1, 7)  # Next mino2   # 다음 테트리스 블록 7가지 중 하나
+    matrix = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-hold = False  # Hold status
+    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-hold_mino = -1  # Holded mino   # 현재 hold 하는 것이 없는 상태
+    # 아이템 변수 - bomb, 행 제거
+    # 아이템 이미지 scale
 
-hold_mino_2P = -1
-bottom_count_2P = 0
-hard_drop_2P = False
-hold_2P = False
-next_mino1_2P = randint(1, 7)
-mino_2P = randint(1, 7)
-rotation_2P = 0
-dx_2P, dy_2P = 3, 0
+    item_list = []
+    inventory_list = []   # 인벤토리 리스트
 
-name_location = 0
-name = [65, 65, 65, 65, 65, 65]
+    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
+    item_list.append(item_bomb)
 
-# 아이템 변수 - bomb, 행 제거
-item_list = []
-inventory_list = []   # 인벤토리 리스트
-bomb_size = 3
-item_size = 30
+def set_initial_values2():
+    global framerate, combo_count, combo_count_2P, score, score_2P, level, level_2P, goal, goal_2P, attack_point, attack_point_2P, bottom_count, bottom_count_2P, hard_drop, hard_drop_2P, item, volume_setting, screen_setting, keyboard_setting, music_volume, effect_volume, dx, dy, dx_2P, dy_2P, rotation, rotation_2P, mino, mino_2P, next_mino1, next_mino2, next_mino1_2P, hold, hold_2P, hold_mino, hold_mino_2P, matrix, matrix_2P, item_list, inventory_list, item_bomb
+
+    framerate = 30
+    # 플레이 관련 정보 values
+    combo_count = 0
+    combo_count_2P = 0 
+    score = 0
+    score_2P = 0
+    level = 1
+    level_2P = 1
+    goal = level * 5
+    goal_2P = level_2P * 5
+    attack_point = 0
+    attack_point_2P = 0
+    bottom_count = 0
+    bottom_count_2P = 0
+    hard_drop = False
+    hard_drop_2P = False
+    item = False
+
+    # 설정 관련 values
+    volume_setting = False
+    screen_setting = False
+    keyboard_setting = False
+    music_volume = 10
+    effect_volume = 10
+
+    # 블록 관련 values
+    dx, dy = 3, 0  # Minos location status
+    dx_2P, dy_2P = 3, 0
+
+    rotation = 0  # Minos rotation status
+    rotation_2P = 0
+
+    mino = randint(1, 7)  # Current mino  
+    mino_2P = randint(1, 7)
+
+    next_mino1 = randint(1, 7) 
+    next_mino2 = randint(1, 7) 
+    next_mino1_2P = randint(1, 7)
+    hold = False  # Hold status
+    hold_2P = False
+    hold_mino = -1  # Holded mino   # 현재 hold 하는 것이 없는 상태
+    hold_mino_2P = -1
+
+    matrix = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+
+    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+
+    # 아이템 변수 - bomb, 행 제거
+    # 아이템 이미지 scale
+
+    item_list = []
+    inventory_list = []   # 인벤토리 리스트
+
+    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
+    item_list.append(item_bomb)
+
 
 # inventory 출력을 위한 위치 변수
 sidebar_width = int(board_width * 0.5312) 
@@ -1062,20 +1133,16 @@ dx_inventory3 = int(board_width * 0.215) + sidebar_width
 dx_inventory = [dx_inventory1, dx_inventory2, dx_inventory3]
 dy_inventory = int(board_height * 0.75)
 
-# 아이템 이미지 scale
-item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
-item_list.append(item_bomb)
+# # 아이템 이미지 scale
+# bomb_size = 3
+# item_size = 30
+# item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
+# item_list.append(item_bomb)
 
 # 시간 부분
 previous_time = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
 pause_time = pygame.time.get_ticks()
-
-input_id = False   # 아이디/비밀번호 구분
-
-matrix = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-
-matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
 ###########################################################
 # Loop Start
@@ -1091,10 +1158,12 @@ ui_variables.intro_sound.play()
 game_status = ''
 ui_variables.break_sound.set_volume(0.2)
 
+set_initial_values()
+
 while not done:
 
     # Pause screen
-    # ui_variables.click_sound.set_volume(volume)
+    ui_variables.click_sound.set_volume(volume)
     
     # 볼륨 설정 창 
     if volume_setting:   
@@ -1245,21 +1314,6 @@ while not done:
                     back_button.image = clicked_back_button_image
                 else:
                     back_button.image = back_button_image
-
-                # if smallsize_check_button.isOver(pos):
-                #    smallsize_check_button.image = clicked_plus_button_image
-                # else :
-                #    smallsize_check_button.image = plus_button_image
-
-                # if bigsize_check_button.isOver(pos):
-                #    bigsize_check_button.image = clicked_minus_button_image
-                # else :
-                #    bigsize_check_button.image = minus_button_image
-
-                # if midiumsize_check_button.isOver(pos):
-                #    midiumsize_check_button.image = clicked_plus_button_image
-                # else :
-                #    midiumsize_check_button.image = plus_button_image
 
                 pygame.display.update()
 
@@ -1438,7 +1492,7 @@ while not done:
             pos = pygame.mouse.get_pos()
 
             if event.type == QUIT:
-                main = True
+                done = True
             elif event.type == USEREVENT:
                 pygame.time.set_timer(pygame.USEREVENT, 300)
 
@@ -1476,81 +1530,21 @@ while not done:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if pause_quit_button.isOver(pos):
                     ui_variables.click_sound.play()
+                    set_initial_values()
                     main = True
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    next_mino2 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    level = 1
-                    level_2P = 1
-                    combo_count = 0
-                    combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    pause = False
-                    start = False
-
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
                 if setting_button.isOver(pos):
                     ui_variables.click_sound.play()
                     setting = True
+
                 if restart_button.isOver(pos):   # 다시 시작 버튼을 눌렀을 때 게임 변수 초기화
                     ui_variables.click_sound.play()
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    next_mino2 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    level = 1
-                    level_2P = 1
-                    combo_count = 0
-                    combo_count_2P = 0   # pvp 모드에서 2P의 콤보 처리를 위해 추가
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
+                    pygame.mixer.music.play(-1)
                     pause = False
-                    start = True
-
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-
-                    if pvp:
+                    set_initial_values2()
+                    if game_status == 'start':
+                        start =True
+                    if game_status == 'pvp':
                         pvp = True
 
                 if resume_button.isOver(pos):
@@ -2119,6 +2113,7 @@ while not done:
 
     # PVP 모드 화면 기능     
     elif pvp:
+        start = False
         for event in pygame.event.get():
             # event.key = pygame.key.get_pressed()
             if event.type == QUIT:
@@ -2932,36 +2927,7 @@ while not done:
                     game_over = False
                     game_over_pvp = False
                     main = True
-
-                    hold = False  
-                    dx, dy = 3, 0  
-                    rotation = 0  
-                    mino = randint(1, 7)  
-                    next_mino1 = randint(1, 7)  
-                    hold_mino = -1  
-                    framerate = 30
-                    score = 0
-                    
-                    score_2P = 0
-
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0  
-                    hard_drop = False  
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    hold_mino_2P = -1 
-                    bottom_count_2P = 0 
-                    hard_drop_2P = False 
-                    hold_2P = False
-                    next_mino1_2P = randint(1, 7)
-                    mino_2P = randint(1, 7)
-                    rotation_2P = 0
-                    dx_2P, dy_2P = 3, 0
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    set_initial_values()
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -2996,45 +2962,7 @@ while not done:
                     game_over = False
                     game_over_pvp = False
                     main = True
-                    hold = False  #
-                    dx, dy = 3, 0  #
-                    rotation = 0  #
-                    mino = randint(1, 7)  #
-                    next_mino1 = randint(1, 7)  #
-                    hold_mino = -1  #
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0  #
-                    hard_drop = False  #
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-                    attack_point = 0
-                    attack_point_2P = 0
-
-                    
-                    with open('leaderboard.txt') as f:
-                        lines = f.readlines()
-                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
-
-                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-                    for i in lines:
-                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+                    set_initial_values2()
                     
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -3045,74 +2973,20 @@ while not done:
                     pvp = False
                     game_over = False
                     game_over_pvp = False
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    attack_point = 0
-                    ttack_point_2P = 0
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    set_initial_values2()
+
                 if restart_button.isOver(pos):
-                    if game_status == 'start':
-                        start = True
-                        pygame.mixer.music.play(-1)
-                    if game_status == 'pvp':
-                        pvp = True
-                        pygame.mixer.music.play(-1)
-                    ui_variables.click_sound.play()
+                    pygame.mixer.music.play(-1)
                     text=''
                     game_over = False
                     game_over_pvp = False
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    attack_point = 0
-                    ttack_point_2P = 0
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
                     pause = False
+                    if game_status == 'start':
+                        start = True
+                    if game_status == 'pvp':
+                        pvp = True
+                    set_initial_values2()
+                    ui_variables.click_sound.play()
 
                 if resume_button.isOver(pos):
                     pause = False
@@ -3191,33 +3065,8 @@ while not done:
                     text=''
                     game_over = False
                     game_over_pvp = False
-                    hold = False  #
-                    dx, dy = 3, 0  #
-                    rotation = 0  #
-                    mino = randint(1, 7)  #
-                    next_mino1 = randint(1, 7)  #
-                    hold_mino = -1  #
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0  #
-                    hard_drop = False  #
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
 
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    set_initial_values2()
 
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -3253,45 +3102,8 @@ while not done:
                     text=''
                     game_over = False
                     game_over_pvp = False
-                    hold = False  #
-                    dx, dy = 3, 0  #
-                    rotation = 0  #
-                    mino = randint(1, 7)  #
-                    next_mino1 = randint(1, 7)  #
-                    hold_mino = -1  #
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0  #
-                    hard_drop = False  #
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
-                    attack_point = 0
-                    ttack_point_2P = 0
-
-                    
-                    with open('leaderboard.txt') as f:
-                        lines = f.readlines()
-                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
-
-                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-                    for i in lines:
-                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
+                    main = True
+                    set_initial_values2()
                     
                     pygame.time.set_timer(pygame.USEREVENT, 1)
 
@@ -3302,74 +3114,20 @@ while not done:
                     pvp = False
                     game_over = False
                     game_over_pvp = False
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    attack_point = 0
-                    ttack_point_2P = 0
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
+                    set_initial_values2()
+
                 if restart_button.isOver(pos):
-                    if game_status == 'start':
-                        start = True
-                        pygame.mixer.music.play(-1)
-                    if game_status == 'pvp':
-                        pvp = True
-                        pygame.mixer.music.play(-1)
-                    ui_variables.click_sound.play()
+                    pygame.mixer.music.play(-1)
                     text=''
                     game_over = False
                     game_over_pvp = False
-                    hold = False
-                    dx, dy = 3, 0
-                    rotation = 0
-                    mino = randint(1, 7)
-                    next_mino1 = randint(1, 7)
-                    hold_mino = -1
-                    framerate = 30
-                    score = 0
-                    score_2P = 0
-                    combo_count = 0
-                    level = 1
-                    goal = level * 5
-                    bottom_count = 0
-                    hard_drop = False
-                    name_location = 0
-                    name = [65, 65, 65, 65, 65, 65]
-                    matrix = [[0 for y in range(height + 1)] for x in range(width)]
-                    hold_mino_2P = -1  #
-                    bottom_count_2P = 0  #
-                    hard_drop_2P = False  #
-                    hold_2P = False  #
-                    next_mino1_2P = randint(1, 7)  #
-                    mino_2P = randint(1, 7)  #
-                    rotation_2P = 0  #
-                    dx_2P, dy_2P = 3, 0  #
-                    attack_point = 0
-                    ttack_point_2P = 0
-                    matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
                     pause = False
+                    if game_status == 'start':
+                        start = True
+                    if game_status == 'pvp':
+                        pvp = True
+                    set_initial_values2() 
+                    ui_variables.click_sound.play()
 
                 if resume_button.isOver(pos):
                     pause = False
