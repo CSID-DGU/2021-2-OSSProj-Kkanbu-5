@@ -5,8 +5,7 @@ import pygame
 import operator
 import datetime
 from mino import *
-from random import *
-import random as rand
+from random import * 
 from pygame.locals import *
 from database import *
 
@@ -102,6 +101,10 @@ class ui_variables:
     for i in range(1, 10):
         combos_sound.append(pygame.mixer.Sound("assets/sounds/SFX_" + str(i + 2) + "Combo.wav"))
 
+    # Level UP graphic
+    level_image = pygame.image.load("assets/vector/level_up.png")
+    level = pygame.transform.smoothscale(level_image, (150, 100))
+
     # Background colors
     black = (10, 10, 10)  # rgb(10, 10, 10)
     white = (0, 153, 153)  # rgb(255, 255, 255) # 청록색으로 변경
@@ -175,12 +178,28 @@ class button():   # 버튼 객체
 # InoutBox 초기 설정
 # text = ''
 class InputBox:
-    def __init__(self, x, y, w, h, text = ''):
-        self.rect = pygame.Rect(x, y, w, h)
+    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, text = ''):
+        self.x = board_width * x_rate
+        self.y = board_height * y_rate
+        self.width = int(board_width * width_rate)
+        self.height = int(board_height * height_rate)
+        self.x_rate = x_rate
+        self.y_rate = y_rate
+        self.width_rate = width_rate
+        self.height_rate = height_rate
+
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.color = color_inactive
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)   # FONT = pygame.font.Font(None, 32)
         self.active = False
+    
+    def input_change(self, board_width, board_height):
+        self.x = board_width * self.x_rate   # x 좌표
+        self.y = board_height * self.y_rate   # y 좌표
+        self.width = int(board_width * self.width_rate)   # 너비
+        self.height = int(board_height * self.height_rate)   # 높이
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -221,13 +240,13 @@ class InputBox:
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
 # InputBox 설정
-# Sign up에서 box
-input_box1 = InputBox(int(board_width * 322 / 800), int(board_height * 195.5/450), 156, 32)
-input_box2 = InputBox(int(board_width * 322 / 800), int(board_height * 242.5/450), 156, 32)
+# Sign up에서 box  
+input_box1 = InputBox(board_width, board_height, 0.4, 0.435, 0.1, 0.075)
+input_box2 = InputBox(board_width, board_height, 0.4, 0.54, 0.1, 0.075)
 input_boxes_signup = [input_box1, input_box2]
 # Sign in에서 box
-input_box3 = InputBox(int(board_width * 322 / 800), int(board_height * 195.5/450), 156, 32)
-input_box4 = InputBox(int(board_width * 322 / 800), int(board_height * 242.5/450), 156, 32)
+input_box3 = InputBox(board_width, board_height,  0.4, 0.435, 0.17, 0.075)
+input_box4 = InputBox(board_width, board_height, 0.4, 0.54, 0.17, 0.075)
 input_boxes_signin = [input_box3, input_box4]
 
 background_image = 'assets/vector/Background.png'   # 배경 보드 이미지  
@@ -1264,7 +1283,13 @@ while not done:
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)
+                    button_list[i].change(board_width, board_height)
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
+                
 
 
     # 화면(크기) 설정 창  ->  각 화면 크기 설정 시 화면(board) 크기 설정 후 -> board 사이즈에 비례하게 크기 각각 조절 -> 조절하는 비율 변수화하기 ?
@@ -1320,6 +1345,10 @@ while not done:
                     for i in range(len(button_list)):
                         button_list[i].change(board_width, board_height)
 
+                    for i in range(len(input_boxes_signup)):
+                        input_boxes_signup[i].input_change(board_width, board_height)
+                        input_boxes_signin[i].input_change(board_width, board_height)
+
                     pygame.display.update()
 
                 # 중간 사이즈 화면 크기 버튼 눌렀을 때
@@ -1331,8 +1360,13 @@ while not done:
                     block_size = int(board_height * 0.045)
                     screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
                     textsize = True
+
                     for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)       
+                        button_list[i].change(board_width, board_height)    
+
+                    for i in range(len(input_boxes_signup)):
+                        input_boxes_signup[i].input_change(board_width, board_height)
+                        input_boxes_signin[i].input_change(board_width, board_height)   
 
                     pygame.display.update()
 
@@ -1349,6 +1383,10 @@ while not done:
 
                     for i in range(len(button_list)):
                         button_list[i].change(board_width, board_height) 
+
+                    for i in range(len(input_boxes_signup)):
+                        nput_boxes_signup[i].input_change(board_width, board_height)
+                        input_boxes_signin[i].input_change(board_width, board_height)
 
                     pygame.display.update()
 
@@ -1453,7 +1491,11 @@ while not done:
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height) 
+                    button_list[i].change(board_width, board_height) 
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
     # 정지 화면 기능
     elif pause:
@@ -1563,6 +1605,10 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
     # HELP 화면 기능                                          
     elif help:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -1629,6 +1675,10 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
     # 리더보드 화면 기능
     elif leader_board:
@@ -1719,6 +1769,10 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
    
     # 싱글모드 시작 화면 기능
@@ -1918,6 +1972,10 @@ while not done:
                     level += 1
                     ui_variables.LevelUp_sound.play()
                     ui_variables.LevelUp_sound.play()
+                    # # 레벨 업 이미지 추가
+                    # screen.blit(ui_variables.level, (board_width * 0.27, board_height * 0.3))  # blits the combo number
+                    # pygame.display.update()
+                    # pygame.time.delay(300)
                     goal += level * 5
                     framerate = int(framerate * 0.8)
 
@@ -2094,6 +2152,10 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
         pygame.display.update()
 
     # PVP 모드 화면 기능     
@@ -2251,7 +2313,7 @@ while not done:
                         # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count >= 11:
-                            screen.blit(tetris4, (100, 190))
+                            screen.blit(tetris4, (60, 190))
                             pygame.display.update()
                             ui_variables.combos_sound[8].play()
                             pygame.time.delay(300)
@@ -2696,6 +2758,10 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
         # if any(movement_keys.values()):
         #    movement_keys_timer += clock.tick(50)
 
@@ -2779,7 +2845,11 @@ while not done:
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)
+                    button_list[i].change(board_width, board_height)
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
     elif signin:
         screen.fill(ui_variables.white)
@@ -2873,7 +2943,11 @@ while not done:
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)
+                    button_list[i].change(board_width, board_height)
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
                
 
     # Game over screen
@@ -2999,6 +3073,10 @@ while not done:
 
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
 
     elif game_over_pvp:
@@ -3141,6 +3219,10 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
     # Start screen  ->  여기가 기존에서는 메인
     elif main:
         # text=''
@@ -3235,6 +3317,10 @@ while not done:
                 for i in range(len(button_list)):
                     button_list[i].change(board_width, board_height) 
 
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
+
         screen.fill(ui_variables.white)
 
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -3306,6 +3392,10 @@ while not done:
                 screen = pygame.display.set_mode((board_width, board_height), pygame.RESIZABLE)
 
                 for i in range(len(button_list)):
-                        button_list[i].change(board_width, board_height)
+                    button_list[i].change(board_width, board_height)
+
+                for i in range(len(input_boxes_signup)):
+                    input_boxes_signup[i].input_change(board_width, board_height)
+                    input_boxes_signin[i].input_change(board_width, board_height)
 
 pygame.quit()
