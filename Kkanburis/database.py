@@ -1,5 +1,6 @@
 import pymysql
 import bcrypt
+from cryptography.fernet import Fernet 
         
 database = pymysql.connect(   # MySQL connection 연결
             user = 'admin',
@@ -47,7 +48,6 @@ def add_pw(id_text, pw_text):
     curs.close()
 
 # 입력받은 아이디가 데이터베이스에 있는지 확인, 아이디와 비밀번호가 일치하는지 확인
-# 이 부분 보완 필요
 def check_info(id_text, pw_text):
     input_pw = pw_text.encode('utf-8')
     curs = database.cursor(pymysql.cursors.DictCursor)
@@ -120,8 +120,72 @@ def add_score(id_text, score):
 # 데이터 베이스에서 데이터 불러오기
 def load_rank_data():
     curs = database.cursor(pymysql.cursors.DictCursor)
-    sql = "select * from single_rank order by score desc "
+    sql = "select * from single_rank order by score desc limit 5 "
     curs.execute(sql)
     data = curs.fetchall()
     curs.close()
     return data
+class SimpleEnDecrypt:
+    def __init__(self, key=None):
+        if key is None:   # 키가 없다면
+            key = Fernet.generate_key()   # 키를 생성
+        self.key = key
+        self.f   = Fernet(self.key)
+    
+    def encrypt(self, data, is_out_string=True):
+        if isinstance(data, bytes):
+            ou = self.f.encrypt(data)   # 바이트 형태이면, 바로 암호화
+        else:
+            ou = self.f.encrypt(data.encode('utf-8'))   # 인코딩 후 암호화
+        if is_out_string is True:
+            return ou.decode('utf-8') # 출력이 문자열이면 디코딩 후 반환
+        else:
+            return ou
+        
+    def decrypt(self, data, is_out_string=True):
+        if isinstance(data, bytes):
+            ou = self.f.decrypt(data)   # 바이트 형태이면, 바로 복호화
+        else:
+            ou = self.f.decrypt(data.encode('utf-8'))   # 인코딩 후 복호화
+        if is_out_string is True:
+            return ou.decode('utf-8')   # 출력이 문자열이면, 디코딩 후 반환
+        else:
+            return ou
+
+simpleEnDecrypt = SimpleEnDecrypt()
+
+encrypt_pw = simpleEnDecrypt.encrypt('smegyeong')
+def new_add_pw(id_text, pw_text):
+    global encrypt_pw
+    encrypt_pw = simpleEnDecrypt.encrypt(pw_text)
+    curs = database.cursor()
+    sql = "UPDATE users SET user_pw = %s WHERE user_id = %s"
+    curs.execute(sql, (encrypt_pw, id_text))
+    database.commit()
+    curs.close()
+
+def new_check_info(id_text, pw_text):
+    # decrypt_pw = enDecrypt.decrypt(encrypt_pw)
+    curs = database.cursor(pymysql.cursors.DictCursor)
+    sql = "SELECT * FROM users WHERE user_id = %s"
+    curs.execute(sql ,id_text)
+    user_data = curs.fetchone()  # 리스트 안에 딕셔너리가 있는 형태
+    curs.close()
+    decrypt_pw = simpleEnDecrypt.decrypt(user_data['user_pw'])
+
+    print('확인용')
+    print('user_data : ', user_data)
+    print('pw_text : ', pw_text, 'type : ', type(pw_text))
+    print('encrypt_pw : ' , encrypt_pw, 'type : ', type(encrypt_pw))
+    print('decrypt_pw : ', decrypt_pw, 'type : ', type(decrypt_pw))
+    if pw_text == decrypt_pw:
+        check_password = True
+    else:
+        check_password = False
+
+    print(check_password)
+    
+    return check_password
+
+# new_check_info('sim', 'simmigyeong')
+# new_check_info('smegyeong', 'smegyeong')
