@@ -31,8 +31,6 @@ block_size = int(board_height * 0.045)
 mino_matrix_x = 4   # mino는 4*4 배열 -> for문에서 변수로 사용
 mino_matrix_y = 4
 
-speed_incre = 2   # 레벨 별 블록 하강 속도의 상승 정도
-
 min_width = 400   # 최소 화면 너비
 min_height = 225   # 최소 화면 높이
 mid_width = 1200
@@ -157,7 +155,6 @@ class button():   # 버튼 객체
         self.width = int(board_width * self.width_rate)   # 너비
         self.height = int(board_height * self.height_rate)   # 높이
 
-
     def draw(self, win, outline=None):   # 버튼 보이게 만들기 
         if outline:
             draw_image(screen, self.image, self.x, self.y, self.width, self.height)
@@ -176,7 +173,6 @@ class button():   # 버튼 객체
         return False
 
 # InoutBox 초기 설정
-# FONT = pygame.font.Font(None, 32)
 # text = ''
 class InputBox:
     def __init__(self, x, y, w, h, text = ''):
@@ -234,10 +230,6 @@ input_box3 = InputBox(int(board_width * 322 / 800), int(board_height * 195.5/450
 input_box4 = InputBox(int(board_width * 322 / 800), int(board_height * 242.5/450), 156, 32)
 input_boxes_signin = [input_box3, input_box4]
 
-# start_image = 'assets/images/start.png'
-# help_image = 'assets/images/help.png'
-# start_button = button(board_width * 0.5, board_height * 0.5, 146, 43, 1, start_image)
-
 background_image = 'assets/vector/Background.png'   # 배경 보드 이미지  
 
 single_button_image = 'assets/vector/single_button.png'   # 싱글 모드 버튼 이미지
@@ -268,7 +260,6 @@ midiumsize_board = 'assets/vector/screensize2.png'
 bigsize_board = 'assets/vector/screensize3.png'
 
 mute_button_image = 'assets/vector/mute_button.png'   # 음소거 버튼
-##clicked_mute_button_image = 'assets/vector/clicked_mute_button.png'
 
 number_board = 'assets/vector/number_board.png'   # ?
 
@@ -405,7 +396,6 @@ button_list = [mute_button, single_button, pvp_button, help_button, quit_button,
         sound_minus_button, mute_check_button, smallsize_check_button, midiumsize_check_button, bigsize_check_button,
         # 회원가입/로그인 관련
         sign_up_button1, sign_up_button2 ,sign_in_button1, sign_in_button2, log_back, log_quit]
-
 
 def set_volume():
     ui_variables.fall_sound.set_volume(effect_volume / 10)   # effect_volume = 10 으로 초기화
@@ -775,7 +765,6 @@ def is_bottom(x, y, mino, r):
 
     return False
 
-
 def is_bottom_2P(x, y, mino, r):
     grid = tetrimino.mino_map[mino - 1][r]
 
@@ -788,7 +777,6 @@ def is_bottom_2P(x, y, mino, r):
                     return True
 
     return False
-
 
 # Returns true if mino is at the left edge
 def is_leftedge(x, y, mino, r):
@@ -958,8 +946,6 @@ def set_vol(val):
 # 아이템 획득 - 콤보 11 달성 시 item_list 중 랜덤으로 
 def get_item():    # inventory_list에 아이템 생성
     if len(inventory_list) < 3:
-        # inventory_list.append(item_list[random.randrange(0,2)])
-        # inventory_list.append(item_list[rand.randrange(0,2)])
         inventory_list.append(item_list[0])
 
 def show_item():
@@ -1123,7 +1109,6 @@ def set_initial_values2():
 
     item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
     item_list.append(item_bomb)
-
 
 # inventory 출력을 위한 위치 변수
 sidebar_width = int(board_width * 0.5312) 
@@ -1860,7 +1845,7 @@ while not done:
                             attack_stack -= 1
                     for i in range(10):
                         matrix[i][20] = 9
-                    k = randint(1, 5)
+                    k = randint(1, 9)
                     matrix[k][20] = 0
                     attack_point += 1
 
@@ -2295,7 +2280,7 @@ while not done:
                         # pygame.time.set_timer(pygame.USEREVENT, framerate * 10) 
 
                         if combo_count_2P >= 11:
-                            screen.blit(tetris4, (100, 190))  # blits the combo number
+                            screen.blit(tetris4, (430, 190))  # blits the combo number
                             pygame.display.update()
                             ui_variables.combos_sound[8].play()
                             pygame.time.delay(300)
@@ -2328,7 +2313,7 @@ while not done:
                             attack_stack_2P -= 1
                     for i in range(10):
                         matrix[i][20] = 9
-                    k = randint(1, 10)
+                    k = randint(1, 9)
                     matrix[k][20] = 0
                     attack_point_2P += 1
 
@@ -2374,12 +2359,12 @@ while not done:
 
                     for i in range(1, 11):
                         if combo_count == i:  # 1 ~ 10 콤보 이미지
-                            screen.blit(ui_variables.large_combos[i - 1], (80, 190))  # blits the combo number
-                            pygame.time.delay(300)
+                            screen.blit(ui_variables.large_combos[i - 1], (40, 190))  # blits the combo number
+                            pygame.time.delay(500)
                         elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
-                            screen.blit(tetris4, (80, 190))  # blits the combo number
+                            screen.blit(tetris4, (60, 190))  # blits the combo number
                             combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
-                            pygame.time.delay(300)
+                            pygame.time.delay(500)
 
                     for i in range(1, 10):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드
@@ -2398,11 +2383,7 @@ while not done:
 
                 # PVP 모드 2P
                 if erase_count_2P >= 1:
-                    # erase_count_2P는 해당 if문에서 정적인 상수
-                    # 10 * (N * N) 점수 처리
-                    # combo_count += 1
-                    # for i in range(erase_count_2P):
-                    #     score_2P += (10 * (combo_count_2P ** 2))
+                    
                     if erase_count_2P == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
@@ -2440,11 +2421,11 @@ while not done:
 
                     for i in range(1, 11):
                         if combo_count_2P == i:  # 1 ~ 10 콤보 이미지
-                            screen.blit(ui_variables.large_combos[i - 1], (400, 190))  # blits the combo number
-                            pygame.time.delay(300)
+                            screen.blit(ui_variables.large_combos[i - 1], (430, 190))  # blits the combo number
+                            pygame.time.delay(500)
                         elif combo_count_2P > 10:  # 11 이상 콤보 이미지
                             screen.blit(tetris4, (400, 190))  # blits the combo number
-                            pygame.time.delay(300)
+                            pygame.time.delay(500)
 
                     for i in range(1, 10):
                         if combo_count_2P == i + 2:  # 3 ~ 11 콤보 사운드
