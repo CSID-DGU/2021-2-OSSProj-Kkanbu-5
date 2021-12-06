@@ -971,8 +971,6 @@ def use_item():
 
         if item == item_bomb:
             use_bomb(dx, dy, mino, rotation)
-        # elif item == item_explosion:
-        #     use_erase_attack(dx, dy, mino, rotation)
 
     return item
 
@@ -987,39 +985,6 @@ def use_bomb(x, y, mino, r):   # 행 삭제 폭탄
                 matrix[i][k] = matrix[i][k-1]   # 지워진 블록 윗 줄을 한 줄 아래로 내리기
             k -= 1
 
-# def use_bomb(x, y, mino, r):   # 3*3, 5*5 삭제 폭탄
-#     grid = tetrimino.mino_map[mino - 1][r]
-
-#     for j in range(21):
-#         for i in range(10):
-#             if matrix[j][i] == 10:
-#                 x = i - 1
-#                 y = j - 1
-                
-#                 for m in range(bomb_size):
-#                     for n in range(bomb_size):
-#                         if x + m >= 0 and y + n >= 0   # 블록이 있든 없든
-#                             matrix[x+m][y+n] = 0   # 3 * 3 크기만큼 지워줌
-
-# 장애물 제거
-def use_erase_attack(x, y, mino, r):
-    grid = tetrimino.mino_map[mino - 1][r]
-
-    for j in range(21):
-        for i in range(10):
-            matrix[i][j] = matrix[i][j-1]
-
-    # for j in range(21):
-    #     is_full = True
-    #     for i in range(10):
-    #         if matrix[i][j] == 0:
-    #             is_full = False
-
-    #  while k > 0:
-    #     for i in range(10):
-    #         matrix[i][k] = matrix[i][k - 1]
-
-    #         k -= 1
 
 # Initial values   # 변수 초기화 부분 -> 정리하기 
 blink = False
@@ -1099,16 +1064,7 @@ dy_inventory = int(board_height * 0.75)
 
 # 아이템 이미지 scale
 item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
-# item_explosion = pygame.transform.scale(pygame.image.load('item/explosion.png'), (item_size,item_size))
-bomb_num = 10
-# explosion_num = 11
 item_list.append(item_bomb)
-# item_list.append(item_explosion)
-
-# 추가
-add_leaders = ['1st', '2nd', '3rd']
-r_n = ['n1', 'n2', 'n3']
-r_s = ['0', '0', '0']
 
 # 시간 부분
 previous_time = pygame.time.get_ticks()
@@ -1116,16 +1072,6 @@ current_time = pygame.time.get_ticks()
 pause_time = pygame.time.get_ticks()
 
 input_id = False   # 아이디/비밀번호 구분
-
-# 리더보드 .txt 파일 작성/정렬(내림차순 정렬 -> reverse=True)
-with open('leaderboard.txt') as f:
-    lines = f.readlines()
-lines = [line.rstrip('\n') for line in open('leaderboard.txt')]   # leaderboard.txt 한 줄씩 읽어옴
-
-leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-for i in lines:
-    leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
 
 matrix = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
@@ -1929,14 +1875,12 @@ while not done:
                     if erase_count == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        # score += 50 * level * erase_count + combo_count
                         score += (10 * (combo_count * combo_count))   # 동시에 2줄 완성 시 10 + 40 점 추가
 
                     elif erase_count == 2:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        # score += 150 * level * erase_count + 2 * combo_count
                         score += (10 * (combo_count * combo_count))
 
                     elif erase_count == 3:
@@ -1944,7 +1888,6 @@ while not done:
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        # score += 350 * level * erase_count + 3 * combo_count
                         score += (10 * (combo_count * combo_count))
 
                     elif erase_count == 4:
@@ -1953,7 +1896,6 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
-                        # score += 1000 * level * erase_count + 4 * combo_count
                         score += (10 * (combo_count * combo_count))
                         screen.blit(ui_variables.combo_4ring, (250, 160))
 
@@ -1972,13 +1914,6 @@ while not done:
                             pygame.display.update()
 
                             pygame.time.delay(300)
-
-                    # for i in range(1, 11):
-                    #     if combo_count == i:  # 1 ~ 10 콤보 이미지
-                    #         screen.blit(ui_variables.large_combos[i - 1], (124, 190))  # blits the combo number
-                    #     elif combo_count > 10:  # 11 이상 콤보 이미지  ->  콤보값 초기화
-                    #         screen.blit(tetris4, (100, 190))  # blits the combo number
-                    #         # combo_count  = 0   # 콤보 11 달성 시 초기화 및 아이템 부여
 
                     for i in range(1, 9):
                         if combo_count == i + 2:  # 3 ~ 11 콤보 사운드 
@@ -2153,18 +2088,6 @@ while not done:
                             draw_board(next_mino1, next_mino2, hold_mino, score, level, goal) 
                         
                         show_item()
-                
-                # # Use erase attack
-                # elif event.key == K_c:
-                #     ui_variables.fall_sound.play()
-                #     ui_variables.drop_sound.play()
-
-                #     use_item()
-                #     if item == item_explosion:
-                #         use_erase_attack(dx, dy, mino, rotation)
-                #         draw_mino(dx, dy, mino, rotation)
-                #         screen.fill(ui_variables.real_white)
-                #         draw_board(next_mino1, next_mino2, hold_mino, score, level, goal)
 
             elif event.type == VIDEORESIZE:
                 board_width = event.w
@@ -2488,7 +2411,6 @@ while not done:
                     if erase_count_2P == 1:
                         ui_variables.break_sound.play()
                         ui_variables.single_sound.play()
-                        # score_2P += 50 * level * erase_count_2P + combo_count_2P
                         score_2P += (10 * (combo_count_2P * combo_count_2P))   
 
                         sent += 1
@@ -2496,7 +2418,6 @@ while not done:
                         ui_variables.break_sound.play()
                         ui_variables.double_sound.play()
                         ui_variables.double_sound.play()
-                        # score_2P += 150 * level * erase_count_2P + 2 * combo_count_2P
                         score_2P += (10 * (combo_count_2P * combo_count_2P))  
 
                         sent += 2
@@ -2505,7 +2426,6 @@ while not done:
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
                         ui_variables.triple_sound.play()
-                        # score_2P += 350 * level * erase_count_2P + 3 * combo_count_2P
                         score_2P += (10 * (combo_count_2P * combo_count_2P))  
 
                         sent += 3
@@ -2515,7 +2435,6 @@ while not done:
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()
                         ui_variables.tetris_sound.play()         
-                        # score_2P += 1000 * level * erase_count_2P + 4 * combo_count_2P
                         score_2P += (10 * (combo_count_2P * combo_count_2P))  
                         sent += 4
                         screen.blit(ui_variables.combo_4ring, (450, 160))
@@ -3010,12 +2929,6 @@ while not done:
 
                     add_score(user_id, score)
 
-                    '''
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write( text + ' ' + str(score) + '\n')
-                    outfile.close()
-                    '''
-
                     game_over = False
                     game_over_pvp = False
                     main = True
@@ -3050,16 +2963,8 @@ while not done:
                     dx_2P, dy_2P = 3, 0
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-                    with open('leaderboard.txt') as f:
-                        lines = f.readlines()
-                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
-
-                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-                    for i in lines:
-                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)                    
-
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+
                 pygame.display.flip()
                 
             elif event.type == pygame.MOUSEMOTION:
@@ -3087,11 +2992,6 @@ while not done:
                     add_score(user_id, score)
                     print(load_rank_data())
 
-                    '''
-                    outfile = open('leaderboard.txt', 'a')
-                    outfile.write(text+ ' ' + str(score) + '\n')
-                    outfile.close()
-                    '''
                     text=''
                     game_over = False
                     game_over_pvp = False
@@ -3288,16 +3188,6 @@ while not done:
                     else:
                         add_score(user_id, score_2P)
 
-                    '''
-                    if score > score_2P:
-                        outfile = open('leaderboard.txt', 'a')
-                        outfile.write( text + ' ' + str(score) + '\n')
-                        outfile.close()
-                    else:
-                        outfile = open('leaderboard.txt', 'a')
-                        outfile.write( text + ' ' + str(score_2P) + '\n')
-                        outfile.close()
-                    '''
                     text=''
                     game_over = False
                     game_over_pvp = False
@@ -3329,20 +3219,9 @@ while not done:
                     dx_2P, dy_2P = 3, 0  #
                     matrix_2P = [[0 for y in range(height + 1)] for x in range(width)]  # Board matrix
 
-                    
-                    with open('leaderboard.txt') as f:
-                        lines = f.readlines()
-                    lines = [line.rstrip('\n') for line in open('leaderboard.txt')]
-
-                    leaders = {'AAA': 0, 'BBB': 0, 'CCC': 0}
-                    for i in lines:
-                        leaders[i.split(' ')[0]] = int(i.split(' ')[1])
-                    leaders = sorted(leaders.items(), key=operator.itemgetter(1), reverse=True)
-                    
-
                     pygame.time.set_timer(pygame.USEREVENT, 1)
+
                 pygame.display.flip()
-                
 
             elif event.type == pygame.MOUSEMOTION:
                 if resume_button.isOver(pos):
@@ -3370,15 +3249,6 @@ while not done:
                         add_score(user_id, score)
                     else:
                         add_score(user_id, score_2P)
-
-                    # if score > score_2P:
-                    #     outfile = open('leaderboard.txt', 'a')
-                    #     outfile.write( text + ' ' + str(score) + '\n')
-                    #     outfile.close()
-                    # else:
-                    #     outfile = open('leaderboard.txt', 'a')
-                    #     outfile.write( text + ' ' + str(score_2P) + '\n')
-                    #     outfile.close()
                     
                     text=''
                     game_over = False
