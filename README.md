@@ -1,6 +1,6 @@
 # 2021-2-OSSProj-KKANBU-5
 -------------
-[![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/CSID-DGU/2021-2-OSSProj-Kkanbu-5/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/CSID-DGU/2021-2-OSSProj-Kkanbu-5/blob/main/LICENSE)
 [![OS](https://img.shields.io/badge/OS-ubuntu-red)](https://ubuntu.com)
 [![Python version](https://img.shields.io/badge/python-3.8.0-brightgreen.svg)](https://www.python.org)
 [![Pygame version](https://img.shields.io/badge/pygame-2.0.0-yellow.svg)](http://pygame.org)  
