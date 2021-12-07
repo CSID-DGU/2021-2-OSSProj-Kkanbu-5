@@ -3119,9 +3119,9 @@ while not done:
                 score2 = ui_variables.h1_b.render(str(score_2P), 1, ui_variables.white) #점수를 출력하기 위해 폰트, 글자색 지정
                 player_2 = ui_variables.h2_b.render('2P', 1, ui_variables.grey_1)
                 winner = ui_variables.h4.render('WIN',1,ui_variables.red)
-                if(str(score)>str(score_2P)) :
+                if (str(score)>str(score_2P)) :
                     screen.blit(winner,(int(board_width * 0.330), int(board_height * 0.51)))
-                else :
+                elif  (str(score)<=str(score_2P)) :
                     screen.blit(winner,(int(board_width * 0.600), int(board_height * 0.51)))
                     
                 screen.blit(score1, (int(board_width * 0.360), int(board_height * 0.575))) #글자를 화면에 나타냄(출력할 문구, x좌표, y좌표)
