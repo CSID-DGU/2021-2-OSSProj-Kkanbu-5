@@ -1158,7 +1158,7 @@ ui_variables.click_sound.set_volume(volume)   # 필요없는 코드 -> 전체 �
 
 pygame.mixer.init()
 ui_variables.intro_sound.set_volume(0.1)   # 소리 설정 부분도 
-ui_variables.intro_sound.play()
+ui_variables.intro_sound.play(-1)
 game_status = ''
 ui_variables.break_sound.set_volume(0.2)
 
@@ -1778,6 +1778,7 @@ while not done:
    
     # 싱글모드 시작 화면 기능
     elif start:
+        ui_variables.intro_sound.stop()
         # 시간 계산
         if start == False:
             start_ticks = pygame.time.get_ticks()   # 현재 시간을 게임 시작 시간으로
@@ -2161,6 +2162,7 @@ while not done:
 
     # PVP 모드 화면 기능     
     elif pvp:
+        ui_variables.intro_sound.stop()
         start = False
         for event in pygame.event.get():
             # event.key = pygame.key.get_pressed()
