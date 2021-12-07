@@ -47,6 +47,13 @@ def add_pw(id_text, pw_text):
     print(decode_hash_pw)
     curs.close()
 
+def add_pw2(id_text, pw_text):
+    curs = database.cursor()
+    sql = "UPDATE users SET user_pw= %s WHERE user_id=%s"
+    curs.execute(sql,(pw_text,id_text))
+    database.commit()
+    curs.close()
+
 # 입력받은 아이디가 데이터베이스에 있는지 확인, 아이디와 비밀번호가 일치하는지 확인
 def check_info(id_text, pw_text):
     input_pw = pw_text.encode('utf-8')
@@ -71,6 +78,18 @@ def check_info(id_text, pw_text):
     print("data['user_pw'].encode('utf-8') : ", data['user_pw'].encode('utf-8'), ' type : ', type(data['user_pw'].encode('utf-8')))
     
     return check_password
+
+def check_info2(id_text, pw_text):
+    curs = database.cursor(pymysql.cursors.DictCursor)
+    sql = "SELECT * FROM users WHERE user_id=%s"
+    curs.execute(sql ,id_text)
+    data = curs.fetchone()  # 리스트 안에 딕셔너리가 있는 형태
+    curs.close()
+    if pw_text == data['user_pw']:
+        check_password = True
+    else:
+         check_password = False
+    return  check_password
 
 def id_info(id_text):
     global user_id

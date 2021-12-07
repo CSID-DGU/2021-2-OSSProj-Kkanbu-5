@@ -1289,8 +1289,7 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
-                
-
+                pygame.display.update()
 
     # 화면(크기) 설정 창  ->  각 화면 크기 설정 시 화면(board) 크기 설정 후 -> board 사이즈에 비례하게 크기 각각 조절 -> 조절하는 비율 변수화하기 ?
     elif screen_setting:
@@ -1349,7 +1348,7 @@ while not done:
                         input_boxes_signup[i].input_change(board_width, board_height)
                         input_boxes_signin[i].input_change(board_width, board_height)
 
-                    pygame.display.update()
+                pygame.display.update()
 
                 # 중간 사이즈 화면 크기 버튼 눌렀을 때
                 if midiumsize_check_button.isOver(pos):
@@ -1366,7 +1365,7 @@ while not done:
 
                     for i in range(len(input_boxes_signup)):
                         input_boxes_signup[i].input_change(board_width, board_height)
-                        input_boxes_signin[i].input_change(board_width, board_height)   
+                        input_boxes_signin[i].input_change(board_width, board_height) 
 
                     pygame.display.update()
 
@@ -1385,9 +1384,8 @@ while not done:
                         button_list[i].change(board_width, board_height) 
 
                     for i in range(len(input_boxes_signup)):
-                        nput_boxes_signup[i].input_change(board_width, board_height)
+                        input_boxes_signup[i].input_change(board_width, board_height)
                         input_boxes_signin[i].input_change(board_width, board_height)
-
                     pygame.display.update()
 
     # 설정 화면 기능 
@@ -1458,11 +1456,7 @@ while not done:
 
                 if volume_icon.isOver(pos):
                     ui_variables.click_sound.play()
-
                     volume_setting = True
-
-                # if keyboard_icon.isOver(pos):
-                # ui_variables.click_sound.play()
 
                 if screen_icon.isOver(pos):
                     ui_variables.click_sound.play()
@@ -1496,6 +1490,7 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+                pygame.display.update()
 
     # 정지 화면 기능
     elif pause:
@@ -1609,6 +1604,8 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                pygame.display.update()
+
     # HELP 화면 기능                                          
     elif help:
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -1679,6 +1676,8 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                pygame.display.update()
 
     # 리더보드 화면 기능
     elif leader_board:
@@ -1773,6 +1772,8 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                pygame.display.update()
 
    
     # 싱글모드 시작 화면 기능
@@ -2762,6 +2763,8 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                # pygame.display.update()
+
         # if any(movement_keys.values()):
         #    movement_keys_timer += clock.tick(50)
 
@@ -2825,7 +2828,8 @@ while not done:
                         print('This ID already exists')
                     else:
                         add_id(id_text)  
-                        add_pw(id_text, pw_text)
+                        # add_pw(id_text, pw_text)
+                        add_pw2(id_text, pw_text)
                         # new_add_pw(id_text, pw_text)
                         signup = False
                 if log_back.isOver(pos):
@@ -2850,6 +2854,8 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                pygame.display.update()
 
     elif signin:
         screen.fill(ui_variables.white)
@@ -2903,11 +2909,23 @@ while not done:
                     pw_text = input_box4.text 
                     # 존재하지 않는 아이디인지 여부도 확인해야 함!!
                     if exist_id(id_text):
-                        if not check_info(id_text, pw_text):
+                        # if not check_info(id_text, pw_text):
+                        #     signin = False
+                        #     main = True
+                        #     user_id = id_info(id_text)
+                        # elif check_info(id_text, pw_text):
+                        #     signin = True
+                        #     main = False
+                        #     screen.blit(signin_fail, (330, 350))
+                        #     pygame.display.update()
+                        #     pygame.time.delay(1000)
+                        #     print('Please try again sign in')  
+
+                        if check_info2(id_text, pw_text):
                             signin = False
                             main = True
                             user_id = id_info(id_text)
-                        elif check_info(id_text, pw_text):
+                        else:
                             signin = True
                             main = False
                             screen.blit(signin_fail, (330, 350))
@@ -2922,7 +2940,6 @@ while not done:
                         pygame.display.update()
                         pygame.time.delay(1000)
                         print('Please check your ID')
-                    
 
                 if log_back.isOver(pos):
                     ui_variables.click_sound.play()
@@ -2948,7 +2965,8 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
-               
+
+                pygame.display.update()
 
     # Game over screen
     elif game_over:
@@ -3078,6 +3096,7 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                pygame.display.update()
 
     elif game_over_pvp:
         for event in pygame.event.get():
@@ -3223,6 +3242,8 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                pygame.display.update()
+
     # Start screen  ->  여기가 기존에서는 메인
     elif main:
         # text=''
@@ -3321,6 +3342,8 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+        pygame.display.update()
+
         screen.fill(ui_variables.white)
 
         draw_image(screen, background_image, board_width * 0.5, board_height * 0.5, board_width, board_height)
@@ -3397,5 +3420,7 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                pygame.display.update()
 
 pygame.quit()
