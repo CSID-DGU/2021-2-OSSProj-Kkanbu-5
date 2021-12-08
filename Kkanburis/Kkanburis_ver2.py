@@ -39,7 +39,9 @@ framerate = 30  # Bigger -> Slower
 set_300 = 300   # 0.3초
 
 bomb_size = 3
-item_size = 30
+item_size_width = int(board_width * 0.0375)
+item_size_height = int(board_height * 0.0667)
+
 
 clock = pygame.time.Clock()   # FPS - 화면을 초당 몇 번 출력하는가? -> clock.tick() 가 높을수록 CPU를 많이 사용 
 # pygame.RESIZABLE : 마우스 커서로 screen 화면 조절 가능
@@ -550,6 +552,9 @@ def draw_board(next1, next2, hold, score, level, goal):
     screen.blit(text_combo, (int(board_width * 0.045) + sidebar_width, int(board_height * 0.8395)))
     screen.blit(combo_value, (int(board_width * 0.055) + sidebar_width, int(board_height * 0.8823)))
     screen.blit(text_item, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
+    # screen.blit(box1, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
+    # screen.blit(box2, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
+    # screen.blit(box3, (int(board_width * 0.15) + sidebar_width, int(board_height * 0.6791)))
 
     # Draw board
     for x in range(width):
@@ -558,14 +563,12 @@ def draw_board(next1, next2, hold, score, level, goal):
             dy = int(board_height * 0.08) + block_size * y   # 위치 비율 고정 / board 세로 길이 * 비율
             ## draw_block(dx, dy, ui_variables.t_color[matrix[x][y + 1]])
             draw_block_image(dx, dy, ui_variables.t_block[matrix[x][y + 1]])
-    
-    # 아이템/인벤토리 그리기
-    if len(inventory_list) >= 0:   # 아이템이 있어도, 없어도 상자는 그대로 존재 
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[0] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[1] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
-        pygame.draw.rect(screen, ui_variables.real_white, (dx_inventory[2] - item_size/2, dy_inventory - item_size/2, item_size, item_size), 1)
 
-        show_item()
+    inventory1.draw(screen)
+    inventory2.draw(screen)
+    inventory3.draw(screen)
+    
+    show_item()
 
     # 타이머를 위한 시간 초기화
 
@@ -1067,7 +1070,7 @@ def set_initial_values():
     item_list = []
     inventory_list = []   # 인벤토리 리스트
 
-    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
+    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size_width,item_size_height))
     item_list.append(item_bomb)
 
 def set_initial_values2():
@@ -1126,7 +1129,7 @@ def set_initial_values2():
     item_list = []
     inventory_list = []   # 인벤토리 리스트
 
-    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size,item_size))
+    item_bomb = pygame.transform.scale(pygame.image.load('item/bomb_powerup.png'), (item_size_width,item_size_height))
     item_list.append(item_bomb)
 
 # inventory 출력을 위한 위치 변수
@@ -1135,7 +1138,35 @@ dx_inventory1 = int(board_width * 0.135) + sidebar_width
 dx_inventory2 = int(board_width * 0.175) + sidebar_width
 dx_inventory3 = int(board_width * 0.215) + sidebar_width
 dx_inventory = [dx_inventory1, dx_inventory2, dx_inventory3]
-dy_inventory = int(board_height * 0.75)
+dy_inventory = int(board_height * 0.78)
+class ItemClass:
+    def __init__(self, board_width, board_height, x_rate, y_rate, width_rate, height_rate, text = ''):
+        self.x = board_width * x_rate
+        self.y = board_height * y_rate
+        self.width = int(board_width * width_rate)
+        self.height = int(board_height * height_rate)
+        self.x_rate = x_rate
+        self.y_rate = y_rate
+        self.width_rate = width_rate
+        self.height_rate = height_rate
+
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.color = ui_variables.real_white
+    
+    def item_change(self, board_width, board_height):
+        self.x = board_width * self.x_rate   # x 좌표
+        self.y = board_height * self.y_rate   # y 좌표
+        self.width = int(board_width * self.width_rate)   # 너비
+        self.height = int(board_height * self.height_rate)   # 높이
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+    
+    def draw(self, screen): 
+        pygame.draw.rect(screen, self.color, self.rect, 1)
+ 
+inventory1 = ItemClass(board_width, board_height, 0.645, 0.75,  0.0375, 0.0667)
+inventory2 = ItemClass(board_width, board_height, 0.683, 0.75, 0.0375, 0.0667)
+inventory3 = ItemClass(board_width, board_height, 0.721, 0.75, 0.0375, 0.0667)
+list_inventory = [inventory1, inventory2, inventory3]
 
 # # 아이템 이미지 scale
 # bomb_size = 3
@@ -1288,6 +1319,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+                
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -1348,6 +1382,9 @@ while not done:
                         input_boxes_signup[i].input_change(board_width, board_height)
                         input_boxes_signin[i].input_change(board_width, board_height)
 
+                    for i in list_inventory:
+                        i.item_change(board_width, board_height)
+
                 pygame.display.update()
 
                 # 중간 사이즈 화면 크기 버튼 눌렀을 때
@@ -1366,6 +1403,9 @@ while not done:
                     for i in range(len(input_boxes_signup)):
                         input_boxes_signup[i].input_change(board_width, board_height)
                         input_boxes_signin[i].input_change(board_width, board_height) 
+
+                    for i in list_inventory:
+                        i.item_change(board_width, board_height)
 
                     pygame.display.update()
 
@@ -1386,6 +1426,10 @@ while not done:
                     for i in range(len(input_boxes_signup)):
                         input_boxes_signup[i].input_change(board_width, board_height)
                         input_boxes_signin[i].input_change(board_width, board_height)
+
+                    for i in list_inventory:
+                        i.item_change(board_width, board_height)
+
                     pygame.display.update()
 
     # 설정 화면 기능 
@@ -1490,6 +1534,10 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
+
                 pygame.display.update()
 
     # 정지 화면 기능
@@ -1604,6 +1652,9 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
+
                 pygame.display.update()
 
     # HELP 화면 기능                                          
@@ -1676,6 +1727,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -1772,6 +1826,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -2157,6 +2214,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
         pygame.display.update()
 
@@ -2765,7 +2825,8 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
-                # pygame.display.update()
+                for i in list_inventory:
+                        i.item_change(board_width, board_height)
 
         # if any(movement_keys.values()):
         #    movement_keys_timer += clock.tick(50)
@@ -2856,6 +2917,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -2967,6 +3031,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -3097,6 +3164,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
@@ -3244,6 +3314,9 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
+
                 pygame.display.update()
 
     # Start screen  ->  여기가 기존에서는 메인
@@ -3344,6 +3417,9 @@ while not done:
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
 
+                for i in list_inventory:
+                    i.item_change(board_width, board_height)
+
         pygame.display.update()
 
         screen.fill(ui_variables.white)
@@ -3422,6 +3498,9 @@ while not done:
                 for i in range(len(input_boxes_signup)):
                     input_boxes_signup[i].input_change(board_width, board_height)
                     input_boxes_signin[i].input_change(board_width, board_height)
+
+                for i in list_inventory:
+                        i.item_change(board_width, board_height)
 
                 pygame.display.update()
 
